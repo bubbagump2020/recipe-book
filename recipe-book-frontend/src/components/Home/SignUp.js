@@ -12,7 +12,7 @@ const SignUp = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        fetch(`${ROOT_URL}/users`< {
+        fetch(`${ROOT_URL}/users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -24,6 +24,8 @@ const SignUp = () => {
                 password: user.password
             })
         })
+        .then(response => response.json())
+        .then(result => console.log(result))
     }
 
 
@@ -51,7 +53,7 @@ const SignUp = () => {
                     <label>Password: </label>
                     <input
                         type="password"
-                        onChange={e => setUser({ ...user, email: e.target.value })}
+                        onChange={e => setUser({ ...user, password: e.target.value })}
                         placeholder="Password"
                     />
                 </div>
