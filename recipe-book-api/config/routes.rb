@@ -3,4 +3,8 @@ Rails.application.routes.draw do
   resources :users do
     resources :recipe
   end
+
+  post '/login', to: ("sessions#login")
+  post '/logout', to: ("sessions#logout")
+
 end
