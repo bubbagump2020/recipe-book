@@ -1,0 +1,49 @@
+.home-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.header{
+    font-size: 2vmax;
+    font-weight: bold;
+    text-align: center;
+}
+
+.sign-up-or-in{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 1.0vw;
+}
+
+.wrapper form{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1vmax;
+}
+
+.username{
+    margin: 0.5vw;
+    font-size: 1.5vmax;
+}
+
+.email{
+    margin: 0.5vw;
+    font-size: 1.5vmax;
+}
+
+.password{
+    margin: 0.5vw;
+    font-size: 1.5vmax;
+}
+
+button{
+    border: hidden;
+}
