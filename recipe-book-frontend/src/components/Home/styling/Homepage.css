@@ -25,6 +25,8 @@
 .wrapper form{
     display: flex;
     justify-content: space-between;
+    text-align: center;
+
     flex-wrap: wrap;
     max-width: 1vmax;
 }
