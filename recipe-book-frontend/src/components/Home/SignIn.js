@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { username, password } from '../../redux/actions/AuthActions' 
 import { ROOT_URL } from '../../Constants'
 import './styling/Homepage.css'
 
 const SignIn = (props) => {
 
+    const dispatch = useDispatch()
+
+    const { signup } = useSelector(state => ({ signup: state.signup}))
+
+
     const loginProps = props.props
-
-    const [user, setUser] = useState({
-        username: '',
-        password: ''
-
-    })
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -23,8 +24,8 @@ const SignIn = (props) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    username: user.username,
-                    password: user.password
+                    username: signup.username,
+                    password: signup.password
                 })
             })
 
@@ -43,6 +44,7 @@ const SignIn = (props) => {
 
     return(
         <div className="wrapper">
+            {console.log(signup)}
             <div className="header">Sign In Now!</div>
             <form onSubmit={e => handleSubmit(e)}>
                 <div className="username">
@@ -50,7 +52,7 @@ const SignIn = (props) => {
                     <input
                         type="text"
                         placeholder="Username"
-                        onChange={e => setUser({ ...user, username: e.target.value })}
+                        onChange={e => dispatch(username(e.target.value))}
                     />
                 </div>
                 <div className="password">
@@ -58,7 +60,7 @@ const SignIn = (props) => {
                     <input
                         type="password"
                         placeholder="Password"
-                        onChange={e => setUser({ ...user, password: e.target.value })}
+                        onChange={e => dispatch(password(e.target.value))}
                     />
                 </div>
                 <button type="submit">Sign In!</button>
