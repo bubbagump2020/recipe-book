@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { ROOT_URL } from '../../Constants'
+import { useSelector, useDispatch } from 'react-redux'
+import { username, email, password } from '../../redux/actions/AuthActions'
 import './styling/Homepage.css'
 
 const SignUp = () => {
 
-    const [user, setUser] = useState({
-        username: '',
-        email: '',
-        password: ''
-    })
+    const dispatch = useDispatch()
+    const  { signup }  = useSelector(state => ({ signup: state.signup }))
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -19,15 +18,13 @@ const SignUp = () => {
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                username: user.username,
-                email: user.email,
-                password: user.password
+                username: signup.username,
+                email: signup.email,
+                password: signup.password
             })
         })
         .then(response => response.json())
-        .then(result => console.log(result))
     }
-
 
     return(
         <div className="wrapper">
@@ -37,7 +34,7 @@ const SignUp = () => {
                     <label>Username: </label>
                     <input
                         type="text"
-                        onChange={e => setUser({ ...user, username: e.target.value })}
+                        onChange={e => dispatch(username(e.target.value))}
                         placeholder="Username"
                     />
                 </div>
@@ -45,7 +42,7 @@ const SignUp = () => {
                     <label>Email: </label>
                     <input
                         type="email"
-                        onChange={e => setUser({ ...user, email: e.target.value })}
+                        onChange={e => dispatch(email(e.target.value))}
                         placeholder="Email"    
                     />
                 </div>
@@ -53,7 +50,7 @@ const SignUp = () => {
                     <label>Password: </label>
                     <input
                         type="password"
-                        onChange={e => setUser({ ...user, password: e.target.value })}
+                        onChange={e => dispatch(password(e.target.value))}
                         placeholder="Password"
                     />
                 </div>
