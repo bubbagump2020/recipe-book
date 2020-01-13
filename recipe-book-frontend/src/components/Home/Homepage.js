@@ -7,6 +7,7 @@ const Homepage = (props) => {
     
     return(
         <div className="home-wrapper">
+            {console.log(props)}
             <div className="header">Welcome to Your Online Recipe Book</div>
             <div className="sign-up-or-in">
                 <SignUp props={props} />

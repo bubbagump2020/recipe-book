@@ -3,7 +3,6 @@ class CreateRecipes < ActiveRecord::Migration[6.0]
     create_table :recipes do |t|
       t.belongs_to :user, null: false, foreign_key: true
       t.string :name
-      t.text :ingredients
       t.text :description
 
       t.timestamps

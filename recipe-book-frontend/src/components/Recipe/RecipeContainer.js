@@ -15,7 +15,7 @@ const RecipeContainer = (props) => {
             .then(response => response.json())
             .then(fetchedRecipes => setRecipes(fetchedRecipes))
 
-    }, [])
+    }, [user])
 
     const showRecipes = (recipes) => {
         if(recipes.length === 0){
@@ -29,9 +29,12 @@ const RecipeContainer = (props) => {
             )
         } else {
             return recipes.map(recipe => {
+                let recipe_id = props.match.params.recipe_id = recipe.id
                 return(
-                    <div>
-                        <RecipeCard attributes={recipe} />
+                    <div key={recipe.id} >
+                        <Link to={`${url}/${recipe.name}`}>
+                            <RecipeCard attributes={recipe} id={recipe_id} />
+                        </Link>
                     </div>
                 )
             })

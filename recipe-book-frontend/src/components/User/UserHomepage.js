@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import {
     Link
 } from 'react-router-dom'
-import { ROOT_URL } from '../../Constants'
 
 const UserHomepage = (props) => {
 
@@ -13,7 +12,6 @@ const UserHomepage = (props) => {
 
     return(
         <div className="user-homepage-wrapper">
-            {console.log(document.cookie)}
             <h1>Welcome {username}!</h1>
             <div>
                 <Link to={`${userUrl}/recipes`}>

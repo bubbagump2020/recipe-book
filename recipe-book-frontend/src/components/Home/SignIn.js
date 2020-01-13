@@ -32,6 +32,8 @@ const SignIn = (props) => {
             console.log(loggedInUser)
             document.cookie = loggedInUser.id
             loginProps.history.push(`/users/${loggedInUser.username}`)
+            // loginProps.user_id = loggedInUser.id
+            console.log(loginProps)
 
         }
 

@@ -10,12 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_13_173512) do
+ActiveRecord::Schema.define(version: 2020_01_13_175906) do
+
+  create_table "ingredients", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "recipe_id", null: false
+    t.string "name"
+    t.string "measurement"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["recipe_id"], name: "index_ingredients_on_recipe_id"
+  end
 
   create_table "recipes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "name"
-    t.text "ingredients"
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -30,5 +38,6 @@ ActiveRecord::Schema.define(version: 2020_01_13_173512) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "ingredients", "recipes"
   add_foreign_key "recipes", "users"
 end
