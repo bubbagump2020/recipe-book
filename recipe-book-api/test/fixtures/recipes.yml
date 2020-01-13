@@ -2,12 +2,12 @@
 
 one:
   user: one
-  title: MyString
+  name: MyString
   ingredients: MyText
   description: MyText
 
 two:
   user: two
-  title: MyString
+  name: MyString
   ingredients: MyText
   description: MyText

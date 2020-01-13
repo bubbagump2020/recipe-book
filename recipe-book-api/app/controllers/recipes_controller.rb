@@ -7,7 +7,7 @@ class RecipesController < ApplicationController
 
     def show
         recipe = Recipe.find_by(params[:id])
-        if (recipe == null)
+        if (!recipe)
             render json: "Unable to find recipe"
         else
             render json: recipe
@@ -17,7 +17,10 @@ class RecipesController < ApplicationController
     def create
         recipe = Recipe.new(recipe_params)
         if recipe.save
-            render json: (:recipe, "Recipe created!" )
+            render json: {recipe: recipe, status: :created}
+        else
+            render json: "Recipe not saved"
+        end
     end
 
     def update
@@ -31,7 +34,7 @@ class RecipesController < ApplicationController
     private
 
     def recipe_params
-        params.require(:recipe).permit(:title, :ingredients, :description)
+        params.require(:recipe).permit(:user_id, :name, :ingredients, :description)
     end
 
 end

@@ -14,20 +14,6 @@ const SignIn = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        // fetch(`${ROOT_URL}/login`, {
-        //     method: 'POST',
-        //     credentials: 'include',
-        //     headers: {
-        //         'X-Requested-With': 'XmlHttpRequest',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         username: user.username,
-        //         password: user.password
-        //     })
-        // })
-        //     .then(response => response.json())
-        //     .then(loginInfo => loginProps.history.push(`/users/${loginInfo.username}`))
         const asyncHandleSubmit = async (e) => {
             const result = await fetch(`${ROOT_URL}/login`, {
                 method: 'POST',
@@ -44,7 +30,7 @@ const SignIn = (props) => {
 
             const loggedInUser = await result.json()
             console.log(loggedInUser)
-            document.cookie = loggedInUser.user_id
+            document.cookie = loggedInUser.id
             loginProps.history.push(`/users/${loggedInUser.username}`)
 
         }
