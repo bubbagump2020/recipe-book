@@ -6,11 +6,14 @@ const signupState = {
     password: ''
 }
 
+const user = {
 
+}
 
 export const recipeBook = ( state = {}, action ) => {
     return {
-        signup: signup(state.signup, action)
+        signup: signup(state.signup, action),
+        loggedInUser: loggedInUser(state.user, action)
     }
 }
 
@@ -31,6 +34,16 @@ const signup = (state = signupState, action) => {
         return {
             ...state,
            password: action.payload   
+        }
+    }
+    return state
+}
+
+const loggedInUser = (state, action) => {
+    if(action.type === actions.USER){
+        return{
+            ...state,
+            user: action.payload
         }
     }
     return state
