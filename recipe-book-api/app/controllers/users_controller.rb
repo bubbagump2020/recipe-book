@@ -20,7 +20,6 @@ class UsersController < ApplicationController
 
     def show
         user = User.find_by(user_params[:username])
-        puts user
         render json: :user
     end
 
