@@ -2,19 +2,21 @@ import React from 'react'
 import './styling/Homepage.css'
 import SignUp from './SignUp'
 import SignIn from './SignIn'
+import { Container, Row, Col } from 'react-bootstrap'
 
 const Homepage = (props) => {
     
     return(
-        <div className="home-wrapper">
-            <div className="header">Welcome to Your Online Recipe Book</div>
-            <div className="sign-up-or-in">
-                <SignUp props={props} />
-            </div>
-            <div className="sign-up-or-in">
-                <SignIn props={props} />
-            </div>
-        </div>
+        <Container fluid>
+            <Row>
+                <Col className="sigin">
+                    <SignIn props={props} />
+                </Col>
+                <Col className="signup">
+                    <SignUp props={props} />
+                </Col>
+            </Row>
+        </Container>
     )
 }
 

@@ -1,16 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { username, password } from '../../redux/actions/AuthActions' 
+import { username, password, user } from '../../redux/actions/AuthActions' 
 import { ROOT_URL } from '../../Constants'
 import './styling/Homepage.css'
+import { Container } from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 
 const SignIn = (props) => {
 
     const dispatch = useDispatch()
-
     const { signup } = useSelector(state => ({ signup: state.signup}))
-
-
     const loginProps = props.props
 
     const handleSubmit = (e) => {
@@ -30,42 +31,30 @@ const SignIn = (props) => {
             })
 
             const loggedInUser = await result.json()
-            console.log(loggedInUser)
-            document.cookie = loggedInUser.id
+            dispatch(user(loggedInUser))
             loginProps.history.push(`/users/${loggedInUser.username}`)
-            // loginProps.user_id = loggedInUser.id
-            console.log(loginProps)
 
         }
-
         asyncHandleSubmit()
-
     }
 
     return(
-        <div className="wrapper">
-            {console.log(signup)}
-            <div className="header">Sign In Now!</div>
-            <form onSubmit={e => handleSubmit(e)}>
-                <div className="username">
-                    <label>Username: </label>
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        onChange={e => dispatch(username(e.target.value))}
-                    />
-                </div>
-                <div className="password">
-                    <label>Password: </label>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        onChange={e => dispatch(password(e.target.value))}
-                    />
-                </div>
-                <button type="submit">Sign In!</button>
-            </form>
-        </div>
+        <Container fluid="true" >
+            <h2>Sign In</h2>
+            <Row>
+                <Form onSubmit={e => handleSubmit(e)}>
+                    <Form.Group as={Row}>
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control type="text" onChange={e => dispatch(username(e.target.value))} placeholder="Username" />
+                    </Form.Group>
+                    <Form.Group as={Row}>
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control type="password" onChange={e => dispatch(password(e.target.value))} placeholder="Password" />
+                    </Form.Group>
+                    <Button type="submit">Sign In</Button>
+                </Form>
+            </Row>
+        </Container>
     )
 }
 
