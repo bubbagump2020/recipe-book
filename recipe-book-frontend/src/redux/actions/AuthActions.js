@@ -6,7 +6,8 @@ import {
     RECIPE_NAME,
     RECIPE_DESC,
     INGREDIENT_NAME,
-    MEASUREMENT
+    MEASUREMENT,
+    RECIPES
 } from '../action-types/auth'
 
 export const username = (payload) => {
@@ -39,4 +40,8 @@ export const ingredName = (payload) => {
 
 export const measurement = (payload) => {
     return { type: MEASUREMENT, payload }
+}
+
+export const userRecipes = (payload) => {
+    return { type: RECIPES, payload }
 }

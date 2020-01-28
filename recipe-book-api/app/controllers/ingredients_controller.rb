@@ -6,7 +6,12 @@ class IngredientsController < ApplicationController
     end
 
     def create
-
+        ingredient = Ingredient.new(ingredient_params)
+        if ingredient.save
+            render json: {ingredient: ingredient, status: :created}
+        else
+            render json: {errors: ingredient.errors.full_messages }
+        end
     end
 
     def update

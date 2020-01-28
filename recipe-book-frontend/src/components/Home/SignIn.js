@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { username, password, user } from '../../redux/actions/AuthActions' 
+import { username, password, user, userRecipes } from '../../redux/actions/AuthActions' 
 import { ROOT_URL } from '../../Constants'
 import './styling/Homepage.css'
 import { Container } from 'react-bootstrap'
@@ -18,7 +18,7 @@ const SignIn = (props) => {
         e.preventDefault()
         
         const asyncHandleSubmit = async (e) => {
-            const result = await fetch(`${ROOT_URL}/login`, {
+            const resultUser = await fetch(`${ROOT_URL}/login`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -30,10 +30,14 @@ const SignIn = (props) => {
                     password: signup.password
                 })
             })
-
-            const loggedInUser = await result.json()
+            const loggedInUser = await resultUser.json()
             dispatch(user(loggedInUser))
             loginProps.history.push(`/users/${loggedInUser.username}`)
+            console.log(loggedInUser)
+            // const resultRecipes = await fetch(`${ROOT_URL}/users/${loggedInUser.id}/recipes`)
+            // const fetchedRecipes = await resultRecipes.json()
+            // dispatch(userRecipes(fetchedRecipes))
+            
 
         }
         asyncHandleSubmit()

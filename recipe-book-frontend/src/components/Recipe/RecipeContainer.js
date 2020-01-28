@@ -2,12 +2,13 @@ import React, {useState, useEffect } from 'react'
 import { ROOT_URL } from '../../Constants'
 import { Link } from 'react-router-dom'
 import RecipeCard from './RecipeCard'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { userRecipes } from '../../redux/actions/AuthActions'
 
 const RecipeContainer = (props) => {
 
     const { user } = useSelector(state => ({ user: state.loggedInUser }))
-
+    const dispatch = useDispatch()
     
     const url = props.match.url
 
@@ -17,7 +18,7 @@ const RecipeContainer = (props) => {
         fetch(`${ROOT_URL}/users/${user.user.id}/recipes`)
             .then(response => response.json())
             .then(fetchedRecipes => setRecipes(fetchedRecipes))
-
+        
     }, [user])
 
     const showRecipes = (recipes) => {
@@ -36,7 +37,7 @@ const RecipeContainer = (props) => {
                 if(recipe.user_id === user.user.id){
                     return(
                         <div key={recipe.id} >
-                            <Link to={`${url}/${recipe.name}`}>
+                            <Link to={{pathname: `${url}/${recipe.name}`, state: { attributes: recipe }}}>
                                 <RecipeCard attributes={recipe} id={recipe_id} />
                             </Link>
                         </div>
