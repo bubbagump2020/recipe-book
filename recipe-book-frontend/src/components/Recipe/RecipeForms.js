@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
 import { Link } from 'react-router-dom'
-import NewIngredientForm from './Ingredients/NewIngredientForm'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 export const NewRecipeForm = (props) => {
 
@@ -31,7 +30,6 @@ export const NewRecipeForm = (props) => {
             })
         })
     }
-
 
     return(
         <div className="new-recipe-form-wrapper">

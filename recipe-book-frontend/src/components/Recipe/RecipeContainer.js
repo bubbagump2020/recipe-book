@@ -2,20 +2,15 @@ import React, {useState, useEffect } from 'react'
 import { ROOT_URL } from '../../Constants'
 import { Link } from 'react-router-dom'
 import RecipeCard from './RecipeCard'
-import { useSelector, useDispatch } from 'react-redux'
-import { userRecipes } from '../../redux/actions/AuthActions'
 
 const RecipeContainer = (props) => {
 
-    const { user } = useSelector(state => ({ user: state.loggedInUser }))
-    const dispatch = useDispatch()
-    
+    const user = props.location.state.user.user 
     const url = props.match.url
-
     const [recipes, setRecipes] = useState([])
 
     useEffect(() => {
-        fetch(`${ROOT_URL}/users/${user.user.id}/recipes`)
+        fetch(`${ROOT_URL}/users/${user.id}/recipes`)
             .then(response => response.json())
             .then(fetchedRecipes => setRecipes(fetchedRecipes))
         
@@ -34,10 +29,10 @@ const RecipeContainer = (props) => {
         } else {
             return recipes.map(recipe => {
                 let recipe_id = props.match.params.recipe_id = recipe.id
-                if(recipe.user_id === user.user.id){
+                if(recipe.user_id === user.id){
                     return(
                         <div key={recipe.id} >
-                            <Link to={{pathname: `${url}/${recipe.name}`, state: { attributes: recipe }}}>
+                            <Link to={{pathname: `${url}/${recipe.name}`, state: { attributes: recipe, user: user }}}>
                                 <RecipeCard attributes={recipe} id={recipe_id} />
                             </Link>
                         </div>
@@ -49,11 +44,9 @@ const RecipeContainer = (props) => {
 
     return(
         <div>
-            <h1>Recipe Container</h1>
-            {console.log(user.user)}
+            <h1>Recipes</h1>
             <div>{showRecipes(recipes)}</div>
-            <br>{console.log(recipes)}</br>
-            <Link to={`/users/${user}`}>Home</Link>
+            <Link to={`/users/${user.username}`}>Home</Link>
             <div></div>
             <Link to={`${url}/new`}>Create Recipe</Link>
         </div>
