@@ -2,44 +2,30 @@ import React, {useState ,useEffect} from 'react'
 import { ROOT_URL } from '../../Constants'
 import IngredientCard from './Ingredients/IngredientCard'
 import NewIngredientForm from './Ingredients/NewIngredientForm'
+import IngredientContainer from './Ingredients/IngredientContainer'
 
 const ShowRecipe = (props) => {
 
-    const [ingredients, setIngredients] = useState([])
-
     const recipeName = props.match.params.name
 
+    const [ingredients, setIngredients] = useState([])
+
     useEffect(() => {
-        fetch(`${ROOT_URL}/recipes/${recipeName}/ingredients`)
+        fetch(`${ROOT_URL}/recipes/${props.location.state.attributes.name}/ingredients`)
             .then(response => response.json())
             .then(result => setIngredients(result))
     }, [])
 
-    const listIngredients = (ingredients) => {
-        if(ingredients.length === 0){
-            return(
-                <div>
-                    <h4>This Recipe has no ingredients</h4>
-                </div>
-            )
-        } else {
-            return ingredients.map(ingredient => {
-                return(
-                    <div key={ingredient.id}>
-                        <IngredientCard attributes={ingredient}/>
-                    </div>
-                )
-            })
-        }
-    }
-
     return(
         <div>
             <h1>{recipeName}</h1>
-            {listIngredients(ingredients)}
+            <div>
+                <h2>Ingredients</h2>
+                <IngredientContainer ingredients={ingredients}/>
+            </div>
             <div>
                 <h2>Add Ingredient</h2>
-                <NewIngredientForm recipeName={recipeName}/>
+                <NewIngredientForm recipe={props.location.state.attributes}/>
             </div>
         </div>
     )

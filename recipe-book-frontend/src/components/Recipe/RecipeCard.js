@@ -7,7 +7,6 @@ const RecipeCard = (props) => {
 
     return(
         <div>
-            {console.log(props)}
             <h1>{recipe.name}</h1>
         </div>
     )

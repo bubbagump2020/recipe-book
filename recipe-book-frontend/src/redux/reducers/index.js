@@ -7,13 +7,16 @@ const signupState = {
 }
 
 const user = {
-
+    
 }
+
+const recipes = []
 
 export const recipeBook = ( state = {}, action ) => {
     return {
         signup: signup(state.signup, action),
-        loggedInUser: loggedInUser(state.user, action)
+        loggedInUser: loggedInUser(state.user, action),
+        allRecipes: allRecipes(state.recipes, action)
     }
 }
 
@@ -39,11 +42,25 @@ const signup = (state = signupState, action) => {
     return state
 }
 
-const loggedInUser = (state, action) => {
+const loggedInUser = (state = user, action) => {
     if(action.type === actions.USER){
         return{
             ...state,
             user: action.payload
+        }
+    }
+    return state
+}
+
+const allRecipes = (state = recipes, action) => {
+    if(action.type === actions.RECIPES){
+        return {
+            ...state,
+            recipes: {
+                ...state.recipes,
+                recipes: action.payload
+            }
+
         }
     }
     return state

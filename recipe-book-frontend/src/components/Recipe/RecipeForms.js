@@ -1,28 +1,21 @@
-
-
-/*
-    Going to need separate ingredient columns and inputs if I want to be able to list them with the ul tag
-    or have a seperate ingredient model with the attributes needed that is then referenced to the recipe being created
-
-*/
-
 import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
 import { Link } from 'react-router-dom'
 import NewIngredientForm from './Ingredients/NewIngredientForm'
+import { useDispatch, useSelector } from 'react-redux'
 
 export const NewRecipeForm = (props) => {
 
-    const [recipe, setRecipe] = useState({
+    const { user } = useSelector(state => ({ user: state.loggedInUser}))
+
+    const [ recipe, setRecipe ] = useState({
         name: '',
-        ingredients: '',
-        description: ''
+        desc: ''
     })
 
     const currentUser = props.match.params.username
 
     const handleSubmit = (e) => {
-        e.preventDefault(e)
         fetch(`${ROOT_URL}/users/${currentUser}/recipes`, {
             method: 'POST',
             credentials: 'include',
@@ -32,9 +25,8 @@ export const NewRecipeForm = (props) => {
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                user_id: document.cookie,
+                user_id: user.user.id,
                 name: recipe.name,
-                ingredients: recipe.ingredients,
                 description: recipe.description
             })
         })
@@ -43,7 +35,6 @@ export const NewRecipeForm = (props) => {
 
     return(
         <div className="new-recipe-form-wrapper">
-            {console.log(document.cookie)}
             <div>
                 <form className="new-recipe-form" id="new-recipe" onSubmit={handleSubmit}>
                     <div>
@@ -52,11 +43,8 @@ export const NewRecipeForm = (props) => {
                             type="text"
                             form="new-recipe"
                             placeholder="Recipe Name"
-                            onChange={e => setRecipe({ ...recipe, name: e.target.value })}
+                            onChange={e => setRecipe({...recipe, name: e.target.value })}
                         />
-                    </div>
-                    <div>
-                        <label>Ingredients</label>
                     </div>
                     <div>
                         <label>Description</label>
@@ -64,13 +52,13 @@ export const NewRecipeForm = (props) => {
                             form="new-recipe"
                             rows="10" cols="50"
                             placeholder="A Descriptive Description"
-                            onChange={e => setRecipe({ ...recipe, description: e.target.value })}    
+                            onChange={e => setRecipe({ ...recipe, desc: e.target.value })}    
                         />
                     </div>
                     <button type="submit">Create!</button>
                 </form>
             </div>
-            <Link to={`/users/${currentUser}`}>Back to Home Page</Link>
+            <Link to={`/users/${currentUser}`}>Home</Link>
         </div>
     )
 }
@@ -82,7 +70,7 @@ export const UpdateRecipeForm = (props) => {
     return(
         <div>
             <h1>UpdateRecipeForm Component</h1>
-            <Link to={`/users/${user}`}>Back to Home Page</Link>
+            <Link to={`/users/${user}`}>Home</Link>
         </div>
     )
 }
