@@ -1,8 +1,8 @@
 import React, {useState ,useEffect} from 'react'
 import { ROOT_URL } from '../../Constants'
-import IngredientCard from './Ingredients/IngredientCard'
 import NewIngredientForm from './Ingredients/NewIngredientForm'
 import IngredientContainer from './Ingredients/IngredientContainer'
+import { Link } from 'react-router-dom'
 
 const ShowRecipe = (props) => {
 
@@ -14,7 +14,7 @@ const ShowRecipe = (props) => {
         fetch(`${ROOT_URL}/recipes/${props.location.state.attributes.name}/ingredients`)
             .then(response => response.json())
             .then(result => setIngredients(result))
-    }, [])
+    }, [props.location.state.attributes.name])
 
     return(
         <div>
@@ -27,6 +27,7 @@ const ShowRecipe = (props) => {
                 <h2>Add Ingredient</h2>
                 <NewIngredientForm recipe={props.location.state.attributes}/>
             </div>
+            <Link to={`/users/${props.location.state.user.username}`}>Home</Link>
         </div>
     )
 }

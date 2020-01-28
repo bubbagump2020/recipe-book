@@ -14,12 +14,12 @@ const UserHomepage = (props) => {
         <div className="user-homepage-wrapper">
             <h1>Welcome {user.user.username}!</h1>
             <div>
-                <Link to={`${userUrl}/recipes`}>
+                <Link to={{pathname: `${userUrl}/recipes`, state: { user: user }}}>
                     Recipe Book!
                 </Link>
             </div>
             <div>
-                <Link to={`${userUrl}/recipes/new`}>
+                <Link to={{pathname: `${userUrl}/recipes/new`, state: { user: user }}}>
                     Add a Recipe!
                 </Link>
             </div>

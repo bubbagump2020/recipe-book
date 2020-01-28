@@ -1,5 +1,4 @@
 import React from 'react'
-import IngredientContainer from './Ingredients/IngredientContainer'
 
 const RecipeCard = (props) => {
 

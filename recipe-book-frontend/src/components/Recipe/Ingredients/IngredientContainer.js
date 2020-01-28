@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import IngredientCard from './IngredientCard'
-import { ROOT_URL } from '../../../Constants'
 
 const IngredientContainer = (props) => {
 
@@ -24,7 +23,6 @@ const IngredientContainer = (props) => {
 
     return(
         <div>
-            {console.log(props.ingredients)}
             {listIngredients()}
         </div>
     )
