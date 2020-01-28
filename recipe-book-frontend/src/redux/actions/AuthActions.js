@@ -2,7 +2,11 @@ import {
     USERNAME,
     EMAIL,
     PASSWORD,
-    USER
+    USER,
+    RECIPE_NAME,
+    RECIPE_DESC,
+    INGREDIENT_NAME,
+    MEASUREMENT
 } from '../action-types/auth'
 
 export const username = (payload) => {
@@ -19,4 +23,20 @@ export const password = (payload) => {
 
 export const user = (payload) => {
     return { type: USER, payload}
+}
+
+export const recipeName = (payload) => {
+    return { type: RECIPE_NAME, payload}
+}
+
+export const recipeDesc = (payload) => {
+    return { type: RECIPE_DESC, payload }
+}
+
+export const ingredName = (payload) => {
+    return { type: INGREDIENT_NAME, payload }
+}
+
+export const measurement = (payload) => {
+    return { type: MEASUREMENT, payload }
 }

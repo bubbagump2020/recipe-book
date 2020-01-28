@@ -21,7 +21,6 @@ const NewIngredientForm = (props) => {
 
     return(
         <div>
-            {console.log(props)}
             <form>
                 <div>
                     <label>Name</label>

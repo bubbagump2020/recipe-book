@@ -7,13 +7,24 @@ const signupState = {
 }
 
 const user = {
+    
+}
 
+const recipe = {
+  name: '',
+  desc: ''
+}
+
+const ingredient = {
+    name: '',
+    measurement: ''
 }
 
 export const recipeBook = ( state = {}, action ) => {
     return {
         signup: signup(state.signup, action),
-        loggedInUser: loggedInUser(state.user, action)
+        loggedInUser: loggedInUser(state.user, action),
+        newRecipe: newRecipe(state.recipe, action)
     }
 }
 
@@ -39,11 +50,27 @@ const signup = (state = signupState, action) => {
     return state
 }
 
-const loggedInUser = (state, action) => {
+const loggedInUser = (state = user, action) => {
     if(action.type === actions.USER){
         return{
             ...state,
             user: action.payload
+        }
+    }
+    return state
+}
+
+const newRecipe = (state = recipe, action) => {
+    if(action.type === actions.RECIPE_NAME){
+        return{
+            ...state,
+            name: action.payload
+        }
+    }
+    if(action.type === actions.RECIPE_DESC){
+        return{
+            ...state.recipe,
+            desc: action.payload
         }
     }
     return state

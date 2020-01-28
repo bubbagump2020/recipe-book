@@ -16,6 +16,7 @@ const SignIn = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        
         const asyncHandleSubmit = async (e) => {
             const result = await fetch(`${ROOT_URL}/login`, {
                 method: 'POST',
