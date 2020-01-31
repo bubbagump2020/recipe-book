@@ -10,18 +10,19 @@ class UsersController < ApplicationController
     def create
         user = User.new(user_params)
         if user.save
-            render json: user
+            render json: { user: user, success: true }
         else
-            render json: "user not created"
+            render json: { success: true, errors: user.errors.full_messages }
         end
     end
 
     # Do I even need the show method with the React frontend?
 
-    def show
-        user = User.find_by(user_params[:username])
-        render json: :user
-    end
+    # def show
+    #     user = User.find_by(user_params[:username])
+    #     print user
+    #     render json: "Hello!"
+    # end
 
     def update
 
@@ -36,5 +37,9 @@ class UsersController < ApplicationController
     def user_params
         params.permit(:username, :email, :password)
     end
+
+    # def require_login
+
+    # end
 
 end

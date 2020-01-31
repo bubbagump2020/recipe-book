@@ -2,17 +2,15 @@ import React from 'react'
 import {
     Link
 } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 
 const UserHomepage = (props) => {
 
-    const { user } = useSelector(state => ({ user: state.loggedInUser }))
-
+    const user = props.match.params.username
     const userUrl = props.match.url
 
     return(
         <div className="user-homepage-wrapper">
-            <h1>Welcome {user.user.username}!</h1>
+            <h1>Welcome {user}!</h1>
             <div>
                 <Link to={{pathname: `${userUrl}/recipes`, state: { user: user }}}>
                     Recipe Book!
@@ -25,7 +23,6 @@ const UserHomepage = (props) => {
             </div>
         </div>
     )
-
 }
 
 export default UserHomepage;

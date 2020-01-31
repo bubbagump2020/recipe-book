@@ -6,9 +6,9 @@ class SessionsController < ApplicationController
         user = User.find_by(username: login_params[:username])
         if(user && user.authenticate(login_params[:password]))
             session[:username] = user.username
-            render json: user
+            render json: {user: user, success: true }
         else
-            render json: { success: false, username: nil }
+            render json: { success: false }
         end
     end
 
