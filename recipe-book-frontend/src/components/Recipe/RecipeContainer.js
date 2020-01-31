@@ -5,15 +5,18 @@ import RecipeCard from './RecipeCard'
 
 const RecipeContainer = (props) => {
 
-    const user = props.location.state.user.user 
+    const user = props.location.state.user
+    const user_id = parseInt(document.cookie)
     const url = props.match.url
     const [recipes, setRecipes] = useState([])
 
     useEffect(() => {
-        fetch(`${ROOT_URL}/users/${user.id}/recipes`)
-            .then(response => response.json())
-            .then(fetchedRecipes => setRecipes(fetchedRecipes))
-        
+        const fetchRecipes = async () => {
+            const response = await fetch(`${ROOT_URL}/users/${user}/recipes`)
+            const data = await response.json()
+            setRecipes(data)
+        }
+        fetchRecipes()
     }, [user])
 
     const showRecipes = (recipes) => {
@@ -28,12 +31,11 @@ const RecipeContainer = (props) => {
             )
         } else {
             return recipes.map(recipe => {
-                let recipe_id = props.match.params.recipe_id = recipe.id
-                if(recipe.user_id === user.id){
+                if(recipe.user_id === user_id){
                     return(
-                        <div key={recipe.id} >
+                        <div key={recipe.id}>
                             <Link to={{pathname: `${url}/${recipe.name}`, state: { attributes: recipe, user: user }}}>
-                                <RecipeCard attributes={recipe} id={recipe_id} />
+                                <RecipeCard attributes={recipe} id={recipe.id} />
                             </Link>
                         </div>
                     )
@@ -46,7 +48,7 @@ const RecipeContainer = (props) => {
         <div>
             <h1>Recipes</h1>
             <div>{showRecipes(recipes)}</div>
-            <Link to={`/users/${user.username}`}>Home</Link>
+            <Link to={`/users/${user}`}>Home</Link>
             <div></div>
             <Link to={`${url}/new`}>Create Recipe</Link>
         </div>

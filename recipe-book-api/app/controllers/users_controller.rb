@@ -12,7 +12,7 @@ class UsersController < ApplicationController
         if user.save
             render json: { user: user, success: true }
         else
-            render json: { success: true false, errors: user.errors.full_messages }
+            render json: { success: true, errors: user.errors.full_messages }
         end
     end
 
@@ -37,5 +37,9 @@ class UsersController < ApplicationController
     def user_params
         params.permit(:username, :email, :password)
     end
+
+    # def require_login
+
+    # end
 
 end

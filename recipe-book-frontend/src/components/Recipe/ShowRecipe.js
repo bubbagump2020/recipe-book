@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 const ShowRecipe = (props) => {
 
     const recipeName = props.match.params.name
+    const user = props.location.state.user
 
     const [ingredients, setIngredients] = useState([])
 
@@ -27,7 +28,9 @@ const ShowRecipe = (props) => {
                 <h2>Add Ingredient</h2>
                 <NewIngredientForm recipe={props.location.state.attributes}/>
             </div>
-            <Link to={`/users/${props.location.state.user.username}`}>Home</Link>
+            <Link to={`/users/${user}`}>Home</Link>
+            <br></br>
+            <Link to={{pathname: `/users/${user}/recipes`, state: { user: user }}}>Back to Recipes</Link>
         </div>
     )
 }

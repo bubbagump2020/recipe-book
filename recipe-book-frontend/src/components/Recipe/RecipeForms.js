@@ -1,21 +1,17 @@
 import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 
 export const NewRecipeForm = (props) => {
 
-    const { user } = useSelector(state => ({ user: state.loggedInUser}))
-
+    const user = props.match.params.username
     const [ recipe, setRecipe ] = useState({
         name: '',
         desc: ''
     })
 
-    const currentUser = props.match.params.username
-
     const handleSubmit = (e) => {
-        fetch(`${ROOT_URL}/users/${currentUser}/recipes`, {
+        fetch(`${ROOT_URL}/users/${user}/recipes`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -24,15 +20,17 @@ export const NewRecipeForm = (props) => {
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                user_id: user.user.id,
+                user_id: document.cookie,
                 name: recipe.name,
-                description: recipe.description
+                description: recipe.desc
             })
         })
     }
 
     return(
         <div className="new-recipe-form-wrapper">
+            <h1>New Recipe Form</h1>
+            {console.log()}
             <div>
                 <form className="new-recipe-form" id="new-recipe" onSubmit={handleSubmit}>
                     <div>
@@ -56,7 +54,7 @@ export const NewRecipeForm = (props) => {
                     <button type="submit">Create!</button>
                 </form>
             </div>
-            <Link to={`/users/${currentUser}`}>Home</Link>
+            <Link to={`/users/${user}`}>Home</Link>
         </div>
     )
 }

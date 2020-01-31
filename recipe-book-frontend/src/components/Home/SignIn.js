@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { username, password, user } from '../../redux/actions/AuthActions' 
 import { ROOT_URL } from '../../Constants'
 import './styling/Homepage.css'
 import { Container } from 'react-bootstrap'
@@ -35,6 +33,7 @@ const SignIn = (props) => {
             })
             const loggedInUser = await resultUser.json()
             setSuccess(loggedInUser.success)
+            document.cookie = loggedInUser.user.id
         }
         asyncHandleSubmit()
     }
@@ -45,7 +44,7 @@ const SignIn = (props) => {
         } else if(message === false){
             return(
                 <div>
-                    <p>Email or Password was wrong, please try again</p>
+                    <p>Username or Password was wrong, please try again</p>
                 </div>
             )
         }
