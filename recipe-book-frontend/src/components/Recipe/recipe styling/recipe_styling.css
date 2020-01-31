@@ -1,0 +1,25 @@
+.recipe-card{
+    text-align: center;
+    margin: 5px;
+    height: 10vh;
+    width: 10vw;
+}
+
+.recipe-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.recipe-deck{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+.row{
+    margin: 10px;
+}
+.col{
+    margin: 10px;
+}

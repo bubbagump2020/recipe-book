@@ -17,6 +17,12 @@ const ShowRecipe = (props) => {
             .then(result => setIngredients(result))
     }, [props.location.state.attributes.name])
 
+
+    const deleteRecipe = (e) => {
+        e.preventDefault()
+    }
+
+
     return(
         <div>
             <h1>{recipeName}</h1>
