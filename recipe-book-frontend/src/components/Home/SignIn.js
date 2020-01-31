@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { username, password, user } from '../../redux/actions/AuthActions' 
 import { ROOT_URL } from '../../Constants'
@@ -10,8 +10,11 @@ import { Button } from 'react-bootstrap'
 
 const SignIn = (props) => {
 
-    const dispatch = useDispatch()
-    const { signup } = useSelector(state => ({ signup: state.signup}))
+    const [user, setUser] = useState({
+        username: "",
+        password: ""
+    })
+    const [success, setSuccess] = useState()
     const loginProps = props.props
 
     const handleSubmit = (e) => {
@@ -26,15 +29,26 @@ const SignIn = (props) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    username: signup.username,
-                    password: signup.password
+                    username: user.username,
+                    password: user.password
                 })
             })
             const loggedInUser = await resultUser.json()
-            dispatch(user(loggedInUser))
-            loginProps.history.push(`/users/${loggedInUser.username}`)
+            setSuccess(loggedInUser.success)
         }
         asyncHandleSubmit()
+    }
+
+    const checkSignInMessage = message => {
+        if(message === true){
+            loginProps.history.push(`/users/${user.username}`)
+        } else if(message === false){
+            return(
+                <div>
+                    <p>Email or Password was wrong, please try again</p>
+                </div>
+            )
+        }
     }
 
     return(
@@ -44,14 +58,15 @@ const SignIn = (props) => {
                 <Form onSubmit={e => handleSubmit(e)}>
                     <Form.Group as={Row}>
                         <Form.Label>Username</Form.Label>
-                        <Form.Control type="text" onChange={e => dispatch(username(e.target.value))} placeholder="Username" />
+                        <Form.Control type="text" onChange={e => setUser({ ...user, username: e.target.value })} placeholder="Username" />
                     </Form.Group>
                     <Form.Group as={Row}>
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" onChange={e => dispatch(password(e.target.value))} placeholder="Password" />
+                        <Form.Control type="password" onChange={e => setUser({ ...user, password: e.target.value })} placeholder="Password" />
                     </Form.Group>
                     <Button type="submit">Sign In</Button>
                 </Form>
+                {checkSignInMessage(success)}
             </Row>
         </Container>
     )
