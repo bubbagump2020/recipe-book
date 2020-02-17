@@ -1,0 +1,41 @@
+.user-homepage-wrapper{
+    display: grid;
+    height: 100vh;
+    grid-template-rows: 85px;
+    grid-template-columns: 200px;
+    grid-column-gap: 50px;
+    padding: 10px;
+    grid-template-areas: 
+        'header header header'
+        'menu main main'
+        'menu main main'
+        ;
+    border: solid;
+}
+
+.header{
+    grid-area: header;
+    text-align: center;
+    height: auto;
+    width: auto;
+    border: solid;
+}
+
+.side-menu-bar{
+    grid-area: menu;
+    text-align: center;
+    height: auto;
+    width: auto;
+    border: solid;
+}
+
+.main-content-area{
+    grid-area: main;
+    height: auto;
+    width: auto;
+    border: solid;
+}
+
+body{
+    background-color: lightyellow;
+}

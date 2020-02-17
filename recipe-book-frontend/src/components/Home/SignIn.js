@@ -1,10 +1,6 @@
 import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
 import './styling/Homepage.css'
-import { Container } from 'react-bootstrap'
-import { Row } from 'react-bootstrap'
-import { Form } from 'react-bootstrap'
-import { Button } from 'react-bootstrap'
 
 const SignIn = (props) => {
 
@@ -51,23 +47,21 @@ const SignIn = (props) => {
     }
 
     return(
-        <Container fluid="true" >
-            <h2>Sign In</h2>
-            <Row>
-                <Form onSubmit={e => handleSubmit(e)}>
-                    <Form.Group as={Row}>
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control type="text" onChange={e => setUser({ ...user, username: e.target.value })} placeholder="Username" />
-                    </Form.Group>
-                    <Form.Group as={Row}>
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" onChange={e => setUser({ ...user, password: e.target.value })} placeholder="Password" />
-                    </Form.Group>
-                    <Button type="submit">Sign In</Button>
-                </Form>
-                {checkSignInMessage(success)}
-            </Row>
-        </Container>
+        <div className="sign-up-or-in-inner-wrapper">
+            <form onSubmit={e => handleSubmit(e)}>
+                <h2>Sign In</h2>
+                <div>
+                    <label>Username</label>
+                    <input type="text" onChange={e => setUser({ ...user, username: e.target.value })} placeholder="Username" />
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" onChange={e => setUser({ ...user, password: e.target.value })} placeholder="Password" />
+                </div>
+                <button type="submit">Sign In</button>
+            </form>
+            {checkSignInMessage(success)}
+        </div>
     )
 }
 

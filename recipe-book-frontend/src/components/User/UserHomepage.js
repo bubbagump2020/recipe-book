@@ -2,6 +2,7 @@ import React from 'react'
 import {
     Link
 } from 'react-router-dom'
+import './styling/user.css'
 
 const UserHomepage = (props) => {
 
@@ -10,17 +11,25 @@ const UserHomepage = (props) => {
 
     return(
         <div className="user-homepage-wrapper">
-            <h1>Welcome {user}!</h1>
-            <div>
-                <Link to={{pathname: `${userUrl}/recipes`, state: { user: user }}}>
-                    Recipe Book!
-                </Link>
-            </div>
-            <div>
+            <p className="header">Welcome {user}!</p>
+            <div className="side-menu-bar">
+                <div>
+                    <Link to={{pathname: `${userUrl}/recipes`, state: { user: user }}}>
+                        Recipe Book
+                    </Link>
+                </div>
+                <div>
                 <Link to={{pathname: `${userUrl}/recipes/new`, state: { user: user }}}>
-                    Add a Recipe!
+                    Add Recipe
                 </Link>
+                </div>
             </div>
+            <div className="main-content-area">
+                <div>
+                    Hello!
+                </div>
+            </div>
+            
         </div>
     )
 }

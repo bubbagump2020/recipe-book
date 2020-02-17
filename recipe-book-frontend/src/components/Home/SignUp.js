@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
 import './styling/Homepage.css'
-import { Container, Row, Form, Button } from 'react-bootstrap'
 
 const SignUp = (props) => {
 
@@ -43,28 +42,26 @@ const SignUp = (props) => {
     }
 
     return(
-        <Container>
-            <h3>Sign Up</h3>
-            <Row>
-                <Form onSubmit={e => handleSubmit(e)}>
-                    <Form.Group as={Row}>
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control type="text" onChange={e => setUser({ ...user, username: e.target.value })} />
-                    </Form.Group>
-                    <Form.Group as={Row}>
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" onChange={e => setUser({ ...user, email: e.target.value })} />
-                    </Form.Group>
-                    <Form.Group as={Row}>
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" onChange={e => setUser({ ...user, password: e.target.value })} />
-                    </Form.Group>
-                    <Button type="submit">Sign Up</Button>
-                </Form>
-                {console.log(user)}
-                {checkSignUpSuccess(success)}
-            </Row>
-        </Container>
+        <div className="sign-up-or-in-inner-wrapper">
+            
+            <form onSubmit={e => handleSubmit(e)}>
+                <h3>Sign Up</h3>
+                <div>
+                    <label>Username</label>
+                    <input type="text" onChange={e => setUser({ ...user, username: e.target.value })} />
+                </div>
+                <div>
+                    <label>Email</label>
+                    <input type="email" onChange={e => setUser({ ...user, email: e.target.value })} />
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" onChange={e => setUser({ ...user, password: e.target.value })} />
+                </div>
+                <button type="submit">Sign Up</button>
+            </form>
+            {checkSignUpSuccess(success)}
+        </div>
     )
 }
 

@@ -30,7 +30,6 @@ export const NewRecipeForm = (props) => {
     return(
         <div className="new-recipe-form-wrapper">
             <h1>New Recipe Form</h1>
-            {console.log()}
             <div>
                 <form className="new-recipe-form" id="new-recipe" onSubmit={handleSubmit}>
                     <div>
