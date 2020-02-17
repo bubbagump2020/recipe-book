@@ -2,7 +2,6 @@ import React, {useState, useEffect } from 'react'
 import { ROOT_URL } from '../../Constants'
 import { Link } from 'react-router-dom'
 import RecipeCard from './RecipeCard'
-import { Button, Container, Row, Col } from 'react-bootstrap'
 import './recipe styling/recipe_styling.css'
 
 const RecipeContainer = (props) => {
@@ -39,38 +38,32 @@ const RecipeContainer = (props) => {
             )
         } else {
             return(
-                <Container className="recipe-deck">
-                    <Row>
+                <div className="recipe-deck">
                     { recipes.map(recipe => {
                         if(recipe.user_id === user_id){
                             return(
-                                <Container fluid key={recipe.id} className="recipe-deck">
+                                <div key={recipe.id} className="recipe-deck">
                                     <Link to={{pathname: `${url}/${recipe.name}`, state: { attributes: recipe, user: user }}}>
                                         <RecipeCard attributes={recipe} id={recipe.id} />
                                     </Link>
-                                </Container>
+                                </div>
                              )
                             }   
                     })}
-                    </Row>
-                    <Row>
-                        <Col>
-                            <Link to={`${url}/new`}>Create Recipe</Link>
-                        </Col>
-                    </Row>
-                </Container>
+                    <Link to={`${url}/new`}>Create Recipe</Link>
+                </div>
             )
         }
     }
 
     return(
-        <Container className="recipe-container">
+        <div className="recipe-container">
             <h1>Recipes</h1>
             <div className="recipe-deck">
                 {showRecipes(recipes)}
             </div>
             <Link to={`/users/${user}`}>Home</Link>
-        </Container>
+        </div>
     )
 }
 
