@@ -1,51 +1,23 @@
 .home-wrapper{
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 48vw 48vw;
+    grid-column-gap: 4vw;
+    grid-template-rows: 100vh;
+    margin: auto;
+    justify-content: space-around;
 }
 
-.header{
-    font-size: 2vmax;
-    font-weight: bold;
-    text-align: center;
+.sign-up-or-in-outer-wrapper{
+    display: grid;
+    grid-template-columns: 46vw;
+    grid-template-rows: auto;
+    border: solid;
+    padding: 5px;
 }
 
-.sign-up-or-in{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-}
-
-.wrapper{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    margin: 1.0vw;
-}
-
-.wrapper form{
-    display: flex;
-    justify-content: space-between;
-    text-align: center;
-
-    flex-wrap: wrap;
-    max-width: 1vmax;
-}
-
-.username{
-    margin: 0.5vw;
-    font-size: 1.5vmax;
-}
-
-.email{
-    margin: 0.5vw;
-    font-size: 1.5vmax;
-}
-
-.password{
-    margin: 0.5vw;
-    font-size: 1.5vmax;
-}
-
-button{
-    border: hidden;
+.sign-up-or-in-inner-wrapper{
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    border: solid;
 }
