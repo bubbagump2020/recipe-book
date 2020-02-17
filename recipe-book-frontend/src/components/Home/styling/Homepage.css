@@ -21,3 +21,7 @@
     grid-template-rows: auto auto auto;
     border: solid;
 }
+
+body{
+    background-color: lightyellow;
+}

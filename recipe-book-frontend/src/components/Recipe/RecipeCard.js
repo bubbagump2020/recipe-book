@@ -1,5 +1,5 @@
 import React from 'react'
-import './recipe styling/recipe_styling.css'
+import './recipe styling/recipe.css'
 
 const RecipeCard = (props) => {
 

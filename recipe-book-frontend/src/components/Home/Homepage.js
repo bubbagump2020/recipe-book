@@ -13,6 +13,7 @@ const Homepage = (props) => {
             <div className="sign-up-or-in-outer-wrapper">
                 <SignUp props={props} />
             </div>
+            <p>Kevin Bagnall 2020</p>
         </div>
     )
 }
