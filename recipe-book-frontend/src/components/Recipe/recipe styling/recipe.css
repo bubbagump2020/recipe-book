@@ -1,27 +1,18 @@
-.recipe-card{
-    text-align: center;
-    margin: 5px;
-    height: 10vh;
-    width: 10vw;
-}
-
 .recipe-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
+    display: grid;
+    height: 100vh;
+    grid-template-areas:
+        'header header header'
+        'content content content';
+
 }
 
-.recipe-deck{
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
+.recipe-container-header{
+    grid-area: header;
 }
-.row{
-    margin: 10px;
-}
-.col{
-    margin: 10px;
+
+.recipe-deck-wrapper{
+    grid-area: content;
 }
 
 body{

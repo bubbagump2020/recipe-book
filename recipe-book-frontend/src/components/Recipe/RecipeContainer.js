@@ -42,7 +42,7 @@ const RecipeContainer = (props) => {
                     { recipes.map(recipe => {
                         if(recipe.user_id === user_id){
                             return(
-                                <div key={recipe.id} className="recipe-deck">
+                                <div key={recipe.id} className="recipe-card-wrapper">
                                     <Link to={{pathname: `${url}/${recipe.name}`, state: { attributes: recipe, user: user }}}>
                                         <RecipeCard attributes={recipe} id={recipe.id} />
                                     </Link>
@@ -58,11 +58,13 @@ const RecipeContainer = (props) => {
 
     return(
         <div className="recipe-container">
-            <h1>Recipes</h1>
-            <div className="recipe-deck">
-                {showRecipes(recipes)}
+            <div>
+                <p className="recipe-container-header">Recipes</p>
             </div>
-            <Link to={`/users/${user}`}>Home</Link>
+            <div className="recipe-deck-wrapper">
+                {showRecipes(recipes)}
+                <Link to={`/users/${user}`}>Home</Link>
+            </div>  
         </div>
     )
 }
