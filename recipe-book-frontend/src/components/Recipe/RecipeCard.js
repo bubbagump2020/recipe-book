@@ -1,13 +1,15 @@
 import React from 'react'
-import './recipe styling/recipe.css'
+import './recipe_styling/recipe.css'
+import Photo from './recipe_styling/pexels-photo-461198.jpeg'
 
 const RecipeCard = (props) => {
 
     const recipe = props.attributes
 
     return(
-        <div>
-            <div className="recipe-card">
+        <div  className="recipe-card">
+            <img src={Photo} alt="Tacos" style={{width: 100}}/>
+            <div>
                 <p>{recipe.name}</p>
                 <p>{recipe.description}</p>
             </div> 
