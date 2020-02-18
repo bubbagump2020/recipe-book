@@ -2,7 +2,7 @@ import React, {useState, useEffect } from 'react'
 import { ROOT_URL } from '../../Constants'
 import { Link } from 'react-router-dom'
 import RecipeCard from './RecipeCard'
-import './recipe styling/recipe.css'
+import './recipe_styling/recipe.css'
 
 const RecipeContainer = (props) => {
 
@@ -33,6 +33,7 @@ const RecipeContainer = (props) => {
                     <h3>You have No Recipes!</h3>
                     <div>
                         <Link to={`${url}/new`}>Click Here To Create A Recipe</Link>
+                        <Link to={`/users/${user}`}>Home</Link>
                     </div>
                 </div>
             )
@@ -43,14 +44,14 @@ const RecipeContainer = (props) => {
                         if(recipe.user_id === user_id){
                             return(
                                 <div key={recipe.id} className="recipe-card-wrapper">
-                                    <Link to={{pathname: `${url}/${recipe.name}`, state: { attributes: recipe, user: user }}}>
+                                    <Link to={{pathname: `/recipes/${recipe.name}`, state: { attributes: recipe, user: user }}}>
                                         <RecipeCard attributes={recipe} id={recipe.id} />
                                     </Link>
                                 </div>
                              )
                             }   
                     })}
-                    <Link to={`${url}/new`}>Create Recipe</Link>
+                    
                 </div>
             )
         }
@@ -63,8 +64,11 @@ const RecipeContainer = (props) => {
             </div>
             <div className="recipe-deck-wrapper">
                 {showRecipes(recipes)}
-                <Link to={`/users/${user}`}>Home</Link>
-            </div>  
+            </div>
+            <div>
+                <Link to={`/users/${user}`}>Home</Link><br></br>
+                <Link to={`${url}/new`}>Create Recipe</Link>
+            </div>
         </div>
     )
 }

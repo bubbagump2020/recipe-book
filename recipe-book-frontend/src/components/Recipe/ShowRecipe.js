@@ -12,10 +12,10 @@ const ShowRecipe = (props) => {
     const [ingredients, setIngredients] = useState([])
 
     useEffect(() => {
-        fetch(`${ROOT_URL}/recipes/${props.location.state.attributes.name}/ingredients`)
+        fetch(`${ROOT_URL}/recipes/${user}/ingredients`)
             .then(response => response.json())
             .then(result => setIngredients(result))
-    }, [props.location.state.attributes.name])
+    }, [])
 
 
     const deleteRecipe = (e) => {
