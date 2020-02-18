@@ -33,6 +33,7 @@ const RecipeContainer = (props) => {
                     <h3>You have No Recipes!</h3>
                     <div>
                         <Link to={`${url}/new`}>Click Here To Create A Recipe</Link>
+                        <Link to={`/users/${user}`}>Home</Link>
                     </div>
                 </div>
             )
@@ -50,7 +51,7 @@ const RecipeContainer = (props) => {
                              )
                             }   
                     })}
-                    <Link to={`${url}/new`}>Create Recipe</Link>
+                    
                 </div>
             )
         }
@@ -63,8 +64,9 @@ const RecipeContainer = (props) => {
             </div>
             <div className="recipe-deck-wrapper">
                 {showRecipes(recipes)}
-                <Link to={`/users/${user}`}>Home</Link>
-            </div>  
+            </div>
+            <Link to={`/users/${user}`}>Home</Link><br></br>
+                    <Link to={`${url}/new`}>Create Recipe</Link>
         </div>
     )
 }

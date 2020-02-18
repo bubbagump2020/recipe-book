@@ -1,5 +1,6 @@
 .recipe-container{
     display: flex;
+    flex-direction: column;
     text-align: center;
 
 }
@@ -8,8 +9,16 @@
 
 }
 
-.recipe-deck-wrapper{
+.recipe-deck{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
 
+.recipe-deck-wrapper{
+    /* display: flex;
+    flex-direction: row;
+    justify-content: space-around; */
 }
 
 body{
@@ -17,6 +26,8 @@ body{
 }
 
 .recipe-card{
+    width: 400px;
+    height: 400px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
 }

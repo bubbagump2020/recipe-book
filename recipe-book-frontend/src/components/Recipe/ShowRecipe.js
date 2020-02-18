@@ -26,7 +26,6 @@ const ShowRecipe = (props) => {
     return(
         <div>
             <h1>{recipeName}</h1>
-            {console.log(user)}
             <div>
                 <h2>Ingredients</h2>
                 <IngredientContainer ingredients={ingredients}/>
