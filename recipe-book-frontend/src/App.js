@@ -18,7 +18,7 @@ function App() {
         <Route exact path="/users/:username" render={(props) => (<UserHomepage {...props} />)}/>
         <Route exact path="/users/:username/recipes" component={RecipeContainer} />
         <Route exact path="/users/:username/recipes/new" component={NewRecipeForm} />
-        <Route exact path="/users/:username/recipes/:name" component={ShowRecipe} />
+        <Route exact path="/recipes/:name" component={ShowRecipe} />
     </Router>
   );
 }

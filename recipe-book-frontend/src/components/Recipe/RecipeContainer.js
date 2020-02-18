@@ -43,7 +43,7 @@ const RecipeContainer = (props) => {
                         if(recipe.user_id === user_id){
                             return(
                                 <div key={recipe.id} className="recipe-card-wrapper">
-                                    <Link to={{pathname: `${url}/${recipe.name}`, state: { attributes: recipe, user: user }}}>
+                                    <Link to={{pathname: `/recipes/${recipe.name}`, state: { attributes: recipe, user: user }}}>
                                         <RecipeCard attributes={recipe} id={recipe.id} />
                                     </Link>
                                 </div>
