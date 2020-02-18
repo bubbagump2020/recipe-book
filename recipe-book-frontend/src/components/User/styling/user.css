@@ -16,9 +16,10 @@
 .header{
     grid-area: header;
     text-align: center;
+    font-size: 36px;
+    font-weight: bolder;
     height: auto;
     width: auto;
-    border: solid;
 }
 
 .side-menu-bar{
@@ -39,3 +40,4 @@
 body{
     background-color: lightyellow;
 }
+

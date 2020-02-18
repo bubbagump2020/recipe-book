@@ -10,8 +10,8 @@ const RecipeCard = (props) => {
         <div  className="recipe-card">
             <img src={Photo} alt="Tacos" style={{width: 100}}/>
             <div>
-                <p>{recipe.name}</p>
-                <p>{recipe.description}</p>
+                <p id="name">{recipe.name}</p>
+                <p id="desc">{recipe.description}</p>
             </div> 
         </div>
     )

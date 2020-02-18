@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
 import { Link } from 'react-router-dom'
+import './recipe_styling/recipe-form.css'
 
 export const NewRecipeForm = (props) => {
 
@@ -29,7 +30,7 @@ export const NewRecipeForm = (props) => {
 
     return(
         <div className="new-recipe-form-wrapper">
-            <h1>New Recipe Form</h1>
+            <div className="header">New Recipe Form</div>
             <div>
                 <form className="new-recipe-form" id="new-recipe" onSubmit={handleSubmit}>
                     <div>

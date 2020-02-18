@@ -65,8 +65,10 @@ const RecipeContainer = (props) => {
             <div className="recipe-deck-wrapper">
                 {showRecipes(recipes)}
             </div>
-            <Link to={`/users/${user}`}>Home</Link><br></br>
-                    <Link to={`${url}/new`}>Create Recipe</Link>
+            <div>
+                <Link to={`/users/${user}`}>Home</Link><br></br>
+                <Link to={`${url}/new`}>Create Recipe</Link>
+            </div>
         </div>
     )
 }
