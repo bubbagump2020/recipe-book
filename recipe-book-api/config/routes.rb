@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   resources :recipes, param: :name do 
     resources :ingredients, shallow: true
   end
-
   post '/login', to: ("sessions#login")
   post '/logout', to: ("sessions#logout")
 
