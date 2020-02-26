@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
-import './styling/Homepage.css'
 
 const SignIn = (props) => {
 

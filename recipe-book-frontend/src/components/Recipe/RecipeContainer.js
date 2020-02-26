@@ -2,7 +2,6 @@ import React, {useState, useEffect } from 'react'
 import { ROOT_URL } from '../../Constants'
 import { Link } from 'react-router-dom'
 import RecipeCard from './RecipeCard'
-import './recipe_styling/recipe.css'
 
 const RecipeContainer = (props) => {
 
