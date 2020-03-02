@@ -53,6 +53,7 @@ const SignIn = (props) => {
             })
             const loggedInUser = await resultUser.json()
             sessionStorage.setItem('userToken', loggedInUser.token.session_id)
+            localStorage.setItem('user_id', loggedInUser.user_id)
             setSuccess(loggedInUser.success)
         }
         asyncHandleSubmit()
