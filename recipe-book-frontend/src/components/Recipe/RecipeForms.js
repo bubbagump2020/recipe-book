@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
 import { Link } from 'react-router-dom'
-import './recipe_styling/recipe-form.css'
 
 export const NewRecipeForm = (props) => {
 

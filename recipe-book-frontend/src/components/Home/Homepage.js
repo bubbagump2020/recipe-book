@@ -1,21 +1,75 @@
 import React from 'react'
-import './styling/Homepage.css'
 import SignUp from './SignUp'
 import SignIn from './SignIn'
+import { Box, Grid, Paper, makeStyles, Typography, AppBar, Toolbar, Button } from '@material-ui/core'
+import 'typeface-roboto'
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        flexGrow: 1,
+    },
+    paper:{
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        alignItems: 'center',
+        color: theme.palette.text.primary,
+    },
+    toolbarHeader:{
+        MarginRight: theme.spacing(2),
+    },
+    title: {
+        flexGrow: 1,
+    }
+}))
+
+const handleSignInChange = () => {
+    return <SignIn />
+}
+
+
 
 const Homepage = (props) => {
+    const classes = useStyles()
     
     return(
-        <div className="home-wrapper">
-            <div className="sign-up-or-in-outer-wrapper">
-                <SignIn props={props} />
-            </div>
-            <div className="sign-up-or-in-outer-wrapper">
-                <SignUp props={props} />
-            </div>
-            <p>Kevin Bagnall 2020</p>
-        </div>
+        <Box>
+            <AppBar position="static">
+                <Toolbar>
+                    <Typography variant="h5" className={classes.title}>
+                        Recip-Ease
+                    </Typography>
+                    <Button color="inherit" href="/sessions/new">Sign In</Button>
+                </Toolbar>
+            </AppBar>
+            <Grid container>
+                <Grid item xs={12}>
+                    <Paper elevation={0} className={classes.paper}>
+                        <Typography variant="body1">
+                            Tired of having all of those heavy cookbooks?
+                            Worry no more! Welcome to Recip-Ease, an online recipe book
+                            where you can store all of you favorite recipes
+                        </Typography>
+                    </Paper>
+                </Grid>
+                <Grid item xs={12}>
+                    <Paper elevation={3} className={classes.paper}>
+                        <SignUp props={props}/>
+                    </Paper>
+                </Grid>
+                <Grid item xs={12}>
+                    <Paper elevation={1} className={classes.paper}>
+                        <Typography variant="caption">
+                            Created by Kevin Bagnall
+                        </Typography>
+                    </Paper>
+                </Grid>
+            </Grid>
+        </Box>
     )
 }
 
 export default Homepage;
+
+// Tired of having all of those heavy cookbooks?
+//                             Worry no more! Welcome to Recip-ease, an online recipe book
+//                             where you can store all of your favorite recipes!

@@ -1,20 +1,44 @@
 import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
-import './styling/Homepage.css'
+import {
+    Box,
+    AppBar,
+    Toolbar,
+    Grid,
+    Typography,
+    Button,
+    makeStyles,
+    TextField,
+    Container
+} from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+    root:{
+        flexGrow: 1,
+    },
+    form:{
+
+    },
+    toolBarTitle:{
+        
+        flexGrow: 1,
+    },
+}))
 
 const SignIn = (props) => {
+    const classes = useStyles()
 
     const [user, setUser] = useState({
         username: "",
         password: ""
     })
     const [success, setSuccess] = useState()
-    const loginProps = props.props
+    const loginProps = props
 
     const handleSubmit = (e) => {
         e.preventDefault()
         
-        const asyncHandleSubmit = async (e) => {
+        const asyncHandleSubmit = async () => {
             const resultUser = await fetch(`${ROOT_URL}/login`, {
                 method: 'POST',
                 credentials: 'include',
@@ -28,8 +52,9 @@ const SignIn = (props) => {
                 })
             })
             const loggedInUser = await resultUser.json()
+            sessionStorage.setItem('userToken', loggedInUser.token.session_id)
+            localStorage.setItem('user_id', loggedInUser.user_id)
             setSuccess(loggedInUser.success)
-            document.cookie = loggedInUser.user.id
         }
         asyncHandleSubmit()
     }
@@ -47,21 +72,47 @@ const SignIn = (props) => {
     }
 
     return(
-        <div className="sign-up-or-in-inner-wrapper">
-            <form onSubmit={e => handleSubmit(e)}>
-                <h2>Sign In</h2>
-                <div>
-                    <label>Username</label>
-                    <input type="text" onChange={e => setUser({ ...user, username: e.target.value })} placeholder="Username" />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" onChange={e => setUser({ ...user, password: e.target.value })} placeholder="Password" />
-                </div>
-                <button type="submit">Sign In</button>
-            </form>
+        <Box>
+            <AppBar color="primary" position="sticky">
+                <Toolbar>
+                    <Typography variant="h5" className={classes.toolBarTitle}>
+                        Recip-Ease Sign In
+                    </Typography>
+                    <Button href="/" color="inherit">Home</Button>
+                </Toolbar>
+            </AppBar>
+            <Container>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Grid item xs={6}>
+                            <TextField
+                                margin="normal"
+                                type="text"
+                                label="Username"
+                                variant="filled"
+                                onChange={e => setUser({ ...user, username: e.target.value })}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField
+                                margin="normal"
+                                type="password"
+                                label="Password"
+                                variant="filled"
+                                onChange={e => setUser({ ...user, password: e.target.value })}
+                            />
+                        </Grid>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={e => handleSubmit(e)}
+                        >   Sign In
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Container>
             {checkSignInMessage(success)}
-        </div>
+        </Box>
     )
 }
 
