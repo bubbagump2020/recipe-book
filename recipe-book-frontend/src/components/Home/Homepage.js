@@ -1,8 +1,7 @@
 import React from 'react'
 import SignUp from './SignUp'
 import SignIn from './SignIn'
-import { Box, Grid, Paper, makeStyles, Typography, AppBar, Toolbar, Button, Icon } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
+import { Box, Grid, Paper, makeStyles, Typography, AppBar, Toolbar, Button } from '@material-ui/core'
 import 'typeface-roboto'
 
 const useStyles = makeStyles(theme => ({
@@ -40,10 +39,9 @@ const Homepage = (props) => {
                         Recip-Ease
                     </Typography>
                     <Button color="inherit" href="/sessions/new">Sign In</Button>
-                    <Button color="inherit" href="/users/new">Sign Up</Button>
                 </Toolbar>
             </AppBar>
-            <Grid >
+            <Grid container>
                 <Grid item xs={12}>
                     <Paper elevation={0} className={classes.paper}>
                         <Typography variant="body1">
@@ -54,7 +52,12 @@ const Homepage = (props) => {
                     </Paper>
                 </Grid>
                 <Grid item xs={12}>
-                    <Paper elevation={0} className={classes.paper}>
+                    <Paper elevation={3} className={classes.paper}>
+                        <SignUp props={props}/>
+                    </Paper>
+                </Grid>
+                <Grid item xs={12}>
+                    <Paper elevation={1} className={classes.paper}>
                         <Typography variant="caption">
                             Created by Kevin Bagnall
                         </Typography>
