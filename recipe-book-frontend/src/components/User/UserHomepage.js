@@ -1,16 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
-    Link
+    Link, Redirect
 } from 'react-router-dom'
-import { Box, AppBar, Toolbar, Typography, makeStyles, Menu, IconButton, Drawer, CssBaseline, List, ListItem, ListItemText, Container } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
+import { Button, AppBar, Toolbar, Typography, makeStyles, Drawer, CssBaseline, List, ListItem, ListItemText } from '@material-ui/core'
+import { ROOT_URL } from '../../Constants';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
-        // flexGrow: 1,
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1
@@ -32,12 +31,26 @@ const useStyles = makeStyles(theme => ({
     toolbar: theme.mixins.toolbar
 }))
 
+
+
 const UserHomepage = (props) => {
     const classes = useStyles()
+    const [ navigate, setNavigate ] = useState(false)
     const user = props.match.params.username
     const userUrl = props.match.url
 
-    console.log(userUrl)
+    // could probably turn these two functions with into a component themselves, might have to if I want to log out from any where with out having to rewrite a bunch of code.
+
+    const logoutClick = () => {
+        sessionStorage.clear('userToken')
+        setNavigate(true)
+    }
+
+    const checkLogOutState = () => {
+        if (navigate) {
+            return <Redirect to="/" push={true} />
+        }
+    }
 
     return(
         <div className={classes.root}>
@@ -47,6 +60,9 @@ const UserHomepage = (props) => {
                     <Typography variant="h5" className={classes.title}>
                         Recip-Ease User Home
                     </Typography>
+                    <Button color="inherit" onClick={logoutClick}>
+                        Sign Out
+                    </Button>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -78,6 +94,7 @@ const UserHomepage = (props) => {
                     Welcome {user}! Click "Recipes" to see all of your recipes or "Create Recipe" to add a new recipe!
                 </Typography>
             </main>
+            {checkLogOutState()}
         </div>
     )
 }

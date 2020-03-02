@@ -15,7 +15,6 @@ const SignUp = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault() 
         if (user.password === confirmPass){
-            console.log("Yep")
             const response = await fetch(`${ROOT_URL}/users`, {
                 method: 'POST',
                 headers: {
@@ -50,7 +49,7 @@ const SignUp = (props) => {
             )
         }
     }
-    
+
     return(
         <Box>
             <Typography variant="h5">

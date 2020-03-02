@@ -1,6 +1,16 @@
 import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
-import { Box, AppBar, Toolbar, Grid, Typography, Button, makeStyles, TextField, Container } from '@material-ui/core'
+import {
+    Box,
+    AppBar,
+    Toolbar,
+    Grid,
+    Typography,
+    Button,
+    makeStyles,
+    TextField,
+    Container
+} from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
     root:{
@@ -13,7 +23,6 @@ const useStyles = makeStyles(theme => ({
         
         flexGrow: 1,
     },
-    spacing: [0, 2, 3, 5, 8]
 }))
 
 const SignIn = (props) => {
@@ -43,9 +52,8 @@ const SignIn = (props) => {
                 })
             })
             const loggedInUser = await resultUser.json()
-            console.log(loggedInUser)
+            sessionStorage.setItem('userToken', loggedInUser.token.session_id)
             setSuccess(loggedInUser.success)
-            document.cookie = loggedInUser.user.id
         }
         asyncHandleSubmit()
     }
@@ -76,12 +84,29 @@ const SignIn = (props) => {
                 <Grid container>
                     <Grid item xs={12}>
                         <Grid item xs={6}>
-                            <TextField margin="normal" type="text" label="Username" variant="filled" onChange={e => setUser({ ...user, username: e.target.value })} />
+                            <TextField
+                                margin="normal"
+                                type="text"
+                                label="Username"
+                                variant="filled"
+                                onChange={e => setUser({ ...user, username: e.target.value })}
+                            />
                         </Grid>
                         <Grid item xs={6}>
-                            <TextField  margin="normal" type="password" label="Password" variant="filled" onChange={e => setUser({ ...user, password: e.target.value })} />
+                            <TextField
+                                margin="normal"
+                                type="password"
+                                label="Password"
+                                variant="filled"
+                                onChange={e => setUser({ ...user, password: e.target.value })}
+                            />
                         </Grid>
-                        <Button type="submit" variant="contained" color="primary" onClick={e => handleSubmit(e)}>Sign In</Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={e => handleSubmit(e)}
+                        >   Sign In
+                        </Button>
                     </Grid>
                 </Grid>
             </Container>
