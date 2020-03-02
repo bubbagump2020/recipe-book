@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
-import { Box, AppBar, Toolbar, Grid, Typography, Button, makeStyles } from '@material-ui/core'
+import { Box, AppBar, Toolbar, Grid, Typography, Button, makeStyles, TextField, Container, Paper } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
     root:{
@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
 
     },
     toolBarTitle:{
+        
         flexGrow: 1,
     }
 }))
@@ -22,7 +23,7 @@ const SignIn = (props) => {
         password: ""
     })
     const [success, setSuccess] = useState()
-    const loginProps = props.props
+    const loginProps = props
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -41,6 +42,7 @@ const SignIn = (props) => {
                 })
             })
             const loggedInUser = await resultUser.json()
+            console.log(loggedInUser)
             setSuccess(loggedInUser.success)
             document.cookie = loggedInUser.user.id
         }
@@ -76,7 +78,7 @@ const SignIn = (props) => {
         //     {checkSignInMessage(success)}
         // </div>
         <Box>
-            <AppBar>
+            <AppBar color="primary" position="sticky">
                 <Toolbar>
                     <Typography variant="h5" className={classes.toolBarTitle}>
                         Recip-Ease Sign In
@@ -84,13 +86,18 @@ const SignIn = (props) => {
                     <Button href="/" color="inherit">Home</Button>
                 </Toolbar>
             </AppBar>
-            <Grid container >
-                <Grid item xs={12}>
-                    <form>
-
-                    </form>
-                </Grid>
-            </Grid>
+            <Container>
+                <form onSubmit={e => handleSubmit(e)}>
+                    <div>
+                        <TextField type="text" label="Username" variant="filled" onChange={e => setUser({ ...user, username: e.target.value })} />
+                        <TextField type="password" label="Password" variant="filled" onChange={e => setUser({ ...user, password: e.target.value })} />
+                    </div>
+                    <div>
+                        <Button type="submit" variant="contained" color="primary">Sign In</Button>
+                    </div>
+                </form>
+            </Container>
+            {checkSignInMessage(success)}
         </Box>
     )
 }
