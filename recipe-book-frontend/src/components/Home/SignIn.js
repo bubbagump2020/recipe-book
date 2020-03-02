@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
-import { Box, AppBar, Toolbar, Grid, Typography, Button, makeStyles, TextField, Container, Paper } from '@material-ui/core'
+import { Box, AppBar, Toolbar, Grid, Typography, Button, makeStyles, TextField, Container, Paper, spacing } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
     root:{
@@ -12,7 +12,8 @@ const useStyles = makeStyles(theme => ({
     toolBarTitle:{
         
         flexGrow: 1,
-    }
+    },
+    spacing: [0, 2, 3, 5, 8]
 }))
 
 const SignIn = (props) => {
@@ -28,7 +29,7 @@ const SignIn = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         
-        const asyncHandleSubmit = async (e) => {
+        const asyncHandleSubmit = async () => {
             const resultUser = await fetch(`${ROOT_URL}/login`, {
                 method: 'POST',
                 credentials: 'include',
@@ -62,21 +63,6 @@ const SignIn = (props) => {
     }
 
     return(
-        // <div className="sign-up-or-in-inner-wrapper">
-        //     <form onSubmit={e => handleSubmit(e)}>
-        //         <h2>Sign In</h2>
-        //         <div>
-        //             <label>Username</label>
-        //             <input type="text" onChange={e => setUser({ ...user, username: e.target.value })} placeholder="Username" />
-        //         </div>
-        //         <div>
-        //             <label>Password</label>
-        //             <input type="password" onChange={e => setUser({ ...user, password: e.target.value })} placeholder="Password" />
-        //         </div>
-        //         <button type="submit">Sign In</button>
-        //     </form>
-        //     {checkSignInMessage(success)}
-        // </div>
         <Box>
             <AppBar color="primary" position="sticky">
                 <Toolbar>
@@ -87,15 +73,17 @@ const SignIn = (props) => {
                 </Toolbar>
             </AppBar>
             <Container>
-                <form onSubmit={e => handleSubmit(e)}>
-                    <div>
-                        <TextField type="text" label="Username" variant="filled" onChange={e => setUser({ ...user, username: e.target.value })} />
-                        <TextField type="password" label="Password" variant="filled" onChange={e => setUser({ ...user, password: e.target.value })} />
-                    </div>
-                    <div>
-                        <Button type="submit" variant="contained" color="primary">Sign In</Button>
-                    </div>
-                </form>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Grid item xs={6}>
+                            <TextField margin="normal" type="text" label="Username" variant="filled" onChange={e => setUser({ ...user, username: e.target.value })} />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField  margin="normal" type="password" label="Password" variant="filled" onChange={e => setUser({ ...user, password: e.target.value })} />
+                        </Grid>
+                        <Button type="submit" variant="contained" color="primary" onClick={e => handleSubmit(e)}>Sign In</Button>
+                    </Grid>
+                </Grid>
             </Container>
             {checkSignInMessage(success)}
         </Box>
