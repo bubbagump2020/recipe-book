@@ -1,6 +1,9 @@
 import React, {useState, useEffect } from 'react'
 import { ROOT_URL } from '../../Constants'
-import { Redirect } from 'react-router-dom'
+import {
+    Redirect,
+    Link
+} from 'react-router-dom'
 import RecipeCard from './RecipeCard'
 import {
     Box,
@@ -9,25 +12,42 @@ import {
     Typography,
     makeStyles,
     FormHelperText,
-    Button    
+    Container,
+    Button,    
+    LinearProgress,
+    Paper,
+    Drawer
 } from '@material-ui/core'
+
+const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
     root: {
-        display: FormHelperText,
+        display: 'flex',
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1
     },
     content: {
+        display: 'flex',
+        flexDirection: 'inherit',
+        alignContent: 'center',
+        // flexShrink
         flexGrow: 1,
         padding: theme.spacing(3)
     },
     title: {
         flexGrow: 1,
-    }
+    },
+    drawer:{
+        width: drawerWidth,
+        flexShrink: 0,
+    },
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    toolbar: theme.mixins.toolbar
 }))
-
 const RecipeContainer = (props) => {
 
     const classes = useStyles()
@@ -35,13 +55,13 @@ const RecipeContainer = (props) => {
     const user_id = localStorage.getItem('user_id')
     const [ navigate, setNavigate ] = useState(false)
     const url = props.match.url
-    const [recipes, setRecipes] = useState([])
+    const [allRecipes, setAllRecipes] = useState([])
 
     useEffect(() => {
         const fetchRecipes = async () => {
             const response = await fetch(`${ROOT_URL}/users/${user}/recipes`)
             const data = await response.json()
-            setRecipes(data)
+            setAllRecipes(data)
         }
         fetchRecipes()
     }, [user])
@@ -57,46 +77,19 @@ const RecipeContainer = (props) => {
         }
     }
 
-    const showRecipes = (recipes) => {
-        let userRecipes = []
-        recipes.map(recipe => {
-            if(recipe.user_id === user_id){
-                userRecipes.push(recipe)
-            }
+    const showRecipes = () => {
+        return allRecipes.filter(recipe => recipe.user_id === parseInt(user_id)).map(recipe => {
+            return(
+                <div key={recipe.id}>
+                    <RecipeCard attributes={recipe} id={recipe.id}/>
+                </div>
+            )
         })
-        if(userRecipes.length === 0){
-            console.log("Loading")
-            // return(
-            //     <div>
-            //         <h3>You have No Recipes!</h3>
-            //         <div>
-            //             <Link to={`${url}/new`}>Click Here To Create A Recipe</Link>
-            //             <Link to={`/users/${user}`}>Home</Link>
-            //         </div>
-            //     </div>
-            // )
-        } else {
-            console.log("Recipes?")
-            // return(
-            //     <div className="recipe-deck">
-            //         { recipes.map(recipe => {
-            //             if(recipe.user_id === user_id){
-            //                 return(
-            //                     <div key={recipe.id} className="recipe-card-wrapper">
-            //                         <Link to={{pathname: `/recipes/${recipe.name}`, state: { attributes: recipe, user: user }}}>
-            //                             <RecipeCard attributes={recipe} id={recipe.id} />
-            //                         </Link>
-            //                     </div>
-            //                  )
-            //                 }   
-            //         })}
-            //     </div>
-            // )
-        }
     }
+    
     return(
-        <Box>
-            <AppBar>
+        <div>
+            <AppBar className={classes.appBar} position="sticky">
                 <Toolbar>
                     <Typography variant="h5" className={classes.title}>
                         {user} Recipes
@@ -109,9 +102,20 @@ const RecipeContainer = (props) => {
                     </Button>
                 </Toolbar>
             </AppBar>
-            {showRecipes(recipes)}
+            
+            <Drawer 
+                variant="permanent"
+                className={classes.drawer}
+                classes={{paper: classes.drawerPaper}}
+            >
+                <div className={classes.toolbar}/>
+            </Drawer>
+            <Container maxWidth="lg" className={classes.content}>
+                <div className={classes.toolbar} />
+                    {showRecipes()}
+            </Container>
             {checkLogOutState()}
-        </Box>
+        </div>
     )
 }
 

@@ -2,8 +2,17 @@ import React, { useState } from 'react'
 import {
     Link, Redirect
 } from 'react-router-dom'
-import { Button, AppBar, Toolbar, Typography, makeStyles, Drawer, CssBaseline, List, ListItem, ListItemText } from '@material-ui/core'
-import { ROOT_URL } from '../../Constants';
+import { Button,
+    AppBar,
+    Toolbar,
+    Typography,
+    makeStyles,
+    Drawer,
+    CssBaseline,
+    List,
+    ListItem,
+    ListItemText
+} from '@material-ui/core'
 
 const drawerWidth = 240;
 
@@ -55,7 +64,7 @@ const UserHomepage = (props) => {
     return(
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar className={classes.appBar}>
+            <AppBar className={classes.appBar} >
                 <Toolbar>
                     <Typography variant="h5" className={classes.title}>
                         Recip-Ease User Home
