@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
 import { Link } from 'react-router-dom'
 import { Box, Container, Typography, AppBar, Toolbar, Button, makeStyles, TextField } from '@material-ui/core'
+import SignOut from '../Home/SignOut'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -53,9 +54,7 @@ const NewRecipeForm = (props) => {
                     <Button color="inherit" href={`/users/${user}`}>
                         Home
                     </Button>
-                    <Button color="inherit">
-                        Sign Out
-                    </Button>
+                    <SignOut />
                 </Toolbar>
             </AppBar>
             <Container>

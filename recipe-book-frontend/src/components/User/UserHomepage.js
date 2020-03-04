@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {
     Link, Redirect
 } from 'react-router-dom'
-import { Button,
+import {
     AppBar,
     Toolbar,
     Typography,
@@ -13,6 +13,7 @@ import { Button,
     ListItem,
     ListItemText
 } from '@material-ui/core'
+import SignOut from '../Home/SignOut';
 
 const drawerWidth = 240;
 
@@ -48,19 +49,6 @@ const UserHomepage = (props) => {
     const user = props.match.params.username
     const userUrl = props.match.url
 
-    // could probably turn these two functions with into a component themselves, might have to if I want to log out from any where with out having to rewrite a bunch of code.
-
-    const logoutClick = () => {
-        sessionStorage.clear('userToken')
-        setNavigate(true)
-    }
-
-    const checkLogOutState = () => {
-        if (navigate) {
-            return <Redirect to="/" push={true} />
-        }
-    }
-
     return(
         <div className={classes.root}>
             <CssBaseline />
@@ -69,9 +57,7 @@ const UserHomepage = (props) => {
                     <Typography variant="h5" className={classes.title}>
                         Recip-Ease User Home
                     </Typography>
-                    <Button color="inherit" onClick={logoutClick}>
-                        Sign Out
-                    </Button>
+                    <SignOut />
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -103,7 +89,6 @@ const UserHomepage = (props) => {
                     Welcome {user}! Click "Recipes" to see all of your recipes or "Create Recipe" to add a new recipe!
                 </Typography>
             </main>
-            {checkLogOutState()}
         </div>
     )
 }

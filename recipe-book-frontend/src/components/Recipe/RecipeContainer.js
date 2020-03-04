@@ -21,6 +21,7 @@ import {
     ListItem,
     ListItemText
 } from '@material-ui/core'
+import SignOut from '../Home/SignOut'
 
 const drawerWidth = 240;
 
@@ -35,7 +36,6 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'inherit',
         alignContent: 'center',
-        // flexShrink
         flexGrow: 1,
         padding: theme.spacing(3)
     },
@@ -56,7 +56,7 @@ const RecipeContainer = (props) => {
     const classes = useStyles()
     const user = props.location.state.user
     const user_id = localStorage.getItem('user_id')
-    const [ navigate, setNavigate ] = useState(false)
+    const [ open, setOpen ] = useState(false)
     const url = props.match.url
     const [allRecipes, setAllRecipes] = useState([])
 
@@ -69,14 +69,14 @@ const RecipeContainer = (props) => {
         fetchRecipes()
     }, [user])
 
-    const logoutClick = () => {
-        sessionStorage.clear('userToken')
-        setNavigate(true)
-    }
-
-    const checkLogOutState = () => {
-        if (navigate) {
-            return <Redirect to="/" push={true} />
+    const checkOpenOrClose = (open) => {
+        switch(open){
+            case true:
+                setOpen(false)
+            case false:
+                setOpen(true)
+            default:
+                setOpen(false)
         }
     }
 
@@ -101,12 +101,10 @@ const RecipeContainer = (props) => {
                     <Button color="inherit" href={`/users/${user}`}>
                         Home
                     </Button>
-                    <Button color="inherit" onClick={logoutClick}>
-                        Sign Out
-                    </Button>
+                    <SignOut />
                 </Toolbar>
             </AppBar>
-            
+            {/* Make Drawer Persistent to allow for unimpeded view of the recipes */}
             <Drawer 
                 variant="permanent"
                 className={classes.drawer}
@@ -127,7 +125,6 @@ const RecipeContainer = (props) => {
                 <div className={classes.toolbar} />
                     {showRecipes()}
             </Container>
-            {checkLogOutState()}
         </div>
     )
 }
