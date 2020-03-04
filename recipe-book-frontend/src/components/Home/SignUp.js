@@ -8,12 +8,10 @@ const SignUp = (props) => {
     const [confirmPass, setConfirmPass] = useState("")
     const [user, setUser] = useState({
         username: "",
-        email: "",
         password: ""
     })
 
-    const handleSubmit = async (e) => {
-        e.preventDefault() 
+    const handleSubmit = async () => {
         if (user.password === confirmPass){
             const response = await fetch(`${ROOT_URL}/users`, {
                 method: 'POST',
@@ -23,7 +21,6 @@ const SignUp = (props) => {
                 },
                 body: JSON.stringify({
                     username: user.username,
-                    email: user.email,
                     password: user.password
                 })
             })
@@ -55,51 +52,43 @@ const SignUp = (props) => {
             <Typography variant="h5">
                 Sign Up
             </Typography>
-            <Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        margin="normal"
-                        type="text"
-                        label="Username"
-                        variant="filled"
-                        onChange={e => setUser({ ...user, username: e.target.value })}
-                    />
+            <form onSubmit={handleSubmit}>
+                <Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            margin="normal"
+                            type="text"
+                            label="Username"
+                            variant="filled"
+                            onChange={e => setUser({ ...user, username: e.target.value })}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            margin="normal"
+                            type="password"
+                            label="Password"
+                            variant="filled"
+                            onChange={e => setUser({ ...user, password: e.target.value })}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField 
+                            margin="normal"
+                            type="password"
+                            label="Confirm Password"
+                            variant="filled"
+                            onChange={e => setConfirmPass(e.target.value)}
+                        />
+                    </Grid>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                    >   Sign Up
+                    </Button>
                 </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        margin="normal"
-                        type="email"
-                        label="Email"
-                        variant="filled"
-                        onChange={e => setUser({ ...user, email: e.target.value })}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        margin="normal"
-                        type="password"
-                        label="Password"
-                        variant="filled"
-                        onChange={e => setUser({ ...user, password: e.target.value })}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField 
-                        margin="normal"
-                        type="password"
-                        label="Confirm Password"
-                        variant="filled"
-                        onChange={e => setConfirmPass(e.target.value)}
-                    />
-                </Grid>
-                <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    onClick={e => handleSubmit(e)}
-                >   Sign Up
-                </Button>
-            </Grid>
+            </form>
             {checkSignUpSuccess(success)}
         </Box>
     )

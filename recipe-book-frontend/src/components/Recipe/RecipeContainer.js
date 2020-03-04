@@ -1,26 +1,28 @@
 import React, {useState, useEffect } from 'react'
+import clsx from 'clsx'
 import { ROOT_URL } from '../../Constants'
 import {
-    Redirect,
     Link
 } from 'react-router-dom'
 import RecipeCard from './RecipeCard'
 import {
-    Box,
     AppBar,
     Toolbar,
     Typography,
     makeStyles,
-    FormHelperText,
     Container,
     Button,    
-    LinearProgress,
-    Paper,
     Drawer,
     List,
     ListItem,
-    ListItemText
+    ListItemText,
+    IconButton,
+    useTheme,
+    Divider
 } from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu'
+import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import SignOut from '../Home/SignOut'
 
 const drawerWidth = 240;
@@ -30,7 +32,18 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
     },
     appBar: {
-        zIndex: theme.zIndex.drawer + 1
+        zIndex: theme.zIndex.drawer + 1,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen
+        })
+    },
+    appBarShift: {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.easeOut,
+        })
     },
     content: {
         display: 'flex',
@@ -50,11 +63,19 @@ const useStyles = makeStyles(theme => ({
     drawerPaper: {
         width: drawerWidth,
     },
+    drawerHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: theme.spacing(0, 1),
+        ...theme.mixins.toolbar,
+        justifyContent: 'flex-end'
+    },
     toolbar: theme.mixins.toolbar
 }))
 const RecipeContainer = (props) => {
 
     const classes = useStyles()
+    const theme = useTheme()
     const user = props.location.state.user
     const user_id = localStorage.getItem('user_id')
     const [ open, setOpen ] = useState(false)
@@ -70,15 +91,23 @@ const RecipeContainer = (props) => {
         fetchRecipes()
     }, [user])
 
-    const checkOpenOrClose = (open) => {
-        switch(open){
-            case true:
-                setOpen(false)
-            case false:
-                setOpen(true)
-            default:
-                setOpen(false)
-        }
+    // const checkOpenOrClose = (open) => {
+    //     switch(open){
+    //         case true:
+    //             setOpen(false)
+    //         case false:
+    //             setOpen(true)
+    //         default:
+    //             setOpen(false)
+    //     }
+    // }
+
+    const openDrawer = () => {
+        setOpen(true)
+    }
+
+    const closeDrawer = () => {
+        setOpen(false)
     }
 
     const showRecipes = () => {
@@ -94,8 +123,16 @@ const RecipeContainer = (props) => {
     console.log( url )
     return(
         <div>
-            <AppBar className={classes.appBar} position="sticky">
+            <AppBar className={clsx(classes.appBar, {[classes.appBarShift] : open})} position="sticky">
+            {/* <AppBar> */}
                 <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={openDrawer}
+                    >
+                        <MenuIcon />
+                    </IconButton>
                     <Typography variant="h5" className={classes.title}>
                         {user} Recipes
                     </Typography>
@@ -107,11 +144,18 @@ const RecipeContainer = (props) => {
             </AppBar>
             {/* Make Drawer Persistent to allow for unimpeded view of the recipes */}
             <Drawer 
-                variant="permanent"
+                variant="persistent"
+                anchor="left"
+                open={open}
                 className={classes.drawer}
                 classes={{paper: classes.drawerPaper}}
             >
-                <div className={classes.toolbar}/>
+                <div className={classes.drawerHeader}>
+                    <IconButton onClick={closeDrawer}>
+                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    </IconButton>
+                </div>
+                <Divider />
                 <List>
                     <ListItem button>
                         <ListItemText>
