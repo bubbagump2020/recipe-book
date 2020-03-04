@@ -1,9 +1,7 @@
 import React, {useState, useEffect } from 'react'
 import clsx from 'clsx'
 import { ROOT_URL } from '../../Constants'
-import {
-    Link
-} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import RecipeCard from './RecipeCard'
 import {
     AppBar,
@@ -91,17 +89,6 @@ const RecipeContainer = (props) => {
         fetchRecipes()
     }, [user])
 
-    // const checkOpenOrClose = (open) => {
-    //     switch(open){
-    //         case true:
-    //             setOpen(false)
-    //         case false:
-    //             setOpen(true)
-    //         default:
-    //             setOpen(false)
-    //     }
-    // }
-
     const openDrawer = () => {
         setOpen(true)
     }
@@ -120,11 +107,9 @@ const RecipeContainer = (props) => {
         })
     }
     
-    console.log( url )
     return(
         <div>
             <AppBar className={clsx(classes.appBar, {[classes.appBarShift] : open})} position="sticky">
-            {/* <AppBar> */}
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -142,7 +127,6 @@ const RecipeContainer = (props) => {
                     <SignOut />
                 </Toolbar>
             </AppBar>
-            {/* Make Drawer Persistent to allow for unimpeded view of the recipes */}
             <Drawer 
                 variant="persistent"
                 anchor="left"
