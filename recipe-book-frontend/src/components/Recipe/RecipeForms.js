@@ -1,16 +1,32 @@
 import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
 import { Link } from 'react-router-dom'
+import { Box, Container, Typography, AppBar, Toolbar, Button, makeStyles, TextField } from '@material-ui/core'
+import SignOut from '../Home/SignOut'
 
-export const NewRecipeForm = (props) => {
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex'
+    },
+    title: {
+        flexGrow: 1,
+    },
+    form: {
+        display: 'flex',
+        minWidth: 345,
+    }
+}))
 
+const NewRecipeForm = (props) => {
+    const classes = useStyles()
     const user = props.match.params.username
     const [ recipe, setRecipe ] = useState({
         name: '',
-        desc: ''
+        desc: '',
+        instruct: ''
     })
 
-    const handleSubmit = (e) => {
+    const handleSubmit = () => {
         fetch(`${ROOT_URL}/users/${user}/recipes`, {
             method: 'POST',
             credentials: 'include',
@@ -20,52 +36,74 @@ export const NewRecipeForm = (props) => {
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                user_id: document.cookie,
+                user_id: parseInt(localStorage.getItem('user_id')),
                 name: recipe.name,
-                description: recipe.desc
+                description: recipe.desc,
+                instruction: recipe.instruct
             })
         })
     }
 
     return(
-        <div className="new-recipe-form-wrapper">
-            <div className="header">New Recipe Form</div>
-            <div>
-                <form className="new-recipe-form" id="new-recipe" onSubmit={handleSubmit}>
+        <Box>
+            <AppBar position="sticky">
+                <Toolbar>
+                    <Typography variant="h5" className={classes.title}>
+                        {`${user}'s New Recipe`}
+                    </Typography>
+                    <Button color="inherit" href={`/users/${user}`}>
+                        Home
+                    </Button>
+                    <SignOut />
+                </Toolbar>
+            </AppBar>
+            <Container>
+                <form onSubmit={handleSubmit}>
+                    <Typography variant="h6">
+                        New Recipe
+                    </Typography>
                     <div>
-                        <label>Recipe Name</label>
-                        <input
+                        <TextField
+                            margin="normal"
                             type="text"
-                            form="new-recipe"
-                            placeholder="Recipe Name"
-                            onChange={e => setRecipe({...recipe, name: e.target.value })}
+                            label="Name"
+                            variant="outlined"
+                            multiline
+                            rows="1"
+                            onChange={e => setRecipe({ ...recipe, name: e.target.value })}
                         />
                     </div>
                     <div>
-                        <label>Description</label>
-                        <textarea
-                            form="new-recipe"
-                            rows="10" cols="50"
-                            placeholder="A Descriptive Description"
-                            onChange={e => setRecipe({ ...recipe, desc: e.target.value })}    
+                        <TextField 
+                            margin="normal"
+                            label="Description"
+                            variant="outlined"
+                            multiline
+                            rows="4"
+                            onChange={e => setRecipe({ ...recipe, desc: e.target.value })}
                         />
                     </div>
-                    <button type="submit">Create!</button>
+                    <div>
+                        <TextField 
+                            margin="normal"
+                            label="Instructions"
+                            variant="outlined"
+                            multiline
+                            rows="4"
+                            onChange={e => setRecipe({ ...recipe, instruct: e.target.value })}
+                        />
+                    </div>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        
+                    >   Create Recipe
+                    </Button>
                 </form>
-            </div>
-            <Link to={`/users/${user}`}>Home</Link>
-        </div>
+            </Container>
+        </Box>
     )
 }
 
-export const UpdateRecipeForm = (props) => {
-
-    const user = props.match.params.username
-
-    return(
-        <div>
-            <h1>UpdateRecipeForm Component</h1>
-            <Link to={`/users/${user}`}>Home</Link>
-        </div>
-    )
-}
+export default NewRecipeForm

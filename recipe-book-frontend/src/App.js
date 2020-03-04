@@ -8,7 +8,7 @@ import {
 import Homepage from './components/Home/Homepage'
 import UserHomepage from './components/User/UserHomepage'
 import RecipeContainer from './components/Recipe/RecipeContainer'
-import { NewRecipeForm } from './components/Recipe/RecipeForms';
+import NewRecipeForm from './components/Recipe/RecipeForms';
 import ShowRecipe from './components/Recipe/ShowRecipe';
 import SignUp from './components/Home/SignUp';
 import SignIn from './components/Home/SignIn';

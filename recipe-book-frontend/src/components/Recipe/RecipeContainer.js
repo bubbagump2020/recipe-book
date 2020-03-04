@@ -1,117 +1,160 @@
 import React, {useState, useEffect } from 'react'
+import clsx from 'clsx'
 import { ROOT_URL } from '../../Constants'
-import { Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import RecipeCard from './RecipeCard'
 import {
-    Box,
     AppBar,
     Toolbar,
     Typography,
     makeStyles,
-    FormHelperText,
-    Button    
+    Container,
+    Button,    
+    Drawer,
+    List,
+    ListItem,
+    ListItemText,
+    IconButton,
+    useTheme,
+    Divider
 } from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu'
+import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import SignOut from '../Home/SignOut'
+
+const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
     root: {
-        display: FormHelperText,
+        display: 'flex',
     },
     appBar: {
-        zIndex: theme.zIndex.drawer + 1
+        zIndex: theme.zIndex.drawer + 1,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen
+        })
+    },
+    appBarShift: {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.easeOut,
+        })
     },
     content: {
+        display: 'flex',
+        flexDirection: 'inherit',
+        alignContent: 'center',
+        flexWrap: 'wrap',
         flexGrow: 1,
         padding: theme.spacing(3)
     },
     title: {
         flexGrow: 1,
-    }
+    },
+    drawer:{
+        width: drawerWidth,
+        flexShrink: 0,
+    },
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    drawerHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: theme.spacing(0, 1),
+        ...theme.mixins.toolbar,
+        justifyContent: 'flex-end'
+    },
+    toolbar: theme.mixins.toolbar
 }))
-
 const RecipeContainer = (props) => {
 
     const classes = useStyles()
+    const theme = useTheme()
     const user = props.location.state.user
     const user_id = localStorage.getItem('user_id')
-    const [ navigate, setNavigate ] = useState(false)
+    const [ open, setOpen ] = useState(false)
     const url = props.match.url
-    const [recipes, setRecipes] = useState([])
+    const [allRecipes, setAllRecipes] = useState([])
 
     useEffect(() => {
         const fetchRecipes = async () => {
             const response = await fetch(`${ROOT_URL}/users/${user}/recipes`)
             const data = await response.json()
-            setRecipes(data)
+            setAllRecipes(data)
         }
         fetchRecipes()
     }, [user])
 
-    const logoutClick = () => {
-        sessionStorage.clear('userToken')
-        setNavigate(true)
+    const openDrawer = () => {
+        setOpen(true)
     }
 
-    const checkLogOutState = () => {
-        if (navigate) {
-            return <Redirect to="/" push={true} />
-        }
+    const closeDrawer = () => {
+        setOpen(false)
     }
 
-    const showRecipes = (recipes) => {
-        let userRecipes = []
-        recipes.map(recipe => {
-            if(recipe.user_id === user_id){
-                userRecipes.push(recipe)
-            }
+    const showRecipes = () => {
+        return allRecipes.filter(recipe => recipe.user_id === parseInt(user_id)).map(recipe => {
+            return(
+                <div key={recipe.id}>
+                    <RecipeCard attributes={recipe} id={recipe.id}/>
+                </div>
+            )
         })
-        if(userRecipes.length === 0){
-            console.log("Loading")
-            // return(
-            //     <div>
-            //         <h3>You have No Recipes!</h3>
-            //         <div>
-            //             <Link to={`${url}/new`}>Click Here To Create A Recipe</Link>
-            //             <Link to={`/users/${user}`}>Home</Link>
-            //         </div>
-            //     </div>
-            // )
-        } else {
-            console.log("Recipes?")
-            // return(
-            //     <div className="recipe-deck">
-            //         { recipes.map(recipe => {
-            //             if(recipe.user_id === user_id){
-            //                 return(
-            //                     <div key={recipe.id} className="recipe-card-wrapper">
-            //                         <Link to={{pathname: `/recipes/${recipe.name}`, state: { attributes: recipe, user: user }}}>
-            //                             <RecipeCard attributes={recipe} id={recipe.id} />
-            //                         </Link>
-            //                     </div>
-            //                  )
-            //                 }   
-            //         })}
-            //     </div>
-            // )
-        }
     }
+    
     return(
-        <Box>
-            <AppBar>
+        <div>
+            <AppBar className={clsx(classes.appBar, {[classes.appBarShift] : open})} position="sticky">
                 <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={openDrawer}
+                    >
+                        <MenuIcon />
+                    </IconButton>
                     <Typography variant="h5" className={classes.title}>
                         {user} Recipes
                     </Typography>
                     <Button color="inherit" href={`/users/${user}`}>
                         Home
                     </Button>
-                    <Button color="inherit" onClick={logoutClick}>
-                        Sign Out
-                    </Button>
+                    <SignOut />
                 </Toolbar>
             </AppBar>
-            {showRecipes(recipes)}
-            {checkLogOutState()}
-        </Box>
+            <Drawer 
+                variant="persistent"
+                anchor="left"
+                open={open}
+                className={classes.drawer}
+                classes={{paper: classes.drawerPaper}}
+            >
+                <div className={classes.drawerHeader}>
+                    <IconButton onClick={closeDrawer}>
+                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>
+                    <ListItem button>
+                        <ListItemText>
+                            <Link to={{pathname: `${url}/new`}}>
+                                Create Recipe
+                            </Link>
+                        </ListItemText>
+                    </ListItem>
+                </List>
+            </Drawer>
+            <Container maxWidth="xl" className={classes.content}>
+                <div className={classes.toolbar} />
+                    {showRecipes()}
+            </Container>
+        </div>
     )
 }
 
