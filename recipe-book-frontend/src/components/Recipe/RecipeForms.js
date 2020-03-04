@@ -1,9 +1,23 @@
 import React, { useState } from 'react'
 import { ROOT_URL } from '../../Constants'
 import { Link } from 'react-router-dom'
+import { Box, Container, Typography, AppBar, Toolbar, Button, makeStyles, TextField } from '@material-ui/core'
 
-export const NewRecipeForm = (props) => {
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex'
+    },
+    title: {
+        flexGrow: 1,
+    },
+    form: {
+        display: 'flex',
+        minWidth: 345,
+    }
+}))
 
+const NewRecipeForm = (props) => {
+    const classes = useStyles()
     const user = props.match.params.username
     const [ recipe, setRecipe ] = useState({
         name: '',
@@ -27,45 +41,54 @@ export const NewRecipeForm = (props) => {
         })
     }
 
+    console.log(props)
+
     return(
-        <div className="new-recipe-form-wrapper">
-            <div className="header">New Recipe Form</div>
-            <div>
-                <form className="new-recipe-form" id="new-recipe" onSubmit={handleSubmit}>
+        <Box>
+            <AppBar position="sticky">
+                <Toolbar>
+                    <Typography variant="h5" className={classes.title}>
+                        {`${user}'s New Recipe`}
+                    </Typography>
+                    <Button color="inherit" href={`/users/${user}`}>
+                        Home
+                    </Button>
+                    <Button color="inherit">
+                        Sign Out
+                    </Button>
+                </Toolbar>
+            </AppBar>
+            <Container>
+                <form >
+                    <Typography variant="h6">
+                        New Recipe
+                    </Typography>
                     <div>
-                        <label>Recipe Name</label>
-                        <input
+                        <TextField
+                            margin="normal"
                             type="text"
-                            form="new-recipe"
-                            placeholder="Recipe Name"
-                            onChange={e => setRecipe({...recipe, name: e.target.value })}
+                            label="Recipe Name"
+                            variant="outlined"
+                            multiline
+                            rows="1"
                         />
                     </div>
                     <div>
-                        <label>Description</label>
-                        <textarea
-                            form="new-recipe"
-                            rows="10" cols="50"
-                            placeholder="A Descriptive Description"
-                            onChange={e => setRecipe({ ...recipe, desc: e.target.value })}    
+                        <TextField 
+                            margin="normal"
+                            label="Recipe Description"
+                            variant="outlined"
+                            multiline
+                            rows="4"
                         />
                     </div>
-                    <button type="submit">Create!</button>
+                    <div>
+                        {/* Recipe Instructions Component */}
+                    </div>
                 </form>
-            </div>
-            <Link to={`/users/${user}`}>Home</Link>
-        </div>
+            </Container>
+        </Box>
     )
 }
 
-export const UpdateRecipeForm = (props) => {
-
-    const user = props.match.params.username
-
-    return(
-        <div>
-            <h1>UpdateRecipeForm Component</h1>
-            <Link to={`/users/${user}`}>Home</Link>
-        </div>
-    )
-}
+export default NewRecipeForm

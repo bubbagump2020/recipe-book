@@ -16,7 +16,10 @@ import {
     Button,    
     LinearProgress,
     Paper,
-    Drawer
+    Drawer,
+    List,
+    ListItem,
+    ListItemText
 } from '@material-ui/core'
 
 const drawerWidth = 240;
@@ -87,6 +90,7 @@ const RecipeContainer = (props) => {
         })
     }
     
+    console.log( url )
     return(
         <div>
             <AppBar className={classes.appBar} position="sticky">
@@ -109,6 +113,15 @@ const RecipeContainer = (props) => {
                 classes={{paper: classes.drawerPaper}}
             >
                 <div className={classes.toolbar}/>
+                <List>
+                    <ListItem button>
+                        <ListItemText>
+                            <Link to={{pathname: `${url}/new`}}>
+                                Create Recipe
+                            </Link>
+                        </ListItemText>
+                    </ListItem>
+                </List>
             </Drawer>
             <Container maxWidth="lg" className={classes.content}>
                 <div className={classes.toolbar} />
