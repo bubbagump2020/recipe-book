@@ -17,8 +17,7 @@ const RecipeCard = (props) => {
     const classes = useStyles()
 
     const recipe = props.attributes
-    console.log(props.attributes)
-
+    console.log(recipe)
     return(
         <Card className={classes.root} variant="outlined">
             <CardHeader title={recipe.name} subheader={`Created on ${recipe.created_at}`}/>
@@ -27,6 +26,12 @@ const RecipeCard = (props) => {
                 <Typography>
                     {recipe.description}
                 </Typography>
+            </CardContent>
+            <CardContent>
+
+            </CardContent>
+            <CardContent>
+                {recipe.instruction}
             </CardContent>
             {/*CardContent: Ingredients*/}
             {/*CardContent: Add in another column for instructions in the ruby backend. This part is going to be collapsible*/}

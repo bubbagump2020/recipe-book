@@ -36,6 +36,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'inherit',
         alignContent: 'center',
+        flexWrap: 'wrap',
         flexGrow: 1,
         padding: theme.spacing(3)
     },
@@ -121,7 +122,7 @@ const RecipeContainer = (props) => {
                     </ListItem>
                 </List>
             </Drawer>
-            <Container maxWidth="lg" className={classes.content}>
+            <Container maxWidth="xl" className={classes.content}>
                 <div className={classes.toolbar} />
                     {showRecipes()}
             </Container>

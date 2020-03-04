@@ -22,10 +22,11 @@ const NewRecipeForm = (props) => {
     const user = props.match.params.username
     const [ recipe, setRecipe ] = useState({
         name: '',
-        desc: ''
+        desc: '',
+        instruct: ''
     })
 
-    const handleSubmit = (e) => {
+    const handleSubmit = () => {
         fetch(`${ROOT_URL}/users/${user}/recipes`, {
             method: 'POST',
             credentials: 'include',
@@ -35,14 +36,13 @@ const NewRecipeForm = (props) => {
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                user_id: document.cookie,
+                user_id: parseInt(localStorage.getItem('user_id')),
                 name: recipe.name,
-                description: recipe.desc
+                description: recipe.desc,
+                instruction: recipe.instruct
             })
         })
     }
-
-    console.log(props)
 
     return(
         <Box>
@@ -58,7 +58,7 @@ const NewRecipeForm = (props) => {
                 </Toolbar>
             </AppBar>
             <Container>
-                <form >
+                <form onSubmit={handleSubmit}>
                     <Typography variant="h6">
                         New Recipe
                     </Typography>
@@ -66,24 +66,40 @@ const NewRecipeForm = (props) => {
                         <TextField
                             margin="normal"
                             type="text"
-                            label="Recipe Name"
+                            label="Name"
                             variant="outlined"
                             multiline
                             rows="1"
+                            onChange={e => setRecipe({ ...recipe, name: e.target.value })}
                         />
                     </div>
                     <div>
                         <TextField 
                             margin="normal"
-                            label="Recipe Description"
+                            label="Description"
                             variant="outlined"
                             multiline
                             rows="4"
+                            onChange={e => setRecipe({ ...recipe, desc: e.target.value })}
                         />
                     </div>
                     <div>
-                        {/* Recipe Instructions Component */}
+                        <TextField 
+                            margin="normal"
+                            label="Instructions"
+                            variant="outlined"
+                            multiline
+                            rows="4"
+                            onChange={e => setRecipe({ ...recipe, instruct: e.target.value })}
+                        />
                     </div>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        
+                    >   Create Recipe
+                    </Button>
                 </form>
             </Container>
         </Box>
