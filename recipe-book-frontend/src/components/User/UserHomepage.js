@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
-    Link, Redirect
+    Link
 } from 'react-router-dom'
 import {
     AppBar,
@@ -41,11 +41,8 @@ const useStyles = makeStyles(theme => ({
     toolbar: theme.mixins.toolbar
 }))
 
-
-
 const UserHomepage = (props) => {
     const classes = useStyles()
-    const [ navigate, setNavigate ] = useState(false)
     const user = props.match.params.username
     const userUrl = props.match.url
 

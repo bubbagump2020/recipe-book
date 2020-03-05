@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import clsx from 'clsx'
 import {
     Card,
     CardContent,
@@ -7,9 +6,6 @@ import {
     makeStyles,
     CardHeader,
     CardMedia,
-    CardActions,
-    Collapse,
-    IconButton,
     ExpansionPanel,
     ExpansionPanelSummary,
     ExpansionPanelDetails
@@ -103,6 +99,7 @@ const RecipeCard = (props) => {
         <Card className={classes.root} variant="outlined">
             <CardHeader title={recipe.name} subheader={`Created on ${showDates(recipe.created_at, recipe.updated_at)}`}/>
             {/* <CardMedia /> */}
+            {/* Card media is going to hold category picture of the recipe. Add category column to the Recipe table */}
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
                     {recipe.description}
