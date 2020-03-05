@@ -9,8 +9,6 @@ import Homepage from './components/Home/Homepage'
 import UserHomepage from './components/User/UserHomepage'
 import RecipeContainer from './components/Recipe/RecipeContainer'
 import NewRecipeForm from './components/Recipe/RecipeForms';
-import ShowRecipe from './components/Recipe/ShowRecipe';
-import SignUp from './components/Home/SignUp';
 import SignIn from './components/Home/SignIn';
 
 function App() {
@@ -21,7 +19,6 @@ function App() {
         <Route exact path="/users/:username" render={(props) => (<UserHomepage {...props} />)}/>
         <Route exact path="/users/:username/recipes" component={RecipeContainer} />
         <Route exact path="/users/:username/recipes/new" component={NewRecipeForm} />
-        <Route exact path="/recipes/:name" component={ShowRecipe} />
     </Router>
   );
 }

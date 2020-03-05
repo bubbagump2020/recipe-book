@@ -1,16 +1,15 @@
 import React from 'react'
 import IngredientCard from './IngredientCard'
-import { LinearProgress, CircularProgress } from '@material-ui/core'
+import { CircularProgress } from '@material-ui/core'
 
 const IngredientContainer = (props) => {
 
     while(props.ing.length === 0){
         return <CircularProgress />
     }
-
     const listIngredients = () => {
         const ingredients = props.ing
-        return ingredients.map(ingredient => {
+        return ingredients.filter(ingredient => ingredient.recipe_id === parseInt(props.recipeId)).map(ingredient => {
             return(
                 <div key={ingredient.id}>
                     <IngredientCard ing={ingredient} />

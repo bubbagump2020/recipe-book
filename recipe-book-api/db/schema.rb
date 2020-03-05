@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2020_03_04_211146) do
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "instruction"
+    t.text "instruction"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 

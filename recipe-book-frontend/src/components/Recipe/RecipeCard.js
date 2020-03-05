@@ -25,6 +25,13 @@ const useStyles = makeStyles(theme => ({
         minHeight: 345,
         margin: 5
     },
+    expansionPanelRoot: {
+        width: '100%'
+    },
+    expansionPanelHeading: {
+        fontSize: theme.typography.pxToRem(15),
+        fontWeight: theme.typography.fontWeightRegular
+    },
     media: {
         height: 0,
         paddingTop: '56.25%',
@@ -91,6 +98,7 @@ const RecipeCard = (props) => {
         }
     }
 
+
     return(
         <Card className={classes.root} variant="outlined">
             <CardHeader title={recipe.name} subheader={`Created on ${showDates(recipe.created_at, recipe.updated_at)}`}/>
@@ -100,42 +108,63 @@ const RecipeCard = (props) => {
                     {recipe.description}
                 </Typography>
             </CardContent>
-            <ExpansionPanel>
-                <ExpansionPanelSummary>
-                    <Typography>
-                        See More
-                    </Typography>
-                </ExpansionPanelSummary>
+            <div className={classes.expansionPanelRoot}>
                 <ExpansionPanel>
-                    <ExpansionPanelSummary>
-                        <Typography>
-                            Ingredients
+                    <ExpansionPanelSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography >
+                            See More
                         </Typography>
                     </ExpansionPanelSummary>
+                    <ExpansionPanel onClick={handleExpandClick}>
+                        <ExpansionPanelSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1b-content"
+                            id="panel1b-header"
+                        >
+                            <Typography className={classes.expansionPanelHeading}>
+                                Ingredients
+                            </Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <IngredientContainer ing={ingredients} recipeId={recipe.id}/>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel>
+                        <ExpansionPanelSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1c-content"
+                            id="panel1c-header"
+                        >
+                            <Typography>
+                                New Ingredient
+                            </Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <NewIngredientForm recipeId={recipe.id} recipeName={recipe.name} />
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel>
+                        <ExpansionPanelSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1d-content"
+                            id="panel1d-header"
+                        >
+                            <Typography>
+                                Instructions
+                            </Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <Typography>
+                                {recipe.instruction}
+                            </Typography>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
                 </ExpansionPanel>
-                <ExpansionPanel>
-                    <ExpansionPanelSummary>
-                        <Typography>
-                            New Ingredient
-                        </Typography>
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                        <NewIngredientForm recipeId={recipe.id} recipeName={recipe.name} />
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
-                <ExpansionPanel>
-                    <ExpansionPanelSummary>
-                        <Typography>
-                            Instructions
-                        </Typography>
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                        <Typography>
-                            {recipe.instructions}
-                        </Typography>
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
-            </ExpansionPanel>
+            </div>
         </Card>
     )
 }

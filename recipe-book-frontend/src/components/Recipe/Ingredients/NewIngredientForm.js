@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { ROOT_URL } from '../../../Constants'
-import { Box, TextField, Typography, Button } from '@material-ui/core'
+import { Box, TextField, Button } from '@material-ui/core'
 
 const NewIngredientForm = (props) => {
 
