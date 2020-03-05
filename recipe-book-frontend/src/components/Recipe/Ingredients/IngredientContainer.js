@@ -13,7 +13,7 @@ const IngredientContainer = (props) => {
         return ingredients.map(ingredient => {
             return(
                 <div key={ingredient.id}>
-                    <IngredientCard attributes={ingredient} />
+                    <IngredientCard ing={ingredient} />
                 </div>
             )
         })

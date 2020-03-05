@@ -9,7 +9,10 @@ import {
     CardMedia,
     CardActions,
     Collapse,
-    IconButton
+    IconButton,
+    ExpansionPanel,
+    ExpansionPanelSummary,
+    ExpansionPanelDetails
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import NewIngredientForm from './Ingredients/NewIngredientForm'
@@ -42,17 +45,26 @@ const RecipeCard = (props) => {
     const classes = useStyles()
     const recipe = props.attributes
     const [expanded, setExpanded] = useState(false)
+    const [secExpanded, setSecExpanded ] = useState(false)
     const [ingredients, setIngredients] = useState([])
 
     const handleExpandClick = () => {
         setExpanded(!expanded)
-        // make someway to delete ingredients when the expansion is closed
         const ingFetch = async () => {
             const ingResponse = await fetch(`${ROOT_URL}/recipes/${recipe.name}/ingredients`)
             const ingData = await ingResponse.json()
             setIngredients(ingData)
         }
-        ingFetch()
+        if (expanded === false ){
+            setIngredients([])
+        }
+        if (!expanded){
+            ingFetch()
+        }
+    }
+
+    const handleSecExpandClick = () => {
+        setSecExpanded(!secExpanded)
     }
 
     const returnDate = (recipeDate) => {
@@ -88,23 +100,42 @@ const RecipeCard = (props) => {
                     {recipe.description}
                 </Typography>
             </CardContent>
-            <CardActions disableSpacing>
-                <IconButton
-                    className={clsx(classes.expand, {
-                        [classes.expandOpen]: expanded,
-                    })}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                >
-                    <ExpandMoreIcon />
-                </IconButton>
-            </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <div>
-                    <IngredientContainer ing={ingredients} />
-                </div>
-            </Collapse>
+            <ExpansionPanel>
+                <ExpansionPanelSummary>
+                    <Typography>
+                        See More
+                    </Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary>
+                        <Typography>
+                            Ingredients
+                        </Typography>
+                    </ExpansionPanelSummary>
+                </ExpansionPanel>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary>
+                        <Typography>
+                            New Ingredient
+                        </Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <NewIngredientForm recipeId={recipe.id} recipeName={recipe.name} />
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary>
+                        <Typography>
+                            Instructions
+                        </Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <Typography>
+                            {recipe.instructions}
+                        </Typography>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+            </ExpansionPanel>
         </Card>
     )
 }

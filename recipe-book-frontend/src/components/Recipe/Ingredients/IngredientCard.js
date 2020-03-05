@@ -1,11 +1,23 @@
 import React from 'react'
+import {
+    Card,
+    makeStyles,
+    CardHeader,
+} from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        margin: 2
+    }
+}))
 
 const IngredientCard = (props) => {
+    const classes = useStyles()
+    const ingredient = props.ing
     return(
-        <div>
-            <h4>{props.attributes.name}</h4>
-            <h5>{props.attributes.measurement}</h5>
-        </div>
+        <Card className={classes.root} variant="outlined">
+            <CardHeader title={ingredient.name} />
+        </Card>
     )
 }
 

@@ -31,9 +31,6 @@ const NewIngredientForm = (props) => {
     return(
         <Box>
             <form onSubmit={e => handleSubmit(e)}>
-                <Typography variant="h6">
-                    New Ingredient
-                </Typography>
                 <div>
                     <TextField
                         type="text"
