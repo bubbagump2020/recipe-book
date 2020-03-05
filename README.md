@@ -9,7 +9,7 @@ AppBar Component - not started
 Redo Ingredient Form - not started
 Update, Delete actions for User, Recipe, and Ingredients - not started
 React Validation, Error Catching, Exceptions
-Ruby Validation, Error Catching, Exceptions,
+Ruby Validation, Error Catching, Exceptions
 ~~Sign In Component~~
 ~~Sign Up Component~~
 ~~User Home Page~~

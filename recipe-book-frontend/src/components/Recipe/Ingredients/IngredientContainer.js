@@ -1,24 +1,22 @@
 import React from 'react'
 import IngredientCard from './IngredientCard'
+import { LinearProgress, CircularProgress } from '@material-ui/core'
 
 const IngredientContainer = (props) => {
 
+    while(props.ing.length === 0){
+        return <CircularProgress />
+    }
+
     const listIngredients = () => {
-        if(props.ingredients.length === 0){
+        const ingredients = props.ing
+        return ingredients.map(ingredient => {
             return(
-                <div>
-                    <h4>This Recipe has no ingredients</h4>
+                <div key={ingredient.id}>
+                    <IngredientCard attributes={ingredient} />
                 </div>
             )
-        } else {
-            return props.ingredients.map(ingredient => {
-                return(
-                    <div key={ingredient.id}>
-                        <IngredientCard attributes={ingredient}/>
-                    </div>
-                )
-            })
-        }
+        })
     }
 
     return(

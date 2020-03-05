@@ -6,26 +6,25 @@ import { Link } from 'react-router-dom'
 
 const ShowRecipe = (props) => {
 
-    const recipeName = props.match.params.name
-    const user = props.location.state.user
+    // const recipeName = props.match.params.name
+    // const user = props.location.state.user
 
-    const [ingredients, setIngredients] = useState([])
+    // const [ingredients, setIngredients] = useState([])
 
-    useEffect(() => {
-        fetch(`${ROOT_URL}/recipes/${user}/ingredients`)
-            .then(response => response.json())
-            .then(result => setIngredients(result))
-    }, [])
+    // useEffect(() => {
+    //     fetch(`${ROOT_URL}/recipes/${user}/ingredients`)
+    //         .then(response => response.json())
+    //         .then(result => setIngredients(result))
+    // }, [])
 
 
-    const deleteRecipe = (e) => {
-        e.preventDefault()
-    }
-
+    // const deleteRecipe = (e) => {
+    //     e.preventDefault()
+    // }
 
     return(
         <div>
-            <h1>{recipeName}</h1>
+            {/* <h1>{recipeName}</h1>
             <div>
                 <h2>Ingredients</h2>
                 <IngredientContainer ingredients={ingredients}/>
@@ -36,7 +35,7 @@ const ShowRecipe = (props) => {
             </div>
             <Link to={`/users/${user}`}>Home</Link>
             <br></br>
-            <Link to={{pathname: `/users/${user}/recipes`, state: { user: user }}}>Back to Recipes</Link>
+            <Link to={{pathname: `/users/${user}/recipes`, state: { user: user }}}>Back to Recipes</Link> */}
         </div>
     )
 }
