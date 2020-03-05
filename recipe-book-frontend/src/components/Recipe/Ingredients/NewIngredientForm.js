@@ -1,16 +1,19 @@
 import React, {useState} from 'react'
 import { ROOT_URL } from '../../../Constants'
+import { Box, TextField, Button } from '@material-ui/core'
 
 const NewIngredientForm = (props) => {
 
+    const ingredientRecipeId = props.recipeId
+    const ingredientRecipeName = props.recipeName
     const [ingredient, setIngredient] = useState({
-        name: '',
-        measurement: ''
+        name: null,
+        measurement: null
     })
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        fetch(`${ROOT_URL}/recipes/${props.recipe.name}/ingredients`, {
+        fetch(`${ROOT_URL}/recipes/${ingredientRecipeName}/ingredients`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -18,7 +21,7 @@ const NewIngredientForm = (props) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                recipe_id: props.recipe.id,
+                recipe_id: ingredientRecipeId,
                 name: ingredient.name,
                 measurement: ingredient.measurement
             })
@@ -26,19 +29,34 @@ const NewIngredientForm = (props) => {
     }
 
     return(
-        <div>
+        <Box>
             <form onSubmit={e => handleSubmit(e)}>
                 <div>
-                    <label>Name</label>
-                    <input type="text" onChange={e => setIngredient({ ...ingredient, name: e.target.value })}/>
+                    <TextField
+                        type="text"
+                        margin="normal"
+                        label="Ingredient Name"
+                        variant="outlined"
+                        onChange={e => setIngredient({ ...ingredient, name: e.target.value })}
+                    />
                 </div>
                 <div>
-                    <label>How Much?</label>
-                    <input type="text" onChange={e => setIngredient({ ...ingredient, measurement: e.target.value})}/>
+                    <TextField
+                        type="text"
+                        margin="normal"
+                        label="measurement"
+                        variant="outlined"
+                        onChange={e => setIngredient({ ...ingredient, measurement: e.target.value })}
+                    />
                 </div>
-                <button type="submit">Add</button>
+                <Button
+                    type="submit"
+                    variant="contained"    
+                    color="primary"
+                >   Add Ingredient
+                </Button>
             </form>
-        </div>
+        </Box>
     )
 }
 

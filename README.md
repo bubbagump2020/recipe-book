@@ -15,7 +15,7 @@ Update, Delete actions for User, Recipe, and Ingredients - not started
 
 React Validation, Error Catching, Exceptions
 
-Ruby Validation, Error Catching, Exceptions,
+Ruby Validation, Error Catching, Exceptions
 
 ~~Sign In Component~~
 
