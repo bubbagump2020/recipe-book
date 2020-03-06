@@ -4,6 +4,7 @@ import {
     CardContent,
     Typography,
     makeStyles,
+    IconButton,
     CardHeader,
     CardMedia,
     ExpansionPanel,
@@ -11,6 +12,7 @@ import {
     ExpansionPanelDetails
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined'
 import NewIngredientForm from './Ingredients/NewIngredientForm'
 import IngredientContainer from './Ingredients/IngredientContainer'
 import { ROOT_URL } from '../../Constants'
@@ -23,6 +25,8 @@ import Cookie from '../assets/cookies.jpeg'
 
 const useStyles = makeStyles(theme => ({
     root: {
+        display: 'flex',
+        flexDirection: 'column',
         minWidth: 345,
         minHeight: 345,
         margin: 5
@@ -47,6 +51,9 @@ const useStyles = makeStyles(theme => ({
     },
     expandOpen: {
         transform: 'rotate(180)'
+    },
+    deleteCard: {
+        marginLeft: "auto"
     }
 }))
 
@@ -69,6 +76,18 @@ const RecipeCard = (props) => {
         if (!expanded){
             ingFetch()
         }
+    }
+
+    const handleDeleteClick = () => {
+        const asyncDeleteFetch = async () => {
+            const deleteResponse = await fetch(`${ROOT_URL}/recipes/${recipe.name}`,{
+                method: "delete",
+                credentials: "include"
+            })
+            const deleteData = await deleteResponse.json()
+            console.log(deleteData)
+        }
+        asyncDeleteFetch()
     }
 
     const returnDate = (recipeDate) => {
@@ -157,9 +176,16 @@ const RecipeCard = (props) => {
         }
     }
 
+    console.log(props.user)
 
     return(
         <Card className={classes.root} variant="outlined">
+            <IconButton
+                className={classes.deleteCard}
+                onClick={handleDeleteClick}
+            >
+                <CloseOutlinedIcon  className={classes.deleteCard} />
+            </IconButton>
             <CardHeader title={recipe.name} subheader={`Created on ${showDates(recipe.created_at, recipe.updated_at)}`}/>
             {showCardMedia(recipe.category)}
             <CardContent>
