@@ -22,5 +22,6 @@ Ruby Validation, Error Catching, Exceptions
 ~~Sign Up Component~~
 
 ~~User Home Page~~
-
 ~~Sign Out Button Component~~
+
+All photos taken from unsplash.com

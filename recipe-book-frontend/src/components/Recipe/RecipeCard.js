@@ -14,6 +14,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import NewIngredientForm from './Ingredients/NewIngredientForm'
 import IngredientContainer from './Ingredients/IngredientContainer'
 import { ROOT_URL } from '../../Constants'
+import Beef from '../assets/new_beef.jpeg'
+import Poultry from '../assets/chiken.jpeg'
+import Pork from '../assets/new_pork.jpeg'
+import Cake from '../assets/cake_is_not_a_lie.jpeg'
+import Pastry from '../assets/tart.jpeg'
+import Cookie from '../assets/cookies.jpeg'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -48,7 +54,6 @@ const RecipeCard = (props) => {
     const classes = useStyles()
     const recipe = props.attributes
     const [expanded, setExpanded] = useState(false)
-    const [secExpanded, setSecExpanded ] = useState(false)
     const [ingredients, setIngredients] = useState([])
 
     const handleExpandClick = () => {
@@ -64,10 +69,6 @@ const RecipeCard = (props) => {
         if (!expanded){
             ingFetch()
         }
-    }
-
-    const handleSecExpandClick = () => {
-        setSecExpanded(!secExpanded)
     }
 
     const returnDate = (recipeDate) => {
@@ -94,12 +95,73 @@ const RecipeCard = (props) => {
         }
     }
 
+    const showCardMedia = (imageCategory) => {
+        switch(imageCategory){
+            case 'beef':
+                return(
+                    <CardMedia
+                        className={classes.media}
+                        image={Beef}
+                        title={recipe.name}
+                    />
+                )
+            case 'poultry':
+                return(
+                    <CardMedia
+                        className={classes.media}
+                        image={Poultry}
+                        title={recipe.name}
+                    />
+                )
+            case 'pork':
+                return(
+                    <CardMedia
+                        className={classes.media}
+                        image={Pork}
+                        title={recipe.name}
+                    />
+                )
+            case 'cake':
+                return(
+                    <CardMedia
+                        className={classes.media}
+                        image={Cake}
+                        title={recipe.name}
+                    />
+                )
+            case 'pastry':
+                return(
+                    <CardMedia
+                        className={classes.media}
+                        image={Pastry}
+                        title={recipe.name}
+                    />
+                )
+            case 'cookie':
+                return(
+                    <CardMedia
+                        className={classes.media}
+                        image={Cookie}
+                        title={recipe.name}
+                    />
+                )
+            default: {
+                return(
+                    <CardMedia
+                        className={classes.media}
+                        image={Beef}
+                        title={recipe.name}
+                    />
+                )
+            }
+        }
+    }
+
 
     return(
         <Card className={classes.root} variant="outlined">
             <CardHeader title={recipe.name} subheader={`Created on ${showDates(recipe.created_at, recipe.updated_at)}`}/>
-            {/* <CardMedia /> */}
-            {/* Card media is going to hold category picture of the recipe. Add category column to the Recipe table */}
+            {showCardMedia(recipe.category)}
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
                     {recipe.description}
