@@ -27,8 +27,14 @@ class RecipesController < ApplicationController
 
     end
 
-    def delete
-
+    def destroy
+        recipe = Recipe.find_by(params[:id])
+        if (!recipe)
+            render json: "Unable to find recipe"
+        else
+            recipe.destroy
+            render json: { message: "Recipe Deleted" }
+        end
     end
 
     private

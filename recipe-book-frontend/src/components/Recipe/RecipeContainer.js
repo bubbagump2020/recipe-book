@@ -101,12 +101,14 @@ const RecipeContainer = (props) => {
         return allRecipes.filter(recipe => recipe.user_id === parseInt(user_id)).map(recipe => {
             return(
                 <div key={recipe.id}>
-                    <RecipeCard attributes={recipe} id={recipe.id}/>
+                    <RecipeCard attributes={recipe} id={recipe.id} user={user}/>
                 </div>
             )
         })
     }
     
+    console.log(props)
+
     return(
         <div>
             <AppBar className={clsx(classes.appBar, {[classes.appBarShift] : open})} position="sticky">
