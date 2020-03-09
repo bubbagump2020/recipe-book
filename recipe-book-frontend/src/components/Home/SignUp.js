@@ -1,18 +1,17 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { username, password, confirmPassword, authenticatedUser } from '../../redux/actions/auth_actions'
 import { ROOT_URL } from '../../Constants'
 import { Box, Grid, Button, TextField, Typography } from '@material-ui/core'
 
 const SignUp = (props) => {
 
-    const [success, setSuccess] = useState()
-    const [confirmPass, setConfirmPass] = useState("")
-    const [user, setUser] = useState({
-        username: "",
-        password: ""
-    })
+    const dispatch = useDispatch()
+    const { authUser } = useSelector(state => ({ authUser: state.authentication.user }))
 
-    const handleSubmit = async () => {
-        if (user.password === confirmPass){
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        if (authUser.password === authUser.confirm_password){
             const response = await fetch(`${ROOT_URL}/users`, {
                 method: 'POST',
                 headers: {
@@ -20,12 +19,15 @@ const SignUp = (props) => {
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    username: user.username,
-                    password: user.password
+                    username: authUser.username,
+                    password: authUser.password
                 })
             })
             const data = await response.json()
-            setSuccess(data.success)
+            dispatch(authenticatedUser(data.success))
+            if (data.success){
+                props.props.history.push(`/users/${authUser.username}`)
+            }
         } else {
             return(
                 <div>
@@ -33,18 +35,7 @@ const SignUp = (props) => {
                 </div>
             )
         }
-    }
-
-    const checkSignUpSuccess = (success) => {
-        if (success === true){
-            props.props.history.push(`/users/${user.username}`)
-        } else if( success === false ) {
-            return(
-                <div>
-                    <h1>User Not Created</h1>
-                </div>
-            )
-        }
+        
     }
 
     return(
@@ -60,7 +51,7 @@ const SignUp = (props) => {
                             type="text"
                             label="Username"
                             variant="filled"
-                            onChange={e => setUser({ ...user, username: e.target.value })}
+                            onChange={e => dispatch(username(e.target.value))}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -69,7 +60,7 @@ const SignUp = (props) => {
                             type="password"
                             label="Password"
                             variant="filled"
-                            onChange={e => setUser({ ...user, password: e.target.value })}
+                            onChange={e => dispatch(password(e.target.value))}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -78,7 +69,7 @@ const SignUp = (props) => {
                             type="password"
                             label="Confirm Password"
                             variant="filled"
-                            onChange={e => setConfirmPass(e.target.value)}
+                            onChange={e => dispatch(confirmPassword(e.target.value))}
                         />
                     </Grid>
                     <Button
@@ -89,7 +80,6 @@ const SignUp = (props) => {
                     </Button>
                 </Grid>
             </form>
-            {checkSignUpSuccess(success)}
         </Box>
     )
 }

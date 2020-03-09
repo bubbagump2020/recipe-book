@@ -81,12 +81,15 @@ const RecipeContainer = (props) => {
     const [allRecipes, setAllRecipes] = useState([])
 
     useEffect(() => {
-        const fetchRecipes = async () => {
-            const response = await fetch(`${ROOT_URL}/users/${user}/recipes`)
-            const data = await response.json()
-            setAllRecipes(data)
-        }
-        fetchRecipes()
+        // const fetchRecipes = async () => {
+        //     const response = await fetch(`${ROOT_URL}/users/${user}/recipes`)
+        //     const data = await response.json()
+        //     setAllRecipes(data)
+        // }
+        // fetchRecipes()
+        fetch(`${ROOT_URL}/users/${user}/recipes`)
+            .then(response => response.json())
+            .then(data => setAllRecipes(data))
     }, [user])
 
     const openDrawer = () => {

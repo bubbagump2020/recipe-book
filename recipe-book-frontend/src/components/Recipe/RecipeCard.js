@@ -176,8 +176,6 @@ const RecipeCard = (props) => {
         }
     }
 
-    console.log(props.user)
-
     return(
         <Card className={classes.root} variant="outlined">
             <IconButton

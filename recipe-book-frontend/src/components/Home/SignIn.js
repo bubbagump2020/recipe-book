@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { ROOT_URL } from '../../Constants'
 import {
     Box,
@@ -11,6 +12,7 @@ import {
     TextField,
     Container
 } from '@material-ui/core'
+import { password, confirmPassword, username, authenticatedUser } from '../../redux/actions/auth_actions'
 
 const useStyles = makeStyles(theme => ({
     root:{
@@ -27,12 +29,8 @@ const useStyles = makeStyles(theme => ({
 
 const SignIn = (props) => {
     const classes = useStyles()
-
-    const [user, setUser] = useState({
-        username: "",
-        password: ""
-    })
-    const [success, setSuccess] = useState()
+    const dispatch = useDispatch()
+    const { authUser } = useSelector(state => ({ authUser: state.authentication.user }))
     const loginProps = props
 
     const handleSubmit = (e) => {
@@ -47,28 +45,35 @@ const SignIn = (props) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    username: user.username,
-                    password: user.password
+                    username: authUser.username,
+                    password: authUser.password
                 })
             })
             const loggedInUser = await resultUser.json()
+            console.log(loggedInUser)
             sessionStorage.setItem('userToken', loggedInUser.token.session_id)
             localStorage.setItem('user_id', loggedInUser.user_id)
-            setSuccess(loggedInUser.success)
+            dispatch(authenticatedUser(loggedInUser))
+            loginProps.history.push(`/users/${loggedInUser.user}`)
         }
         asyncHandleSubmit()
     }
 
+    const handlePasswordEntry = (e) => {
+        dispatch(password(e.target.value))
+        dispatch(confirmPassword(e.target.value))
+    }
+
     const checkSignInMessage = message => {
-        if(message === true){
-            loginProps.history.push(`/users/${user.username}`)
-        } else if(message === false){
-            return(
-                <div>
-                    <p>Username or Password was wrong, please try again</p>
-                </div>
-            )
-        }
+        // if(message === true){
+        //     loginProps.history.push(`/users/${user.username}`)
+        // } else if(message === false){
+        //     return(
+        //         <div>
+        //             <p>Username or Password was wrong, please try again</p>
+        //         </div>
+        //     )
+        // }
     }
 
     return(
@@ -90,7 +95,7 @@ const SignIn = (props) => {
                                 type="text"
                                 label="Username"
                                 variant="filled"
-                                onChange={e => setUser({ ...user, username: e.target.value })}
+                                onChange={e => dispatch(username(e.target.value))}
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -99,7 +104,7 @@ const SignIn = (props) => {
                                 type="password"
                                 label="Password"
                                 variant="filled"
-                                onChange={e => setUser({ ...user, password: e.target.value })}
+                                onChange={handlePasswordEntry}
                             />
                         </Grid>
                         <Button
@@ -111,7 +116,6 @@ const SignIn = (props) => {
                     </Grid>
                 </Grid>
             </Container>
-            {checkSignInMessage(success)}
         </Box>
     )
 }
