@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   resources :recipes, param: :name do 
-    resources :ingredients, shallow: true
+    resources :ingredients, params: :name, shallow: true
   end
   
   post '/login', to: ("sessions#login")

@@ -22,6 +22,8 @@ import Pork from '../assets/new_pork.jpeg'
 import Cake from '../assets/cake_is_not_a_lie.jpeg'
 import Pastry from '../assets/tart.jpeg'
 import Cookie from '../assets/cookies.jpeg'
+import { useDispatch, useSelector } from 'react-redux'
+import { currentUserRecipes, deleteRecipe } from '../../redux/actions/reciActions'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -53,42 +55,41 @@ const useStyles = makeStyles(theme => ({
         transform: 'rotate(180)'
     },
     deleteCard: {
-        marginLeft: "auto"
+        marginLeft: 'auto'
     }
 }))
 
 const RecipeCard = (props) => {
     const classes = useStyles()
     const recipe = props.attributes
+    const dispatch = useDispatch()
+    const { authUser } = useSelector(state => ({authUser: state.authentication.loggedInUser}))
     const [expanded, setExpanded] = useState(false)
-    const [ingredients, setIngredients] = useState([])
 
     const handleExpandClick = () => {
         setExpanded(!expanded)
-        const ingFetch = async () => {
-            const ingResponse = await fetch(`${ROOT_URL}/recipes/${recipe.name}/ingredients`)
-            const ingData = await ingResponse.json()
-            setIngredients(ingData)
-        }
-        if (expanded === false ){
-            setIngredients([])
-        }
-        if (!expanded){
-            ingFetch()
-        }
     }
 
+    // could be made own component?
+
     const handleDeleteClick = () => {
+        // Have confirmation Window asking user to be sure!
         const asyncDeleteFetch = async () => {
             const deleteResponse = await fetch(`${ROOT_URL}/recipes/${recipe.name}`,{
                 method: "delete",
                 credentials: "include"
             })
-            const deleteData = await deleteResponse.json()
-            console.log(deleteData)
+            const deletedRecipe = deleteResponse.json()
+            dispatch(deleteRecipe(deletedRecipe))
+            const response = await fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`)
+            const recipes = await response.json()
+            const userRecipes = recipes.filter(recipe => recipe.user_id === authUser.user_id)
+            dispatch(currentUserRecipes(userRecipes))
         }
         asyncDeleteFetch()
     }
+
+    // can the dates be made in their own component?
 
     const returnDate = (recipeDate) => {
         const reciDate = new Date(recipeDate)
@@ -176,8 +177,6 @@ const RecipeCard = (props) => {
         }
     }
 
-    console.log(props.user)
-
     return(
         <Card className={classes.root} variant="outlined">
             <IconButton
@@ -215,7 +214,7 @@ const RecipeCard = (props) => {
                             </Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
-                            <IngredientContainer ing={ingredients} recipeId={recipe.id}/>
+                            <IngredientContainer recipe={recipe}/>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     <ExpansionPanel>

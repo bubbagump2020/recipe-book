@@ -19,7 +19,14 @@ class IngredientsController < ApplicationController
     end
 
     def destroy
-
+        
+        ingredient = Ingredient.find_by(params[:name])
+        if (!ingredient)
+            render json: { error_message: "Unable to find ingredient" }
+        else
+            ingredient.destroy
+            render json: { message: "Ingredient deleted"}
+        end
     end
 
     private

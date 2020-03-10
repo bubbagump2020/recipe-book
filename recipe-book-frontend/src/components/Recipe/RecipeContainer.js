@@ -22,6 +22,8 @@ import MenuIcon from '@material-ui/icons/Menu'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import SignOut from '../Home/SignOut'
+import { useSelector, useDispatch } from 'react-redux'
+import { currentUserRecipes } from '../../redux/actions/reciActions'
 
 const drawerWidth = 240;
 
@@ -74,20 +76,21 @@ const RecipeContainer = (props) => {
 
     const classes = useStyles()
     const theme = useTheme()
-    const user = props.location.state.user
-    const user_id = localStorage.getItem('user_id')
-    const [ open, setOpen ] = useState(false)
+    const dispatch = useDispatch()
+    const { authUser } = useSelector(state => ({authUser: state.authentication.loggedInUser }))
+    const { userRecipes } = useSelector(state => ({ userRecipes: state.recipe.currentUserRecipes }))
     const url = props.match.url
-    const [allRecipes, setAllRecipes] = useState([])
+    const [open, setOpen] = useState(false)
 
     useEffect(() => {
         const fetchRecipes = async () => {
-            const response = await fetch(`${ROOT_URL}/users/${user}/recipes`)
-            const data = await response.json()
-            setAllRecipes(data)
+            const response = await fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`)
+            const recipes = await response.json()
+            const userRecipes = recipes.filter(recipe => recipe.user_id === authUser.user_id)
+            dispatch(currentUserRecipes(userRecipes))
         }
         fetchRecipes()
-    }, [user])
+    }, [authUser.token.username])
 
     const openDrawer = () => {
         setOpen(true)
@@ -98,16 +101,14 @@ const RecipeContainer = (props) => {
     }
 
     const showRecipes = () => {
-        return allRecipes.filter(recipe => recipe.user_id === parseInt(user_id)).map(recipe => {
+        return userRecipes.map(recipe => {
             return(
                 <div key={recipe.id}>
-                    <RecipeCard attributes={recipe} id={recipe.id} user={user}/>
+                    <RecipeCard attributes={recipe} id={recipe.id} user={authUser.token.username}/>
                 </div>
             )
         })
     }
-    
-    console.log(props)
 
     return(
         <div>
@@ -121,9 +122,9 @@ const RecipeContainer = (props) => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h5" className={classes.title}>
-                        {user} Recipes
+                        {authUser.token.username} Recipes
                     </Typography>
-                    <Button color="inherit" href={`/users/${user}`}>
+                    <Button color="inherit" href={`/users/${authUser.token.username}`}>
                         Home
                     </Button>
                     <SignOut />

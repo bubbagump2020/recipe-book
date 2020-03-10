@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { ROOT_URL } from '../../Constants'
 import { Box, Container, Typography, AppBar, Toolbar, Button, makeStyles, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
 import SignOut from '../Home/SignOut'
+import { recipeName, recipeDesc, recipeInst, reciValue } from '../../redux/actions/reciActions'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -16,18 +18,14 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const NewRecipeForm = (props) => {
+const NewRecipeForm = () => {
     const classes = useStyles()
-    const user = props.match.params.username
-    const [ recipe, setRecipe ] = useState({
-        name: null,
-        desc: null,
-        instruct: null,
-        value: 'beef'
-    })
+    const dispatch = useDispatch()
+    const { authUser } = useSelector(state => ({authUser: state.authentication.loggedInUser }))
+    const { recipe } = useSelector(state => ({ recipe: state.recipe.recipe }))
 
     const handleSubmit = () => {
-        fetch(`${ROOT_URL}/users/${user}/recipes`, {
+        fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -36,10 +34,10 @@ const NewRecipeForm = (props) => {
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                user_id: parseInt(localStorage.getItem('user_id')),
+                user_id: authUser.user_id,
                 name: recipe.name,
-                description: recipe.desc,
-                instruction: recipe.instruct,
+                description: recipe.description,
+                instruction: recipe.instructions,
                 category: recipe.value
             })
         })
@@ -50,9 +48,9 @@ const NewRecipeForm = (props) => {
             <AppBar position="sticky">
                 <Toolbar>
                     <Typography variant="h5" className={classes.title}>
-                        {`${user}'s New Recipe`}
+                        {`${authUser.token.username}'s New Recipe`}
                     </Typography>
-                    <Button color="inherit" href={`/users/${user}`}>
+                    <Button color="inherit" href={`/users/${authUser.token.username}`}>
                         Home
                     </Button>
                     <SignOut />
@@ -70,7 +68,7 @@ const NewRecipeForm = (props) => {
                                 aria-label="category"
                                 name="category1"
                                 value={recipe.value}
-                                onChange={e => setRecipe({ ...recipe, value: e.target.value})}
+                                onChange={e => dispatch(reciValue(e.target.value))}
                             >
                                 <FormControlLabel
                                     value="beef"
@@ -118,7 +116,7 @@ const NewRecipeForm = (props) => {
                             variant="outlined"
                             multiline
                             rows="1"
-                            onChange={e => setRecipe({ ...recipe, name: e.target.value })}
+                            onChange={e => dispatch(recipeName(e.target.value))}
                         />
                     </div>
                     <div>
@@ -128,7 +126,7 @@ const NewRecipeForm = (props) => {
                             variant="outlined"
                             multiline
                             rows="4"
-                            onChange={e => setRecipe({ ...recipe, desc: e.target.value })}
+                            onChange={e => dispatch(recipeDesc(e.target.value))}
                         />
                     </div>
                     <div>
@@ -138,7 +136,7 @@ const NewRecipeForm = (props) => {
                             variant="outlined"
                             multiline
                             rows="4"
-                            onChange={e => setRecipe({ ...recipe, instruct: e.target.value })}
+                            onChange={e => dispatch(recipeInst(e.target.value ))}
                         />
                     </div>
                     <Button
