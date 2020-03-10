@@ -6,6 +6,9 @@ const initialState = {
         username: null,
         password: null,
         confirm_password: null,
+    },
+    loggedInUser: {
+
     }
 }
 
@@ -38,7 +41,7 @@ export function authentication(state = initialState, action){
         case authActions.AUTHENTICATED_USER:
             return{
                 ...state,
-                user: action.payload
+                loggedInUser: action.payload
             }
         case authActions.CREATE_USER:
             return{

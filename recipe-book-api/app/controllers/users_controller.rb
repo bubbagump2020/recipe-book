@@ -5,7 +5,8 @@ class UsersController < ApplicationController
     def create
         user = User.new(user_params)
         if user.save
-            render json: { user: user, success: true }
+            session[:username] = user.username
+            render json: { user_id: user.id, success: true, token: session }
         else
             render json: { success: true, errors: user.errors.full_messages }
         end

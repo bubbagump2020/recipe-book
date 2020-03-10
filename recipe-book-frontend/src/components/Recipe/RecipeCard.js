@@ -84,8 +84,6 @@ const RecipeCard = (props) => {
                 method: "delete",
                 credentials: "include"
             })
-            const deleteData = await deleteResponse.json()
-            console.log(deleteData)
         }
         asyncDeleteFetch()
     }

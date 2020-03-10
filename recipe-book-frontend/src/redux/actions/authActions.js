@@ -1,17 +1,21 @@
 import * as actions from '../constants/index'
 
-export function username(payload){
+export const username = (payload) => {
     return { type: actions.authActions.USERNAME, payload }
 }
 
-export function password(payload){
+export const password = (payload) => {
     return { type: actions.authActions.PASSWORD, payload }
 }
 
-export function confirmPassword(payload){
+export const confirmPassword =(payload) => {
     return { type: actions.authActions.CONFIRM_PASSWORD, payload }
 }
 
-export function authenticatedUser(payload){
+export const authenticatedUser = (payload) => {
     return { type: actions.authActions.AUTHENTICATED_USER, payload }
+}
+
+export const createUser = (payload) => {
+    return { type: actions.authActions.CREATE_USER, payload }
 }

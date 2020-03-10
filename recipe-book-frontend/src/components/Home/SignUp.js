@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { username, password, confirmPassword, authenticatedUser } from '../../redux/actions/auth_actions'
+import { username, password, confirmPassword, authenticatedUser } from '../../redux/actions/authActions'
 import { ROOT_URL } from '../../Constants'
 import { Box, Grid, Button, TextField, Typography } from '@material-ui/core'
 
@@ -24,7 +24,7 @@ const SignUp = (props) => {
                 })
             })
             const data = await response.json()
-            dispatch(authenticatedUser(data.success))
+            dispatch(authenticatedUser(data))
             if (data.success){
                 props.props.history.push(`/users/${authUser.username}`)
             }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ROOT_URL } from '../../Constants'
 import {
@@ -12,7 +12,7 @@ import {
     TextField,
     Container
 } from '@material-ui/core'
-import { password, confirmPassword, username, authenticatedUser } from '../../redux/actions/auth_actions'
+import { password, confirmPassword, username, authenticatedUser } from '../../redux/actions/authActions'
 
 const useStyles = makeStyles(theme => ({
     root:{
@@ -49,12 +49,11 @@ const SignIn = (props) => {
                     password: authUser.password
                 })
             })
+            
             const loggedInUser = await resultUser.json()
-            console.log(loggedInUser)
             sessionStorage.setItem('userToken', loggedInUser.token.session_id)
-            localStorage.setItem('user_id', loggedInUser.user_id)
             dispatch(authenticatedUser(loggedInUser))
-            loginProps.history.push(`/users/${loggedInUser.user}`)
+            loginProps.history.push(`/users/${loggedInUser.token.username}`)
         }
         asyncHandleSubmit()
     }
@@ -62,18 +61,6 @@ const SignIn = (props) => {
     const handlePasswordEntry = (e) => {
         dispatch(password(e.target.value))
         dispatch(confirmPassword(e.target.value))
-    }
-
-    const checkSignInMessage = message => {
-        // if(message === true){
-        //     loginProps.history.push(`/users/${user.username}`)
-        // } else if(message === false){
-        //     return(
-        //         <div>
-        //             <p>Username or Password was wrong, please try again</p>
-        //         </div>
-        //     )
-        // }
     }
 
     return(

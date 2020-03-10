@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import {
     Link
 } from 'react-router-dom'
@@ -43,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 
 const UserHomepage = (props) => {
     const classes = useStyles()
-    const user = props.match.params.username
+    const { user } = useSelector(state => ({ user: state.authentication.loggedInUser.token.username }))
     const userUrl = props.match.url
 
     return(
