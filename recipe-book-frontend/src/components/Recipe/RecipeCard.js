@@ -23,7 +23,7 @@ import Cake from '../assets/cake_is_not_a_lie.jpeg'
 import Pastry from '../assets/tart.jpeg'
 import Cookie from '../assets/cookies.jpeg'
 import { useDispatch, useSelector } from 'react-redux'
-import { currentUserRecipes } from '../../redux/actions/reciActions'
+import { currentUserRecipes, deleteRecipe } from '../../redux/actions/reciActions'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -65,31 +65,22 @@ const RecipeCard = (props) => {
     const dispatch = useDispatch()
     const { authUser } = useSelector(state => ({authUser: state.authentication.loggedInUser}))
     const [expanded, setExpanded] = useState(false)
-    const [ingredients, setIngredients] = useState([])
 
     const handleExpandClick = () => {
         setExpanded(!expanded)
-        const ingFetch = async () => {
-            const ingResponse = await fetch(`${ROOT_URL}/recipes/${recipe.name}/ingredients`)
-            const ingData = await ingResponse.json()
-            setIngredients(ingData)
-        }
-        if (expanded === false ){
-            setIngredients([])
-        }
-        if (!expanded){
-            ingFetch()
-        }
     }
 
-    console.log(authUser)
+    // could be made own component?
 
     const handleDeleteClick = () => {
+        // Have confirmation Window asking user to be sure!
         const asyncDeleteFetch = async () => {
             const deleteResponse = await fetch(`${ROOT_URL}/recipes/${recipe.name}`,{
                 method: "delete",
                 credentials: "include"
             })
+            const deletedRecipe = deleteResponse.json()
+            dispatch(deleteRecipe(deletedRecipe))
             const response = await fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`)
             const recipes = await response.json()
             const userRecipes = recipes.filter(recipe => recipe.user_id === authUser.user_id)
@@ -97,6 +88,8 @@ const RecipeCard = (props) => {
         }
         asyncDeleteFetch()
     }
+
+    // can the dates be made in their own component?
 
     const returnDate = (recipeDate) => {
         const reciDate = new Date(recipeDate)
@@ -221,7 +214,7 @@ const RecipeCard = (props) => {
                             </Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
-                            <IngredientContainer ing={ingredients} recipeId={recipe.id}/>
+                            <IngredientContainer recipe={recipe}/>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     <ExpansionPanel>

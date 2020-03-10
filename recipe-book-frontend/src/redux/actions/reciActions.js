@@ -21,5 +21,9 @@ export const allRecipes = (payload) => {
 }
 
 export const currentUserRecipes = (payload) => {
-    return { type: actions.reciActions.CURRENT_USER_RECIPES, payload}
+    return { type: actions.reciActions.CURRENT_USER_RECIPES, payload }
+}
+
+export const deleteRecipe = (payload) => {
+    return { type: actions.reciActions.DELETE_RECIPE, payload }
 }

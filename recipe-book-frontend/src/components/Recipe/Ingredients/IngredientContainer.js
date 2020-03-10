@@ -1,15 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import IngredientCard from './IngredientCard'
 import { CircularProgress } from '@material-ui/core'
+import { ROOT_URL } from '../../../Constants'
+import { useDispatch, useSelector } from 'react-redux'
+import { allIng } from '../../../redux/actions/ingActions'
 
 const IngredientContainer = (props) => {
 
-    while(props.ing.length === 0){
-        return <CircularProgress />
-    }
+    const dispatch = useDispatch()
+    const { ingredients } = useSelector(state => ({ ingredients: state.ingredient.allIngredients }))    
+
+    useEffect(() => {
+        const fetchIngredients = async () => {
+            const response = await fetch(`${ROOT_URL}/recipes/${props.recipe.name}/ingredients`)
+            const ingData = await response.json()
+            const dispatchData = ingData.filter(ingredient => ingredient.recipe_id === props.recipe.id )
+            dispatch(allIng(dispatchData))
+        }
+        fetchIngredients()
+    }, [props.recipe])
+
     const listIngredients = () => {
-        const ingredients = props.ing
-        return ingredients.filter(ingredient => ingredient.recipe_id === parseInt(props.recipeId)).map(ingredient => {
+        
+        return ingredients.map(ingredient => {
             return(
                 <div key={ingredient.id}>
                     <IngredientCard ing={ingredient} />
@@ -17,6 +30,7 @@ const IngredientContainer = (props) => {
             )
         })
     }
+
 
     return(
         <div>

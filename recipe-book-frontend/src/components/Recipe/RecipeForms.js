@@ -36,8 +36,8 @@ const NewRecipeForm = (props) => {
             body: JSON.stringify({
                 user_id: authUser.user_id,
                 name: recipe.name,
-                description: recipe.desc,
-                instruction: recipe.instruct,
+                description: recipe.description,
+                instruction: recipe.instruction,
                 category: recipe.value
             })
         })

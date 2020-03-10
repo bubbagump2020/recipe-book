@@ -1,31 +1,40 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { ROOT_URL } from '../../../Constants'
 import { Box, TextField, Button } from '@material-ui/core'
+import { useDispatch, useSelector } from 'react-redux'
+import { ingName, ingMeasure, allIng, createIng } from '../../../redux/actions/ingActions'
 
 const NewIngredientForm = (props) => {
 
+    const dispatch = useDispatch()
+    const { ingredient } = useSelector(state => ({ ingredient: state.ingredient.ingredient }))
     const ingredientRecipeId = props.recipeId
     const ingredientRecipeName = props.recipeName
-    const [ingredient, setIngredient] = useState({
-        name: null,
-        measurement: null
-    })
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        fetch(`${ROOT_URL}/recipes/${ingredientRecipeName}/ingredients`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'X-Requested-With': 'XmlHttpRequest',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                recipe_id: ingredientRecipeId,
-                name: ingredient.name,
-                measurement: ingredient.measurement
+        const submitFetch = async () => {
+            const response = await fetch(`${ROOT_URL}/recipes/${ingredientRecipeName}/ingredients`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'X-Requested-With': 'XmlHttpRequest',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    recipe_id: ingredientRecipeId,
+                    name: ingredient.name,
+                    measurement: ingredient.measurement
+                })
             })
-        })
+            const createData = response.json()
+            dispatch(createIng(createData))
+            const newFetchResponse = await fetch(`${ROOT_URL}/recipes/${ingredientRecipeName}/ingredients`)
+            const updatedIngList = await newFetchResponse.json()
+            const dispatchUpdatedIngList = updatedIngList.filter(ingredient => ingredient.recipe_id === ingredientRecipeId)
+            dispatch(allIng(dispatchUpdatedIngList))
+        }
+        submitFetch()
     }
 
     return(
@@ -37,7 +46,7 @@ const NewIngredientForm = (props) => {
                         margin="normal"
                         label="Ingredient Name"
                         variant="outlined"
-                        onChange={e => setIngredient({ ...ingredient, name: e.target.value })}
+                        onChange={e => dispatch(ingName(e.target.value))}
                     />
                 </div>
                 <div>
@@ -46,7 +55,7 @@ const NewIngredientForm = (props) => {
                         margin="normal"
                         label="measurement"
                         variant="outlined"
-                        onChange={e => setIngredient({ ...ingredient, measurement: e.target.value })}
+                        onChange={e => dispatch(ingMeasure(e.target.value))}
                     />
                 </div>
                 <Button

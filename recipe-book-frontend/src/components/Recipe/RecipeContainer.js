@@ -23,7 +23,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import SignOut from '../Home/SignOut'
 import { useSelector, useDispatch } from 'react-redux'
-import { allRecipes, currentUserRecipes } from '../../redux/actions/reciActions'
+import { currentUserRecipes } from '../../redux/actions/reciActions'
 
 const drawerWidth = 240;
 

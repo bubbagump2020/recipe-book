@@ -7,7 +7,9 @@ const initialState = {
         instructions: null,
         value: 'beef'
     },
-    allRecipes: [],
+    deletedRecipe: {
+
+    },
     currentUserRecipes: [],
 }
 
@@ -51,6 +53,12 @@ export function recipe(state = initialState, action){
             return {
                 ...state,
                 currentUserRecipes: action.payload
+            }
+        }
+        case reciActions.DELETE_RECIPE:{
+            return {
+                ...state,
+                deletedRecipe: action.payload
             }
         }
         default:
