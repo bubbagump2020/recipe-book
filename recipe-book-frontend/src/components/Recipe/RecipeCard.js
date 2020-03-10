@@ -22,6 +22,8 @@ import Pork from '../assets/new_pork.jpeg'
 import Cake from '../assets/cake_is_not_a_lie.jpeg'
 import Pastry from '../assets/tart.jpeg'
 import Cookie from '../assets/cookies.jpeg'
+import { useDispatch, useSelector } from 'react-redux'
+import { currentUserRecipes } from '../../redux/actions/reciActions'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -60,6 +62,8 @@ const useStyles = makeStyles(theme => ({
 const RecipeCard = (props) => {
     const classes = useStyles()
     const recipe = props.attributes
+    const dispatch = useDispatch()
+    const { authUser } = useSelector(state => ({authUser: state.authentication.loggedInUser}))
     const [expanded, setExpanded] = useState(false)
     const [ingredients, setIngredients] = useState([])
 
@@ -78,12 +82,18 @@ const RecipeCard = (props) => {
         }
     }
 
+    console.log(authUser)
+
     const handleDeleteClick = () => {
         const asyncDeleteFetch = async () => {
             const deleteResponse = await fetch(`${ROOT_URL}/recipes/${recipe.name}`,{
                 method: "delete",
                 credentials: "include"
             })
+            const response = await fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`)
+            const recipes = await response.json()
+            const userRecipes = recipes.filter(recipe => recipe.user_id === authUser.user_id)
+            dispatch(currentUserRecipes(userRecipes))
         }
         asyncDeleteFetch()
     }

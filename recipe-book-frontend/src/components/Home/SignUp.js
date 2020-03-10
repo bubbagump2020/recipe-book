@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { username, password, confirmPassword, authenticatedUser } from '../../redux/actions/authActions'
 import { ROOT_URL } from '../../Constants'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ROOT_URL } from '../../Constants'
 import { Box, Container, Typography, AppBar, Toolbar, Button, makeStyles, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
@@ -23,12 +23,6 @@ const NewRecipeForm = (props) => {
     const dispatch = useDispatch()
     const { authUser } = useSelector(state => ({authUser: state.authentication.loggedInUser }))
     const { recipe } = useSelector(state => ({ recipe: state.recipe.recipe }))
-    // const [ recipe, setRecipe ] = useState({
-    //     name: null,
-    //     desc: null,
-    //     instruct: null,
-    //     value: 'beef'
-    // })
 
     const handleSubmit = () => {
         fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`, {
