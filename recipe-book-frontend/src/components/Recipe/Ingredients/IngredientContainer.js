@@ -20,12 +20,14 @@ const IngredientContainer = (props) => {
         fetchIngredients()
     }, [props.recipe])
 
+    // while(props.ing.length === 0){
+    //     return <CircularProgress />
+    // }
     const listIngredients = () => {
-        
         return ingredients.map(ingredient => {
             return(
                 <div key={ingredient.id}>
-                    <IngredientCard ing={ingredient} />
+                    <IngredientCard ing={ingredient} recipe={props.recipe} />
                 </div>
             )
         })

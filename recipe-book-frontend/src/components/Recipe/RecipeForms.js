@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const NewRecipeForm = (props) => {
+const NewRecipeForm = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const { authUser } = useSelector(state => ({authUser: state.authentication.loggedInUser }))
@@ -37,7 +37,7 @@ const NewRecipeForm = (props) => {
                 user_id: authUser.user_id,
                 name: recipe.name,
                 description: recipe.description,
-                instruction: recipe.instruction,
+                instruction: recipe.instructions,
                 category: recipe.value
             })
         })

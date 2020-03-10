@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
         transform: 'rotate(180)'
     },
     deleteCard: {
-        marginLeft: "auto"
+        marginLeft: 'auto'
     }
 }))
 
