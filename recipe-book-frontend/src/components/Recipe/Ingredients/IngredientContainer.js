@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import IngredientCard from './IngredientCard'
 import { CircularProgress } from '@material-ui/core'
-import { ROOT_URL } from '../../../Constants'
+import { ROOT_URL } from '../../Constants/Constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { allIng } from '../../../redux/actions/ingActions'
 
@@ -20,9 +20,6 @@ const IngredientContainer = (props) => {
         fetchIngredients()
     }, [props.recipe])
 
-    // while(props.ing.length === 0){
-    //     return <CircularProgress />
-    // }
     const listIngredients = () => {
         return ingredients.map(ingredient => {
             return(

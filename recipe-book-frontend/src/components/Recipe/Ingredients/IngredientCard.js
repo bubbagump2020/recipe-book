@@ -6,14 +6,13 @@ import {
     IconButton,
 } from '@material-ui/core'
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined'
-import { ROOT_URL } from '../../../Constants'
+import { ROOT_URL } from '../../Constants/Constants'
 import { useDispatch } from 'react-redux'
 import { allIng } from '../../../redux/actions/ingActions'
 
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
-        // flexDirection: 'column',
     },
     deleteCard: {
         marginLeft: 'auto',
@@ -30,7 +29,7 @@ const IngredientCard = (props) => {
     const handleDeleteClick = (e) => {
         e.preventDefault()
         const deleteFetch = async () => {
-            const response = await fetch(`${ROOT_URL}/ingredients/${ingredient.name}`,{
+            const response = await fetch(`${ROOT_URL}/ingredients/${ingredient.id}`,{
                 method: 'DELETE',
                 credentials: 'include'
             })

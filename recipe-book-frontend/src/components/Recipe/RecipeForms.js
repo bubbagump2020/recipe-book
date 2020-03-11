@@ -1,8 +1,8 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ROOT_URL } from '../../Constants'
+import { ROOT_URL } from '../Constants/Constants'
 import { Box, Container, Typography, AppBar, Toolbar, Button, makeStyles, TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
-import SignOut from '../Home/SignOut'
+import { UserHomeButton, RecipeIndexButton, SignOutButton} from '../Buttons/MenuButtons'
 import { recipeName, recipeDesc, recipeInst, reciValue } from '../../redux/actions/reciActions'
 
 const useStyles = makeStyles(theme => ({
@@ -18,14 +18,15 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const NewRecipeForm = () => {
+const NewRecipeForm = (props) => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const { authUser } = useSelector(state => ({authUser: state.authentication.loggedInUser }))
     const { recipe } = useSelector(state => ({ recipe: state.recipe.recipe }))
 
-    const handleSubmit = () => {
-        fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`, {
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const submitResponse = await fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -41,7 +42,12 @@ const NewRecipeForm = () => {
                 category: recipe.value
             })
         })
+        const submitData = await submitResponse.json()
+        // Form Error Catching Here
+
     }
+
+    console.log(props)
 
     return(
         <Box>
@@ -50,10 +56,9 @@ const NewRecipeForm = () => {
                     <Typography variant="h5" className={classes.title}>
                         {`${authUser.token.username}'s New Recipe`}
                     </Typography>
-                    <Button color="inherit" href={`/users/${authUser.token.username}`}>
-                        Home
-                    </Button>
-                    <SignOut />
+                    <UserHomeButton />
+                    <RecipeIndexButton />
+                    <SignOutButton />
                 </Toolbar>
             </AppBar>
             <Container>

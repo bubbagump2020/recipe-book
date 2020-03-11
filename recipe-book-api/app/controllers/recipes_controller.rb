@@ -17,9 +17,9 @@ class RecipesController < ApplicationController
     def create
         recipe = Recipe.new(recipe_params)
         if recipe.save
-            render json: {recipe: recipe, status: :created}
+            render json: { recipe: recipe, success: true}
         else
-            render json: "Recipe not saved"
+            render json: { success: false, errors: recipe.errors.full_messages }
         end
     end
 
@@ -28,12 +28,12 @@ class RecipesController < ApplicationController
     end
 
     def destroy
-        recipe = Recipe.find_by(params[:id])
+        recipe = Recipe.find_by_name(params[:name])
         if (!recipe)
-            render json: "Unable to find recipe"
+            render json: { success: false, erros: recipe.erros.full_messages }
         else
             recipe.destroy
-            render json: { message: "Recipe Deleted" }
+            render json: { success: true, message: "Recipe Deleted" }
         end
     end
 

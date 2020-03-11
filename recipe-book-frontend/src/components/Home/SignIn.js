@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ROOT_URL } from '../../Constants'
+import { ROOT_URL } from '../Constants/Constants'
 import {
     Box,
     AppBar,

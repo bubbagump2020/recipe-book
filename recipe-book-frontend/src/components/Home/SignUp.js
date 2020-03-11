@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { username, password, confirmPassword, authenticatedUser } from '../../redux/actions/authActions'
-import { ROOT_URL } from '../../Constants'
+import { ROOT_URL } from '../Constants/Constants'
 import { Box, Grid, Button, TextField, Typography } from '@material-ui/core'
 
 const SignUp = (props) => {
