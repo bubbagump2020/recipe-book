@@ -6,8 +6,7 @@ import {
     Toolbar,
     Typography,
     makeStyles,
-    Container,
-    Button,    
+    Container,  
 } from '@material-ui/core'
 import { UserHomeButton, CreateRecipeButton, SignOutButton} from '../Buttons/MenuButtons'
 import { useSelector, useDispatch } from 'react-redux'
@@ -46,13 +45,12 @@ const useStyles = makeStyles(theme => ({
     },
     toolbar: theme.mixins.toolbar
 }))
-const RecipeContainer = (props) => {
+const RecipeContainer = () => {
 
     const classes = useStyles()
     const dispatch = useDispatch()
     const { authUser } = useSelector(state => ({authUser: state.authentication.loggedInUser }))
     const { userRecipes } = useSelector(state => ({ userRecipes: state.recipe.currentUserRecipes }))
-    const url = props.match.url
 
     React.useEffect(() => {
         const fetchRecipes = async () => {
@@ -62,7 +60,7 @@ const RecipeContainer = (props) => {
             dispatch(currentUserRecipes(userRecipes))
         }
         fetchRecipes()
-    }, [authUser.token.username])
+    }, [authUser.token.username, authUser.user_id, dispatch])
 
     const showRecipes = () => {
         return userRecipes.map(recipe => {

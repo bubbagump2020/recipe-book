@@ -1,6 +1,5 @@
 import React from 'react'
 import SignUp from './SignUp'
-import SignIn from './SignIn'
 import { Box, Grid, Paper, makeStyles, Typography, AppBar, Toolbar, Button } from '@material-ui/core'
 import 'typeface-roboto'
 
@@ -21,12 +20,6 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
     }
 }))
-
-const handleSignInChange = () => {
-    return <SignIn />
-}
-
-
 
 const Homepage = (props) => {
     const classes = useStyles()
