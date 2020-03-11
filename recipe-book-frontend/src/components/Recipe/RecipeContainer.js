@@ -1,27 +1,14 @@
-import React, {useState, useEffect } from 'react'
-import clsx from 'clsx'
-import { ROOT_URL } from '../../Constants'
-import { Link } from 'react-router-dom'
+import React from 'react'
+import { ROOT_URL } from '../Constants/Constants'
 import RecipeCard from './RecipeCard'
 import {
     AppBar,
     Toolbar,
     Typography,
     makeStyles,
-    Container,
-    Button,    
-    Drawer,
-    List,
-    ListItem,
-    ListItemText,
-    IconButton,
-    useTheme,
-    Divider
+    Container,  
 } from '@material-ui/core'
-import MenuIcon from '@material-ui/icons/Menu'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import SignOut from '../Home/SignOut'
+import { UserHomeButton, CreateRecipeButton, SignOutButton} from '../Buttons/MenuButtons'
 import { useSelector, useDispatch } from 'react-redux'
 import { currentUserRecipes } from '../../redux/actions/reciActions'
 
@@ -38,13 +25,6 @@ const useStyles = makeStyles(theme => ({
             duration: theme.transitions.duration.leavingScreen
         })
     },
-    appBarShift: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-        transition: theme.transitions.create(['margin', 'width'], {
-            easing: theme.transitions.easing.easeOut,
-        })
-    },
     content: {
         display: 'flex',
         flexDirection: 'inherit',
@@ -56,33 +36,16 @@ const useStyles = makeStyles(theme => ({
     title: {
         flexGrow: 1,
     },
-    drawer:{
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    drawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: theme.spacing(0, 1),
-        ...theme.mixins.toolbar,
-        justifyContent: 'flex-end'
-    },
     toolbar: theme.mixins.toolbar
 }))
-const RecipeContainer = (props) => {
+const RecipeContainer = () => {
 
     const classes = useStyles()
-    const theme = useTheme()
     const dispatch = useDispatch()
     const { authUser } = useSelector(state => ({authUser: state.authentication.loggedInUser }))
     const { userRecipes } = useSelector(state => ({ userRecipes: state.recipe.currentUserRecipes }))
-    const url = props.match.url
-    const [open, setOpen] = useState(false)
 
-    useEffect(() => {
+    React.useEffect(() => {
         const fetchRecipes = async () => {
             const response = await fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`)
             const recipes = await response.json()
@@ -90,69 +53,30 @@ const RecipeContainer = (props) => {
             dispatch(currentUserRecipes(userRecipes))
         }
         fetchRecipes()
-    }, [authUser.token.username])
-
-    const openDrawer = () => {
-        setOpen(true)
-    }
-
-    const closeDrawer = () => {
-        setOpen(false)
-    }
+    }, [authUser.token.username, authUser.user_id, dispatch])
 
     const showRecipes = () => {
         return userRecipes.map(recipe => {
             return(
-                <div key={recipe.id}>
+                <React.Fragment key={recipe.id}>
                     <RecipeCard attributes={recipe} id={recipe.id} user={authUser.token.username}/>
-                </div>
+                </React.Fragment>
             )
         })
     }
 
     return(
         <div>
-            <AppBar className={clsx(classes.appBar, {[classes.appBarShift] : open})} position="sticky">
+            <AppBar className={classes.appBar} position="sticky">
                 <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={openDrawer}
-                    >
-                        <MenuIcon />
-                    </IconButton>
                     <Typography variant="h5" className={classes.title}>
                         {authUser.token.username} Recipes
                     </Typography>
-                    <Button color="inherit" href={`/users/${authUser.token.username}`}>
-                        Home
-                    </Button>
-                    <SignOut />
+                    <UserHomeButton />
+                    <CreateRecipeButton />
+                    <SignOutButton />
                 </Toolbar>
             </AppBar>
-            <Drawer 
-                variant="persistent"
-                anchor="left"
-                open={open}
-                className={classes.drawer}
-                classes={{paper: classes.drawerPaper}}
-            >
-                <div className={classes.drawerHeader}>
-                    <IconButton onClick={closeDrawer}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                    </IconButton>
-                </div>
-                <Divider />
-                <List>
-                    <ListItem button>
-                        <ListItemText>
-                            <Link to={{pathname: `${url}/new`}}>
-                                Create Recipe
-                            </Link>
-                        </ListItemText>
-                    </ListItem>
-                </List>
-            </Drawer>
             <Container maxWidth="xl" className={classes.content}>
                 <div className={classes.toolbar} />
                     {showRecipes()}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ROOT_URL } from '../../../Constants'
+import { ROOT_URL } from '../../Constants/Constants'
 import { Box, TextField, Button } from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { ingName, ingMeasure, allIng, createIng } from '../../../redux/actions/ingActions'

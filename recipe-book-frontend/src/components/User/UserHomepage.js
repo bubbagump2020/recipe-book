@@ -1,22 +1,13 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import {
-    Link
-} from 'react-router-dom'
-import {
     AppBar,
     Toolbar,
     Typography,
     makeStyles,
-    Drawer,
     CssBaseline,
-    List,
-    ListItem,
-    ListItemText
 } from '@material-ui/core'
-import SignOut from '../Home/SignOut';
-
-const drawerWidth = 240;
+import { RecipeIndexButton, CreateRecipeButton, SignOutButton } from '../Buttons/MenuButtons'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,20 +23,13 @@ const useStyles = makeStyles(theme => ({
     title: {
         flexGrow: 1,
     },
-    drawer:{
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    drawerPaper: {
-        width: drawerWidth,
-    },
     toolbar: theme.mixins.toolbar
 }))
 
-const UserHomepage = (props) => {
+const UserHomepage = () => {
+
     const classes = useStyles()
     const { user } = useSelector(state => ({ user: state.authentication.loggedInUser.token.username }))
-    const userUrl = props.match.url
 
     return(
         <div className={classes.root}>
@@ -55,32 +39,11 @@ const UserHomepage = (props) => {
                     <Typography variant="h5" className={classes.title}>
                         Recip-Ease User Home
                     </Typography>
-                    <SignOut />
+                    <RecipeIndexButton />
+                    <CreateRecipeButton />
+                    <SignOutButton />
                 </Toolbar>
             </AppBar>
-            <Drawer
-                variant="permanent"
-                className={classes.drawer}
-                classes={{paper: classes.drawerPaper}}
-            >
-                <div className={classes.toolbar} />
-                <List>
-                    <ListItem button>
-                        <ListItemText>
-                            <Link to={{pathname: `${userUrl}/recipes`, state: {user: user }}}>
-                                Recipes
-                            </Link>
-                        </ListItemText>
-                    </ListItem>
-                    <ListItem button>
-                        <ListItemText>
-                            <Link to={{pathname: `${userUrl}/recipes/new`, state: {user: user }}}>
-                                Create Recipe
-                            </Link>
-                        </ListItemText>
-                    </ListItem>
-                </List>
-            </Drawer>
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <Typography>

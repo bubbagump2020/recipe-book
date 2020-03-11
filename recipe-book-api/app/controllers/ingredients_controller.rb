@@ -8,9 +8,9 @@ class IngredientsController < ApplicationController
     def create
         ingredient = Ingredient.new(ingredient_params)
         if ingredient.save
-            render json: {ingredient: ingredient, status: :created}
+            render json: { success: true, ingredient: ingredient, status: "Ingredient created"}
         else
-            render json: {errors: ingredient.errors.full_messages }
+            render json: { success: false, errors: ingredient.errors.full_messages }
         end
     end
 
@@ -19,13 +19,12 @@ class IngredientsController < ApplicationController
     end
 
     def destroy
-        
         ingredient = Ingredient.find_by(params[:name])
         if (!ingredient)
-            render json: { error_message: "Unable to find ingredient" }
+            render json: { success: false, errors: ingredient.errors.full_messages }
         else
             ingredient.destroy
-            render json: { message: "Ingredient deleted"}
+            render json: { success: true, message: "Ingredient deleted"}
         end
     end
 
