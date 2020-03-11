@@ -34,6 +34,7 @@ const SignUp = (props) => {
             if (data.success){
                 dispatch(authenticatedUser(data))
                 props.props.history.push(`/users/${authUser.username}`)
+                toast.success(`${data.success_message}`)
             } else {
                 const userNotify = () => {
                     toast.error(`${data.errors}`, { position: toast.POSITION.TOP_CENTER })
