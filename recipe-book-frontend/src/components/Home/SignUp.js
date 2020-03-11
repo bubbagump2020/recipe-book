@@ -1,13 +1,20 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 import { username, password, confirmPassword, authenticatedUser } from '../../redux/actions/authActions'
 import { ROOT_URL } from '../Constants/Constants'
 import { Box, Grid, Button, TextField, Typography } from '@material-ui/core'
+
+
 
 const SignUp = (props) => {
 
     const dispatch = useDispatch()
     const { authUser } = useSelector(state => ({ authUser: state.authentication.user }))
+    const passNotify = () => {
+        toast.error("Passwords don't match", { position: toast.POSITION.TOP_CENTER })
+    }
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -24,16 +31,17 @@ const SignUp = (props) => {
                 })
             })
             const data = await response.json()
-            dispatch(authenticatedUser(data))
             if (data.success){
+                dispatch(authenticatedUser(data))
                 props.props.history.push(`/users/${authUser.username}`)
+            } else {
+                const userNotify = () => {
+                    toast.error(`${data.errors}`, { position: toast.POSITION.TOP_CENTER })
+                }
+                userNotify()
             }
         } else {
-            return(
-                <div>
-                    <h5>Passwords Don't match</h5>
-                </div>
-            )
+            passNotify()
         }
         
     }

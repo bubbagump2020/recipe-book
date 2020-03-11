@@ -8,7 +8,7 @@ class UsersController < ApplicationController
             session[:username] = user.username
             render json: { user_id: user.id, success: true, token: session }
         else
-            render json: { success: true, errors: user.errors.full_messages }
+            render json: { success: false, errors: user.errors.full_messages }
         end
     end
 
