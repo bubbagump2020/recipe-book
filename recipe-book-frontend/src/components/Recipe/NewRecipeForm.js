@@ -7,14 +7,15 @@ import { recipeName, recipeDesc, recipeInst, reciValue } from '../../redux/actio
 
 const useStyles = makeStyles(theme => ({
     root: {
-        display: 'flex'
+        flexGrow: 1
     },
     title: {
         flexGrow: 1,
     },
-    form: {
+    formControl: {
         display: 'flex',
-        minWidth: 345,
+        flexDirection: 'row',
+        flexGrow: 1,
     }
 }))
 
@@ -61,15 +62,16 @@ const NewRecipeForm = (props) => {
                     <SignOutButton />
                 </Toolbar>
             </AppBar>
-            <Container>
+            <Container className={classes.root}>
                 <form onSubmit={handleSubmit}>
-                    <Typography variant="h6">
+                    <Typography variant="h5">
                         New Recipe
                     </Typography>
-                    <div>
+                    <div><br></br>
                         <FormControl>
                             <FormLabel component="legend">Category</FormLabel>
                             <RadioGroup
+                                className={classes.formControl}
                                 aria-label="category"
                                 name="category1"
                                 value={recipe.value}
@@ -79,71 +81,79 @@ const NewRecipeForm = (props) => {
                                     value="beef"
                                     control={<Radio />}
                                     label="Beef"
+                                    labelPlacement="top"
                                 />
                                 <FormControlLabel
                                     value="pork"
                                     control={<Radio />}
                                     label="Pork"
+                                    labelPlacement="top"
                                 />
                                 <FormControlLabel
                                     value="poultry"
                                     control={<Radio />}
                                     label="Poultry"
+                                    labelPlacement="top"
                                 />
                                 <FormControlLabel
                                     value="dessert"
                                     control={<Radio />}
                                     label="Dessert"
+                                    labelPlacement="top"
                                 />
                                 <FormControlLabel
                                     value="cookie"
                                     control={<Radio />}
                                     label="Cookies"
+                                    labelPlacement="top"
                                 />
                                 <FormControlLabel
                                     value="pastry"
                                     control={<Radio />}
                                     label="Pastry"
+                                    labelPlacement="top"
                                 />
                                 <FormControlLabel
                                     value="misc"
                                     control={<Radio />}
                                     label="Misc."
+                                    labelPlacement="top"
                                 />
                             </RadioGroup>
                         </FormControl>
-                    </div>
+                    </div><br></br>
                     <div>
+                        <FormLabel component="legend">Recipe Name</FormLabel>
                         <TextField
+                            style={{ width: "35%" }}
                             margin="normal"
                             type="text"
-                            label="Name"
                             variant="outlined"
-                            multiline
-                            rows="1"
                             onChange={e => dispatch(recipeName(e.target.value))}
                         />
-                    </div>
+                    </div><br></br>
                     <div>
-                        <TextField 
+                        <FormLabel component="legend">Recipe Description</FormLabel>
+                        <TextField
+                            style={{ width: "35%" }}
                             margin="normal"
-                            label="Description"
                             variant="outlined"
                             multiline
-                            rows="4"
+                            rows="2"
                             onChange={e => dispatch(recipeDesc(e.target.value))}
                         />
-                    </div>
+                    </div><br></br>
                     <div>
-                        <TextField 
+                        <FormLabel component="legend">Cooking Instructions</FormLabel>
+                        <TextField
+                            style={{ width: "50%"}}
                             margin="normal"
-                            label="Instructions"
                             variant="outlined"
                             multiline
-                            rows="4"
+                            rows="10"
                             onChange={e => dispatch(recipeInst(e.target.value ))}
                         />
-                    </div>
+                    </div><br></br>
                     <Button
                         type="submit"
                         variant="contained"

@@ -10,7 +10,7 @@ import { ToastContainer } from 'react-toastify'
 import Homepage from './components/Home/Homepage'
 import UserHomepage from './components/User/UserHomepage'
 import RecipeContainer from './components/Recipe/RecipeContainer'
-import NewRecipeForm from './components/Recipe/RecipeForms';
+import NewRecipeForm from './components/Recipe/NewRecipeForm';
 import SignIn from './components/Home/SignIn';
 
 function App() {

@@ -25,13 +25,6 @@ const useStyles = makeStyles(theme => ({
             duration: theme.transitions.duration.leavingScreen
         })
     },
-    appBarShift: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-        transition: theme.transitions.create(['margin', 'width'], {
-            easing: theme.transitions.easing.easeOut,
-        })
-    },
     content: {
         display: 'flex',
         flexDirection: 'inherit',

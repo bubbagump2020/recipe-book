@@ -4,20 +4,46 @@ import {
     makeStyles,
     CardHeader,
     IconButton,
+    CardContent,
+    Typography,
+    ExpansionPanel,
+    ExpansionPanelSummary,
+    Paper,
+    ExpansionPanelDetails,
 } from '@material-ui/core'
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { ROOT_URL } from '../../Constants/Constants'
 import { useDispatch } from 'react-redux'
 import { allIng } from '../../../redux/actions/ingActions'
+import UpdateIngredientForm from './UpdateIngredientForm'
 
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
+        flexGrow: 1,
+        flexWrap: 'wrap'
+        // flexDirection: 'column',
+        // width: "100%"
+    },
+    content: {
+        marginRight: 'auto',
+        marginTop: 'auto',
+        marginBottom: 'auto',
     },
     deleteCard: {
-        marginLeft: 'auto',
-        marginBottom: 'auto'
-    }
+        marginRight: 'auto',
+        marginTop: 'auto',
+        marginBottom: 'auto',
+        // padding: theme.spacing(3)
+    },
+    expansionPanelRoot: {
+        width: '100%'
+    },
+    expansionPanelHeading: {
+        fontSize: theme.typography.pxToRem(15),
+        fontWeight: theme.typography.fontWeightRegular
+    },
 }))
 
 const IngredientCard = (props) => {
@@ -44,13 +70,38 @@ const IngredientCard = (props) => {
 
     return(
         <Card className={classes.root} variant="outlined">
-            <CardHeader title={ingredient.name} />
             <IconButton
                 className={classes.deleteCard}
                 onClick={handleDeleteClick}
             >
-                <CloseOutlinedIcon className={classes.deleteCard} />
+                <CloseOutlinedIcon  />
             </IconButton>
+            <CardHeader title={ingredient.name} className={classes.content}/>
+            <CardContent className={classes.content}>
+                <Typography variant="body1">
+                    {ingredient.measurement}
+                </Typography>
+            </CardContent>
+            <div className={classes.expansionPanelRoot}>
+            <CardContent>
+                <ExpansionPanel>
+                
+                    <ExpansionPanelSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panela-content"
+                        id="panela-content"
+                    >
+                        <Typography className={classes.expansionPanelHeading}>
+                            Update Ingredient
+                        </Typography>
+                    </ExpansionPanelSummary>
+            
+                    <ExpansionPanelDetails>
+                        <UpdateIngredientForm />
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+            </CardContent>
+            </div>
         </Card>
     )
 }

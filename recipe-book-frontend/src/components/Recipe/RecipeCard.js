@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
-        minWidth: 345,
+        width: 345,
         minHeight: 345,
         margin: 5
     },
@@ -44,19 +44,16 @@ const useStyles = makeStyles(theme => ({
         height: 0,
         paddingTop: '56.25%',
     },
-    expand: {
-        trandform: 'rotate(0deg)',
-        marginRight: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest
-        })
-    },
-    expandOpen: {
-        transform: 'rotate(180)'
-    },
     deleteCard: {
         marginLeft: 'auto'
+    },
+    ingCont: {
+        display: 'flex',
+        flexDirection: 'column',
+        
+        padding: theme.spacing(2),
     }
+
 }))
 
 const RecipeCard = (props) => {
@@ -213,7 +210,7 @@ const RecipeCard = (props) => {
                                 Ingredients
                             </Typography>
                         </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
+                        <ExpansionPanelDetails className={classes.ingCont} style={{ width: '100%'}}>
                             <IngredientContainer recipe={recipe}/>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
