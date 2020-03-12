@@ -14,5 +14,6 @@ Rails.application.routes.draw do
   end
   
   post '/login', to: ("sessions#login")
+  delete '/logout', to: ("sessions#logout")
 
 end

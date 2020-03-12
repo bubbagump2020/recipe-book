@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
     # before_action :set_csrf_cookie
-    # protect_from_forgery with: :exception
+    protect_from_forgery unless: -> { request.format.json? }
 
     private
 
@@ -8,8 +8,8 @@ class ApplicationController < ActionController::API
         cookies["CSRF-TOKEN"] = form_authenticity_token
     end
 
-    # def current_user
-    #     @_current_user ||= session[:current_user_id] && User.find(session[:current_user_id])
-    # end
+    def current_user
+        @current_user ||= session[:current_user_id] && User.find(session[:current_user_id])
+    end
 
 end
