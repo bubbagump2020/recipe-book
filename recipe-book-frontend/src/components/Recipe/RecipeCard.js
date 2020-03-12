@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined'
 import NewIngredientForm from './Ingredients/NewIngredientForm'
 import IngredientContainer from './Ingredients/IngredientContainer'
+import UpdateRecipeForm from './UpdateRecipeForm'
 import { ROOT_URL } from '../Constants/Constants'
 import Beef from '../assets/new_beef.jpeg'
 import Poultry from '../assets/chiken.jpeg'
@@ -72,15 +73,15 @@ const RecipeCard = (props) => {
     const handleDeleteClick = () => {
         // Have confirmation Window asking user to be sure!
         const asyncDeleteFetch = async () => {
-            const deleteResponse = await fetch(`${ROOT_URL}/recipes/${recipe.name}`,{
+            const deleteResponse = await fetch(`${ROOT_URL}/recipes/${recipe.id}`,{
                 method: "delete",
                 credentials: "include"
             })
-            const deletedRecipe = deleteResponse.json()
+            const deletedRecipe = await deleteResponse.json()
             dispatch(deleteRecipe(deletedRecipe))
-            const response = await fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`)
-            const recipes = await response.json()
-            const userRecipes = recipes.filter(recipe => recipe.user_id === authUser.user_id)
+            const updatedRecipeListResponse = await fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`)
+            const updatedRecipeList = await updatedRecipeListResponse.json()
+            const userRecipes = updatedRecipeList.filter(recipe => recipe.user_id === authUser.user_id)
             dispatch(currentUserRecipes(userRecipes))
         }
         asyncDeleteFetch()
@@ -213,21 +214,24 @@ const RecipeCard = (props) => {
                         <ExpansionPanelDetails className={classes.ingCont} style={{ width: '100%'}}>
                             <IngredientContainer recipe={recipe}/>
                         </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                    <ExpansionPanel>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1c-content"
-                            id="panel1c-header"
-                        >
-                            <Typography>
-                                New Ingredient
-                            </Typography>
-                        </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
-                            <NewIngredientForm recipeId={recipe.id} recipeName={recipe.name} />
+                        <ExpansionPanel>
+                            <ExpansionPanelSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1c-content"
+                                id="panel1c-header"
+                            >
+                                <Typography>
+                                    New Ingredient
+                                </Typography>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <NewIngredientForm recipeId={recipe.id} recipeName={recipe.name} />
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
+                    
                     <ExpansionPanel>
                         <ExpansionPanelSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -242,6 +246,9 @@ const RecipeCard = (props) => {
                             <Typography>
                                 {recipe.instruction}
                             </Typography>
+                        </ExpansionPanelDetails>
+                        <ExpansionPanelDetails>
+                            <UpdateRecipeForm recipe={recipe}/>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                 </ExpansionPanel>

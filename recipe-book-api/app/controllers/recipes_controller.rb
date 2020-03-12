@@ -28,9 +28,9 @@ class RecipesController < ApplicationController
     end
 
     def destroy
-        recipe = Recipe.find_by_name(params[:name])
+        recipe = Recipe.find_by_id(params[:id])
         if (!recipe)
-            render json: { success: false, erros: recipe.erros.full_messages }
+            render json: { success: false, message: "Operation Failed" }
         else
             recipe.destroy
             render json: { success: true, message: "Recipe Deleted" }

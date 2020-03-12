@@ -31,6 +31,11 @@ export const ingredient = (state = initialState, action) => {
                 ...state,
                 allIngredients: action.payload
             }
+        case ingActions.UPDATE_ING:
+            return {
+                ...state,
+                ingredient: action.payload
+            }
         default:
             return state
     }

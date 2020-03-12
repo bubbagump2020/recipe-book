@@ -26,7 +26,6 @@ const NewRecipeForm = (props) => {
     const { recipe } = useSelector(state => ({ recipe: state.recipe.recipe }))
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
         const submitResponse = await fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`, {
             method: 'POST',
             credentials: 'include',
@@ -48,8 +47,6 @@ const NewRecipeForm = (props) => {
 
     }
 
-    console.log(props)
-
     return(
         <Box>
             <AppBar position="sticky">
@@ -57,8 +54,8 @@ const NewRecipeForm = (props) => {
                     <Typography variant="h5" className={classes.title}>
                         {`${authUser.token.username}'s New Recipe`}
                     </Typography>
-                    <UserHomeButton />
                     <RecipeIndexButton />
+                    <UserHomeButton />
                     <SignOutButton />
                 </Toolbar>
             </AppBar>
