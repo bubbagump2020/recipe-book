@@ -19,3 +19,7 @@ export const authenticatedUser = (payload) => {
 export const createUser = (payload) => {
     return { type: actions.authActions.CREATE_USER, payload }
 }
+
+export const checkLogin = (payload) => {
+    return { type: actions.authActions.CHECK_LOGIN_STATE, payload }
+}

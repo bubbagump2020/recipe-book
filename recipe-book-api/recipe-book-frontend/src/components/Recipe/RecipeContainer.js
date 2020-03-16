@@ -47,7 +47,7 @@ const RecipeContainer = () => {
         const fetchRecipes = async () => {
             const response = await fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`)
             const recipes = await response.json()
-            console.log(recipes.recipes)
+            console.log(recipes)
             const userRecipes = recipes.recipes.filter(recipe => recipe.user_id === authUser.user_id)
             dispatch(currentUserRecipes(userRecipes))
         }

@@ -7,6 +7,7 @@ import {
   Route
 } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
+import { PrivateRoute } from './components/Home/PrivateRoute'
 import Homepage from './components/Home/Homepage'
 import UserHomepage from './components/User/UserHomepage'
 import RecipeContainer from './components/Recipe/RecipeContainer'
@@ -19,9 +20,9 @@ function App() {
       <Router>
         <Route exact path="/" component={Homepage} />
         <Route exact path="/sessions/new" component={SignIn} />
-        <Route exact path="/users/:username" render={(props) => (<UserHomepage {...props} />)}/>
-        <Route exact path="/users/:username/recipes" component={RecipeContainer} />
-        <Route exact path="/users/:username/recipes/new" component={NewRecipeForm} />
+        <PrivateRoute exact path="/users/:username" component={UserHomepage} />
+        <PrivateRoute exact path="/users/:username/recipes" component={RecipeContainer} />
+        <PrivateRoute exact path="/users/:username/recipes/new" component={NewRecipeForm} />
       </Router>
       <ToastContainer className="toast-container" toastClassName="dark-toast" />
     </div>

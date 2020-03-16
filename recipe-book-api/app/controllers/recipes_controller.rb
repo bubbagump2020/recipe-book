@@ -1,5 +1,5 @@
 class RecipesController < ApplicationController
-
+    
     def index
         recipes = Recipe.all
         render json: { recipes: recipes, current_user: @current_user}

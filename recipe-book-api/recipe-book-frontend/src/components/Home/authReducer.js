@@ -8,7 +8,10 @@ const initialState = {
         confirm_password: null,
     },
     loggedInUser: {
-
+        
+    },
+    loggedIn: {
+        logInState: false
     }
 }
 
@@ -49,6 +52,14 @@ export function authentication(state = initialState, action){
                 user: {
                     ...state.user,
                     loggedIn: true
+                }
+            }
+        case authActions.CHECK_LOGIN_STATE:
+            return{
+                ...state,
+                loggedIn: {
+                    ...state.loggedIn,
+                    logInState: action.payload
                 }
             }
         default:
