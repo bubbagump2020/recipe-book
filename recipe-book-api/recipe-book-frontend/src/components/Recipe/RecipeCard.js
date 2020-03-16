@@ -68,8 +68,6 @@ const RecipeCard = (props) => {
         setExpanded(!expanded)
     }
 
-    // could be made own component?
-
     const handleDeleteClick = () => {
         // Have confirmation Window asking user to be sure!
         const asyncDeleteFetch = async () => {
@@ -81,13 +79,11 @@ const RecipeCard = (props) => {
             dispatch(deleteRecipe(deletedRecipe))
             const updatedRecipeListResponse = await fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`)
             const updatedRecipeList = await updatedRecipeListResponse.json()
-            const userRecipes = updatedRecipeList.filter(recipe => recipe.user_id === authUser.user_id)
+            const userRecipes = updatedRecipeList.recipes.filter(recipe => recipe.user_id === authUser.user_id)
             dispatch(currentUserRecipes(userRecipes))
         }
         asyncDeleteFetch()
     }
-
-    // can the dates be made in their own component?
 
     const returnDate = (recipeDate) => {
         const reciDate = new Date(recipeDate)

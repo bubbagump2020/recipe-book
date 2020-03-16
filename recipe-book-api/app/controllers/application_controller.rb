@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
     # before_action :set_csrf_cookie
-    protect_from_forgery unless: -> { request.format.json? }
+    # protect_from_forgery unless: -> { request.format.json? }
 
     private
 

@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 2020_03_05_193111) do
 
-  create_table "ingredients", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "ingredients", force: :cascade do |t|
     t.bigint "recipe_id", null: false
     t.string "name"
     t.string "measurement"
@@ -21,7 +24,7 @@ ActiveRecord::Schema.define(version: 2020_03_05_193111) do
     t.index ["recipe_id"], name: "index_ingredients_on_recipe_id"
   end
 
-  create_table "recipes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "recipes", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "name"
     t.text "description"
@@ -32,7 +35,7 @@ ActiveRecord::Schema.define(version: 2020_03_05_193111) do
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
