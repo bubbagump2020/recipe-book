@@ -8,7 +8,7 @@
     },
     "scripts": {
         "build": "yarn --cwd recipe-book-api/recipe-book-frontend install && yarn --cwd recipe-book-api/recipe-book-frontend build",
-        "deploy": "cp -a client/build/. public",
+        "deploy": "cp -a recipe-book-api/recipe-book-frontend/build/. public",
         "heroku-postbuild": "yarn build && yarn deploy"
     }
 }
