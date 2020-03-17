@@ -6,7 +6,7 @@
         "yarn": "1.21.1"
     },
     "scripts": {
-        "build": "yarn --cwd recipe-book-frontend install && yarn --cwd recipe-book-frontend build",
+        "build": "yarn --cwd recipe-book-api/recipe-book-frontend install && yarn --cwd recipe-book-api/recipe-book-frontend build",
         "deploy": "cp -a client/build/. public",
         "heroku-postbuild": "yarn build && yarn deploy"
     }
