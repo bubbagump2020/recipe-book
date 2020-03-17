@@ -9,12 +9,11 @@ const NewIngredientForm = (props) => {
     const dispatch = useDispatch()
     const { ingredient } = useSelector(state => ({ ingredient: state.ingredient.ingredient }))
     const ingredientRecipeId = props.recipeId
-    const ingredientRecipeName = props.recipeName
 
     const handleSubmit = (e) => {
         e.preventDefault()
         const submitFetch = async () => {
-            const response = await fetch(`${ROOT_URL}/recipes/${ingredientRecipeName}/ingredients`, {
+            const response = await fetch(`${ROOT_URL}/recipes/${ingredientRecipeId}/ingredients`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -29,13 +28,14 @@ const NewIngredientForm = (props) => {
             })
             const createData = response.json()
             dispatch(createIng(createData))
-            const newFetchResponse = await fetch(`${ROOT_URL}/recipes/${ingredientRecipeName}/ingredients`)
+            const newFetchResponse = await fetch(`${ROOT_URL}/recipes/${ingredientRecipeId}/ingredients`)
             const updatedIngList = await newFetchResponse.json()
             const dispatchUpdatedIngList = updatedIngList.filter(ingredient => ingredient.recipe_id === ingredientRecipeId)
             dispatch(allIng(dispatchUpdatedIngList))
         }
         submitFetch()
     }
+
 
     return(
         <Box>
@@ -62,7 +62,7 @@ const NewIngredientForm = (props) => {
                     type="submit"
                     variant="contained"    
                     color="primary"
-                >   Add Ingredient
+                >   Add
                 </Button>
             </form>
         </Box>

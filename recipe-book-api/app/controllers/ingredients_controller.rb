@@ -15,11 +15,16 @@ class IngredientsController < ApplicationController
     end
 
     def update
-
+        ingredient = Ingredient.find_by_id(params[:id])
+        if ingredient.update(ingredient_params)
+            render json: { sucess: true, message: "#{ingredient.name} updated", ingredient: ingredient }
+        else
+            render json: { succes: false, errors: ingredient.errors.full_messages}
+        end
     end
 
     def destroy
-        ingredient = Ingredient.find_by(params[:name])
+        ingredient = Ingredient.find_by_id(params[:id])
         if (!ingredient)
             render json: { success: false, errors: ingredient.errors.full_messages }
         else

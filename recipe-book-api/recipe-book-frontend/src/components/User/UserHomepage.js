@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useSelector } from 'react-redux'
 import {
     AppBar,
@@ -8,6 +8,7 @@ import {
     CssBaseline,
 } from '@material-ui/core'
 import { RecipeIndexButton, CreateRecipeButton, SignOutButton } from '../Buttons/MenuButtons'
+import { Redirect } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
     root: {

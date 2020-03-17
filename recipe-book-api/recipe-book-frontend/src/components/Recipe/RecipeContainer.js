@@ -12,8 +12,6 @@ import { UserHomeButton, CreateRecipeButton, SignOutButton} from '../Buttons/Men
 import { useSelector, useDispatch } from 'react-redux'
 import { currentUserRecipes } from '../../redux/actions/reciActions'
 
-const drawerWidth = 240;
-
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
@@ -49,7 +47,8 @@ const RecipeContainer = () => {
         const fetchRecipes = async () => {
             const response = await fetch(`${ROOT_URL}/users/${authUser.token.username}/recipes`)
             const recipes = await response.json()
-            const userRecipes = recipes.filter(recipe => recipe.user_id === authUser.user_id)
+            console.log(recipes)
+            const userRecipes = recipes.recipes.filter(recipe => recipe.user_id === authUser.user_id)
             dispatch(currentUserRecipes(userRecipes))
         }
         fetchRecipes()

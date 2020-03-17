@@ -16,7 +16,8 @@ import {
     password,
     confirmPassword,
     username,
-    authenticatedUser
+    authenticatedUser,
+    checkLogin
 } from '../../redux/actions/authActions'
 
 const useStyles = makeStyles(theme => ({
@@ -37,23 +38,30 @@ const SignIn = (props) => {
     const { authUser } = useSelector(state => ({ authUser: state.authentication.user }))
     const loginProps = props
 
+    var token = document
+    console.log(token)
+
+
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log("Button Pressed!")
         const resultUser = await fetch(`${ROOT_URL}/login`, {
             method: 'POST',
             credentials: 'include',
             headers: {
                 'X-Requested-With': 'XmlHttpRequest',
+                'X-CSRF-Token': 'my-csrf-token',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 username: authUser.username,
                 password: authUser.password
-            })
+            }),
         })
+
+        
         
         const loggedInUser = await resultUser.json()
+        console.log(loggedInUser)
         if(loggedInUser.success){
             sessionStorage.setItem('userToken', loggedInUser.token.session_id)
             dispatch(authenticatedUser(loggedInUser))
@@ -95,6 +103,7 @@ const SignIn = (props) => {
                         variant="filled"
                         onChange={e => dispatch(username(e.target.value))}
                     />
+                    
                     <TextField
                         fullWidth
                         margin="normal"

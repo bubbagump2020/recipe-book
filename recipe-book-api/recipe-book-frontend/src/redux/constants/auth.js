@@ -6,5 +6,5 @@ export const authActions = {
     LOG_OUT_USER: 'LOG_OUT_USER',
     CREATE_USER: 'CREATE_USER',
     DELTE_USER: 'DELETE_USER',
-
+    CHECK_LOGIN_STATE: 'CHECK_LOGIN_STATE',
 }

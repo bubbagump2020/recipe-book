@@ -1,8 +1,8 @@
 class RecipesController < ApplicationController
-
+    
     def index
         recipes = Recipe.all
-        render json: recipes
+        render json: { recipes: recipes, current_user: @current_user}
     end
 
     def show
@@ -24,13 +24,18 @@ class RecipesController < ApplicationController
     end
 
     def update
-
+        recipe = Recipe.find_by_id(params[:id])
+        if recipe.update(recipe_params)
+            render json: { success: true, message: "#{recipe.name} updated", recipe: recipe }
+        else
+            render json: { success: false, erros: recipe.errors.full_messages }
+        end
     end
 
     def destroy
-        recipe = Recipe.find_by_name(params[:name])
+        recipe = Recipe.find_by_id(params[:id])
         if (!recipe)
-            render json: { success: false, erros: recipe.erros.full_messages }
+            render json: { success: false, message: "Operation Failed" }
         else
             recipe.destroy
             render json: { success: true, message: "Recipe Deleted" }

@@ -23,19 +23,17 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexGrow: 1,
         flexWrap: 'wrap'
-        // flexDirection: 'column',
-        // width: "100%"
     },
     content: {
         marginRight: 'auto',
         marginTop: 'auto',
         marginBottom: 'auto',
+        fontSize: 12
     },
     deleteCard: {
         marginRight: 'auto',
         marginTop: 'auto',
         marginBottom: 'auto',
-        // padding: theme.spacing(3)
     },
     expansionPanelRoot: {
         width: '100%'
@@ -52,21 +50,16 @@ const IngredientCard = (props) => {
     const ingredient = props.ing
     const recipe = props.recipe
 
-    const handleDeleteClick = (e) => {
+    const handleDeleteClick = async (e) => {
         e.preventDefault()
-        const deleteFetch = async () => {
-            const response = await fetch(`${ROOT_URL}/ingredients/${ingredient.id}`,{
-                method: 'DELETE',
-                credentials: 'include'
-            })
-            const reFetchResponse = await fetch(`${ROOT_URL}/recipes/${recipe.name}/ingredients`)
-            const reFetchData = await reFetchResponse.json()
-            dispatch(allIng(reFetchData))
-        }
-        deleteFetch()
+        const deleteResponse = await fetch(`${ROOT_URL}/ingredients/${ingredient.id}`,{
+            method: 'DELETE',
+            credentials: 'include'
+        })
+        const reFetchResponse = await fetch(`${ROOT_URL}/recipes/${recipe.name}/ingredients`)
+        const reFetchData = await reFetchResponse.json()
+        dispatch(allIng(reFetchData))
     }
-
-    console.log(props)
 
     return(
         <Card className={classes.root} variant="outlined">
@@ -85,7 +78,6 @@ const IngredientCard = (props) => {
             <div className={classes.expansionPanelRoot}>
             <CardContent>
                 <ExpansionPanel>
-                
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panela-content"
@@ -95,9 +87,8 @@ const IngredientCard = (props) => {
                             Update Ingredient
                         </Typography>
                     </ExpansionPanelSummary>
-            
                     <ExpansionPanelDetails>
-                        <UpdateIngredientForm />
+                        <UpdateIngredientForm ingredient={props}/>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </CardContent>

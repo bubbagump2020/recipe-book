@@ -6,13 +6,14 @@ Rails.application.routes.draw do
   # get '/:username', to 'users#show'
 
   resources :users, param: :username do
-    resources :recipes, param: :name, shallow: true
+    resources :recipes, shallow: true
   end
 
-  resources :recipes, param: :name do 
-    resources :ingredients, params: :name, shallow: true
+  resources :recipes do 
+    resources :ingredients, shallow: true
   end
   
   post '/login', to: ("sessions#login")
+  delete '/logout', to: ("sessions#logout")
 
 end
